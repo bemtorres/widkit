@@ -624,6 +624,18 @@ Pedro</textarea>
             generateTemporizadorURL();
             generateSemanaURL();
             generateSorteoURL();
+            
+            // Abrir tab desde hash de URL
+            const hash = window.location.hash.replace('#', '');
+            const tabMapping = {
+                'cuenta-regresiva': 'temporizador',
+                'semanas': 'semana',
+                'sorteo': 'sorteo'
+            };
+            
+            if (tabMapping[hash]) {
+                switchTab(tabMapping[hash]);
+            }
         });
 
         // Cambiar tabs
