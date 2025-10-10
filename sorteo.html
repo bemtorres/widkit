@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteo Interactivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .winner-card {
+            animation: flipIn 0.6s ease-out;
+        }
+        @keyframes flipIn {
+            from {
+                transform: perspective(400px) rotateY(90deg);
+                opacity: 0;
+            }
+            to {
+                transform: perspective(400px) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+        .medal-shine {
+            animation: shine 2s ease-in-out infinite;
+        }
+        @keyframes shine {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .roulette-item {
+            transition: all 0.1s ease;
+        }
+        .roulette-item.highlight {
+            transform: scale(1.2);
+            font-weight: bold;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            animation: fall 3s linear;
+            pointer-events: none;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        .pulse-ring {
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-2 drop-shadow-lg">
+                🎲 Sorteo Interactivo
+            </h1>
+            <p class="text-white/90 text-lg">¡Que comience la suerte!</p>
+        </div>
+
+        <!-- Main Container -->
+        <div class="max-w-4xl mx-auto">
+            <!-- Countdown Section -->
+            <div id="countdownSection" class="bg-white/95 backdrop-blur rounded-3xl shadow-2xl p-8 mb-6 hidden">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">¡El sorteo comienza en...</h2>
+                    <div class="relative inline-block">
+                        <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-xl opacity-50 pulse-ring"></div>
+                        <div id="countdown" class="relative text-8xl md:text-9xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                            0
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roulette Section -->
+            <div id="rouletteSection" class="bg-white/95 backdrop-blur rounded-3xl shadow-2xl p-8 mb-6 hidden">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">🎯 Seleccionando...</h2>
+                    <div id="rouletteDisplay" class="text-5xl md:text-7xl font-black text-purple-600 min-h-24 flex items-center justify-center">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Winners Section -->
+            <div id="winnersSection" class="hidden">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl md:text-4xl font-black text-white mb-2">
+                        🏆 ¡Ganadores!
+                    </h2>
+                </div>
+                <div id="winnersList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+                <div class="text-center mt-8">
+                    <button onclick="resetSorteo()" 
+                            class="px-8 py-4 bg-white text-purple-600 font-bold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition text-lg">
+                        🔄 Nuevo Sorteo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Setup Section -->
+            <div id="setupSection" class="bg-white/95 backdrop-blur rounded-3xl shadow-2xl p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Configuración del Sorteo</h2>
+                
+                <div class="space-y-6">
+                    <!-- Participants -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Participantes (uno por línea)
+                        </label>
+                        <textarea id="participantsInput" 
+                                  rows="8" 
+                                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-purple-500 focus:border-transparent text-sm"
+                                  placeholder="Benja&#10;María&#10;Tomás&#10;Ana&#10;Pedro"></textarea>
+                        <p class="text-xs text-gray-500 mt-1">Total: <span id="totalCount" class="font-bold">0</span> participantes</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Countdown Time -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Cuenta regresiva (segundos)
+                            </label>
+                            <input type="number" id="countdownTime" value="3" min="0" max="60"
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-purple-500 focus:border-transparent">
+                        </div>
+
+                        <!-- Winners Count -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Cantidad de ganadores
+                            </label>
+                            <select id="winnersCount" 
+                                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-purple-500 focus:border-transparent">
+                                <option value="1">1 ganador</option>
+                                <option value="2">2 ganadores</option>
+                                <option value="3">3 ganadores</option>
+                                <option value="5">5 ganadores</option>
+                                <option value="10">10 ganadores</option>
+                                <option value="all">Todos (orden aleatorio)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Medal Style -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Estilo de presentación
+                        </label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="style" value="medal" checked class="peer sr-only">
+                                <div class="p-4 border-2 border-gray-300 rounded-xl text-center peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:border-purple-300 transition">
+                                    <div class="text-3xl mb-1">🏅</div>
+                                    <div class="text-xs font-semibold">Medallones</div>
+                                </div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="style" value="trophy" class="peer sr-only">
+                                <div class="p-4 border-2 border-gray-300 rounded-xl text-center peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:border-purple-300 transition">
+                                    <div class="text-3xl mb-1">🏆</div>
+                                    <div class="text-xs font-semibold">Trofeos</div>
+                                </div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="style" value="star" class="peer sr-only">
+                                <div class="p-4 border-2 border-gray-300 rounded-xl text-center peer-checked:border-purple-500 peer-checked:bg-purple-50 hover:border-purple-300 transition">
+                                    <div class="text-3xl mb-1">⭐</div>
+                                    <div class="text-xs font-semibold">Estrellas</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Start Button -->
+                    <button onclick="startSorteo()" 
+                            class="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition text-lg">
+                        🎲 Comenzar Sorteo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let participants = [];
+        let winners = [];
+        let audioContext = null;
+
+        // Initialize from URL parameters
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Load participants from URL
+            const list = urlParams.get('list');
+            if (list) {
+                const names = list.split(',').map(n => n.trim()).filter(n => n);
+                document.getElementById('participantsInput').value = names.join('\n');
+            }
+            
+            // Load countdown time
+            const time = urlParams.get('time');
+            if (time) {
+                document.getElementById('countdownTime').value = time;
+            }
+            
+            // Load winners count
+            const win = urlParams.get('win');
+            if (win) {
+                document.getElementById('winnersCount').value = win;
+            }
+            
+            // Load style
+            const style = urlParams.get('style');
+            if (style) {
+                const radio = document.querySelector(`input[name="style"][value="${style}"]`);
+                if (radio) radio.checked = true;
+            }
+            
+            updateParticipantCount();
+            
+            // Auto-start if URL has parameters
+            if (list) {
+                setTimeout(() => startSorteo(), 500);
+            }
+        });
+
+        // Update participant count
+        document.getElementById('participantsInput').addEventListener('input', updateParticipantCount);
+        
+        function updateParticipantCount() {
+            const text = document.getElementById('participantsInput').value;
+            const count = text.split('\n').filter(line => line.trim()).length;
+            document.getElementById('totalCount').textContent = count;
+        }
+
+        // Start sorteo
+        function startSorteo() {
+            const text = document.getElementById('participantsInput').value;
+            participants = text.split('\n').filter(line => line.trim());
+            
+            if (participants.length < 1) {
+                alert('¡Agrega al menos un participante!');
+                return;
+            }
+            
+            // Hide setup, show countdown
+            document.getElementById('setupSection').classList.add('hidden');
+            document.getElementById('countdownSection').classList.remove('hidden');
+            
+            const countdownTime = parseInt(document.getElementById('countdownTime').value);
+            
+            if (countdownTime > 0) {
+                startCountdown(countdownTime);
+            } else {
+                startRoulette();
+            }
+        }
+
+        // Countdown
+        function startCountdown(seconds) {
+            let current = seconds;
+            const display = document.getElementById('countdown');
+            
+            const interval = setInterval(() => {
+                display.textContent = current;
+                playBeep(current === 0 ? 800 : 400);
+                
+                if (current === 0) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('countdownSection').classList.add('hidden');
+                        startRoulette();
+                    }, 500);
+                }
+                current--;
+            }, 1000);
+        }
+
+        // Roulette animation
+        function startRoulette() {
+            document.getElementById('rouletteSection').classList.remove('hidden');
+            const display = document.getElementById('rouletteDisplay');
+            
+            let spins = 30;
+            let currentIndex = 0;
+            let speed = 100;
+            
+            const spin = () => {
+                if (spins > 0) {
+                    currentIndex = Math.floor(Math.random() * participants.length);
+                    display.textContent = participants[currentIndex];
+                    
+                    // Slow down gradually
+                    if (spins < 10) speed += 20;
+                    
+                    spins--;
+                    setTimeout(spin, speed);
+                } else {
+                    selectWinners();
+                }
+            };
+            
+            spin();
+        }
+
+        // Select winners
+        function selectWinners() {
+            const winnersCountValue = document.getElementById('winnersCount').value;
+            const winnersCount = winnersCountValue === 'all' ? participants.length : parseInt(winnersCountValue);
+            
+            // Shuffle and select
+            const shuffled = [...participants].sort(() => Math.random() - 0.5);
+            winners = shuffled.slice(0, Math.min(winnersCount, participants.length));
+            
+            document.getElementById('rouletteSection').classList.add('hidden');
+            showWinners();
+        }
+
+        // Show winners
+        function showWinners() {
+            document.getElementById('winnersSection').classList.remove('hidden');
+            const container = document.getElementById('winnersList');
+            container.innerHTML = '';
+            
+            const style = document.querySelector('input[name="style"]:checked').value;
+            const icons = {
+                'medal': ['🥇', '🥈', '🥉', '🏅', '🏅'],
+                'trophy': ['🏆', '🏆', '🏆', '🏆', '🏆'],
+                'star': ['⭐', '⭐', '⭐', '⭐', '⭐']
+            };
+            
+            const colors = [
+                'from-yellow-400 to-orange-500',
+                'from-gray-300 to-gray-400',
+                'from-orange-400 to-orange-600',
+                'from-blue-400 to-blue-600',
+                'from-purple-400 to-purple-600'
+            ];
+            
+            winners.forEach((winner, index) => {
+                setTimeout(() => {
+                    const card = document.createElement('div');
+                    card.className = 'winner-card bg-white rounded-2xl shadow-xl p-6 text-center';
+                    
+                    const icon = icons[style][Math.min(index, 4)];
+                    const color = colors[Math.min(index, 4)];
+                    
+                    card.innerHTML = `
+                        <div class="text-6xl mb-4 medal-shine">${icon}</div>
+                        <div class="text-2xl font-bold bg-gradient-to-r ${color} bg-clip-text text-transparent mb-2">
+                            ${winner}
+                        </div>
+                        <div class="text-sm font-semibold text-gray-500">
+                            Puesto #${index + 1}
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                    playBeep(600 - index * 50);
+                    createConfetti();
+                }, index * 300);
+            });
+        }
+
+        // Reset sorteo
+        function resetSorteo() {
+            document.getElementById('winnersSection').classList.add('hidden');
+            document.getElementById('setupSection').classList.remove('hidden');
+            winners = [];
+        }
+
+        // Create confetti
+        function createConfetti() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24'][Math.floor(Math.random() * 5)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        // Sound effects
+        function playBeep(frequency) {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+    </script>
+</body>
+</html>

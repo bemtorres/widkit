@@ -168,21 +168,42 @@
                         </div>
                     </div>
 
-                    <!-- URL Generada -->
+                    <!-- URL Generada y Código Embebido -->
                     <div class="bg-white rounded-lg border border-slate-200 p-6">
-                        <h3 class="text-base font-semibold text-slate-900 mb-4">URL Generada</h3>
+                        <h3 class="text-base font-semibold text-slate-900 mb-4">Compartir e Integrar</h3>
                         
-                        <div class="space-y-3">
-                            <div class="flex gap-2">
-                                <input type="text" id="t-url" readonly 
-                                       class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono text-slate-600">
-                                <button onclick="copyURL('t-url')" 
-                                        class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                    </svg>
-                                    Copiar
-                                </button>
+                        <div class="space-y-4">
+                            <!-- URL Directa -->
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">🔗 Link Directo</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="t-url" readonly 
+                                           class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono text-slate-600">
+                                    <button onclick="copyText('t-url')" 
+                                            class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Copiar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Código Embebido -->
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">📦 Código Embebido (iframe)</label>
+                                <div class="flex gap-2">
+                                    <textarea id="t-embed" readonly rows="3"
+                                              class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono text-slate-600 resize-none"></textarea>
+                                    <button onclick="copyText('t-embed')" 
+                                            class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2 self-start">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Copiar
+                                    </button>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1">Pega este código en tu sitio web, blog o plataforma educativa</p>
                             </div>
 
                             <div class="flex gap-2">
@@ -319,21 +340,42 @@
                         </div>
                     </div>
 
-                    <!-- URL Generada -->
+                    <!-- URL Generada y Código Embebido -->
                     <div class="bg-white rounded-lg border border-slate-200 p-6">
-                        <h3 class="text-base font-semibold text-slate-900 mb-4">URL Generada</h3>
+                        <h3 class="text-base font-semibold text-slate-900 mb-4">Compartir e Integrar</h3>
                         
-                        <div class="space-y-3">
-                            <div class="flex gap-2">
-                                <input type="text" id="s-url" readonly 
-                                       class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono text-slate-600">
-                                <button onclick="copyURL('s-url')" 
-                                        class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                    </svg>
-                                    Copiar
-                                </button>
+                        <div class="space-y-4">
+                            <!-- URL Directa -->
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">🔗 Link Directo</label>
+                                <div class="flex gap-2">
+                                    <input type="text" id="s-url" readonly 
+                                           class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono text-slate-600">
+                                    <button onclick="copyText('s-url')" 
+                                            class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Copiar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Código Embebido -->
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">📦 Código Embebido (iframe)</label>
+                                <div class="flex gap-2">
+                                    <textarea id="s-embed" readonly rows="3"
+                                              class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono text-slate-600 resize-none"></textarea>
+                                    <button onclick="copyText('s-embed')" 
+                                            class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2 self-start">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Copiar
+                                    </button>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1">Pega este código en tu sitio web, blog o plataforma educativa</p>
                             </div>
 
                             <div class="flex gap-2">
@@ -416,7 +458,12 @@
             document.getElementById('t-color3-hex').textContent = color3.toUpperCase();
             
             const url = `cuentaregresiva.html?title=${title}&message=${message}&y=${year}&m=${month}&d=${day}&h=${hour}&min=0&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}&bg=${encodeURIComponent(bgColor)}&font=${font}`;
-            document.getElementById('t-url').value = url;
+            const baseURL = window.location.origin + window.location.pathname.replace('admin.html', '');
+            const fullURL = baseURL + url;
+            const embedCode = `<iframe src="${fullURL}" width="100%" height="450" frameborder="0" style="border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></iframe>`;
+            
+            document.getElementById('t-url').value = fullURL;
+            document.getElementById('t-embed').value = embedCode;
             document.getElementById('preview-temporizador').src = url;
         }
 
@@ -445,7 +492,12 @@
             
             const activitiesJSON = encodeURIComponent(JSON.stringify(activities));
             const url = `semana.html?y=${year}&m=${month}&d=${day}&activities=${activitiesJSON}&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}&bg=${encodeURIComponent(bgColor)}&font=${font}`;
-            document.getElementById('s-url').value = url;
+            const baseURL = window.location.origin + window.location.pathname.replace('admin.html', '');
+            const fullURL = baseURL + url;
+            const embedCode = `<iframe src="${fullURL}" width="100%" height="650" frameborder="0" style="border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></iframe>`;
+            
+            document.getElementById('s-url').value = fullURL;
+            document.getElementById('s-embed').value = embedCode;
             document.getElementById('preview-semana').src = url;
         }
 
@@ -485,10 +537,10 @@
             generateSemanaURL();
         }
 
-        // Copiar URL
-        function copyURL(inputId) {
-            const input = document.getElementById(inputId);
-            input.select();
+        // Copiar texto
+        function copyText(inputId) {
+            const element = document.getElementById(inputId);
+            element.select();
             document.execCommand('copy');
             
             const button = event.target.closest('button');

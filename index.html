@@ -43,7 +43,7 @@
         </div>
 
         <!-- Tools Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
             <!-- Cuenta Regresiva Card -->
             <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition overflow-hidden">
                 <div class="p-6">
@@ -192,6 +192,81 @@
                     </details>
                 </div>
             </div>
+
+            <!-- Sorteo Interactivo Card -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-2xl">
+                                🎲
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-slate-900">Sorteo Interactivo</h3>
+                                <p class="text-sm text-slate-500">Ruleta de participantes</p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">Activo</span>
+                    </div>
+
+                    <p class="text-sm text-slate-600 mb-4">
+                        Sorteo animado con ruleta, cuenta regresiva y medallones visuales. Perfecto para seleccionar ganadores.
+                    </p>
+
+                    <!-- Features -->
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center gap-2 text-xs text-slate-600">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Animación de ruleta con efectos visuales</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-slate-600">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Medallones, trofeos o estrellas</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-slate-600">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Confetti y efectos de sonido</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex gap-2">
+                        <a href="sorteo.html?list=Benja,María,Tomás,Ana,Pedro&time=3&win=3" 
+                           target="_blank"
+                           class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                            Abrir Demo
+                        </a>
+                        <button onclick="copyToClipboard('sorteo.html')" 
+                                class="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Code Example -->
+                <div class="bg-slate-50 border-t border-slate-200 px-6 py-3">
+                    <details class="group">
+                        <summary class="text-xs font-medium text-slate-700 cursor-pointer hover:text-slate-900 flex items-center justify-between">
+                            Ver ejemplo de código
+                            <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <pre class="mt-2 text-xs bg-slate-900 text-slate-100 p-3 rounded overflow-x-auto"><code>sorteo.html?list=Benja,María&time=5&win=1&style=medal</code></pre>
+                    </details>
+                </div>
+            </div>
         </div>
 
         <!-- Quick Stats -->
@@ -205,7 +280,7 @@
                     </div>
                     <div>
                         <p class="text-xs text-slate-500">Herramientas</p>
-                        <p class="text-xl font-bold text-slate-900">2</p>
+                        <p class="text-xl font-bold text-slate-900">3</p>
                     </div>
                 </div>
             </div>
