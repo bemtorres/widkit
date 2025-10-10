@@ -70,6 +70,19 @@
 </head>
 <body class="bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 min-h-screen">
     <div class="container mx-auto px-4 py-8">
+        <!-- Botón de parar flotante (visible durante sorteo) -->
+        <button id="stopButtonContainer" 
+                onclick="stopSorteo()" 
+                class="hidden fixed top-4 right-4 w-12 h-12 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-700 transition transform hover:scale-110 z-50 flex items-center justify-center group"
+                title="Detener sorteo">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            <span class="absolute right-14 bg-slate-900 text-white px-3 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition whitespace-nowrap">
+                Detener
+            </span>
+        </button>
+
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-4xl md:text-6xl font-black text-white mb-2 drop-shadow-lg">
@@ -207,6 +220,9 @@
         let participants = [];
         let winners = [];
         let audioContext = null;
+        let countdownInterval = null;
+        let rouletteTimeout = null;
+        let isSorteoRunning = false;
 
         // Initialize from URL parameters
         window.addEventListener('DOMContentLoaded', () => {
@@ -265,9 +281,12 @@
                 return;
             }
             
-            // Hide setup, show countdown
+            isSorteoRunning = true;
+            
+            // Hide setup, show countdown and stop button
             document.getElementById('setupSection').classList.add('hidden');
             document.getElementById('countdownSection').classList.remove('hidden');
+            document.getElementById('stopButtonContainer').classList.remove('hidden');
             
             const countdownTime = parseInt(document.getElementById('countdownTime').value);
             
@@ -283,15 +302,23 @@
             let current = seconds;
             const display = document.getElementById('countdown');
             
-            const interval = setInterval(() => {
+            countdownInterval = setInterval(() => {
+                if (!isSorteoRunning) {
+                    clearInterval(countdownInterval);
+                    return;
+                }
+                
                 display.textContent = current;
                 playBeep(current === 0 ? 800 : 400);
                 
                 if (current === 0) {
-                    clearInterval(interval);
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
                     setTimeout(() => {
-                        document.getElementById('countdownSection').classList.add('hidden');
-                        startRoulette();
+                        if (isSorteoRunning) {
+                            document.getElementById('countdownSection').classList.add('hidden');
+                            startRoulette();
+                        }
                     }, 500);
                 }
                 current--;
@@ -308,6 +335,10 @@
             let speed = 100;
             
             const spin = () => {
+                if (!isSorteoRunning) {
+                    return;
+                }
+                
                 if (spins > 0) {
                     currentIndex = Math.floor(Math.random() * participants.length);
                     display.textContent = participants[currentIndex];
@@ -316,7 +347,7 @@
                     if (spins < 10) speed += 20;
                     
                     spins--;
-                    setTimeout(spin, speed);
+                    rouletteTimeout = setTimeout(spin, speed);
                 } else {
                     selectWinners();
                 }
@@ -340,7 +371,11 @@
 
         // Show winners
         function showWinners() {
+            isSorteoRunning = false;
+            document.getElementById('rouletteSection').classList.add('hidden');
             document.getElementById('winnersSection').classList.remove('hidden');
+            document.getElementById('stopButtonContainer').classList.add('hidden');
+            
             const container = document.getElementById('winnersList');
             container.innerHTML = '';
             
@@ -384,11 +419,35 @@
             });
         }
 
+        // Stop sorteo
+        function stopSorteo() {
+            isSorteoRunning = false;
+            
+            // Limpiar intervalos y timeouts
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            if (rouletteTimeout) {
+                clearTimeout(rouletteTimeout);
+                rouletteTimeout = null;
+            }
+            
+            // Ocultar todas las secciones de sorteo
+            document.getElementById('countdownSection').classList.add('hidden');
+            document.getElementById('rouletteSection').classList.add('hidden');
+            document.getElementById('winnersSection').classList.add('hidden');
+            document.getElementById('stopButtonContainer').classList.add('hidden');
+            
+            // Mostrar configuración
+            document.getElementById('setupSection').classList.remove('hidden');
+            
+            winners = [];
+        }
+
         // Reset sorteo
         function resetSorteo() {
-            document.getElementById('winnersSection').classList.add('hidden');
-            document.getElementById('setupSection').classList.remove('hidden');
-            winners = [];
+            stopSorteo();
         }
 
         // Create confetti
