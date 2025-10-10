@@ -28,25 +28,37 @@
             </div>
         </div>
 
-        <div id="activitiesSection" class="hidden">
-            <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
-                </svg>
-                Actividades de esta semana
-            </h2>
-            <ul id="activitiesList" class="space-y-2 sm:space-y-3">
-            </ul>
+        <div id="activitiesSection" class="hidden mb-6 sm:mb-8">
+            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-4 sm:p-6 border-2 border-blue-200">
+                <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                    </svg>
+                    <span class="text-blue-700">📋 Actividades de esta semana</span>
+                </h2>
+                <ul id="activitiesList" class="space-y-2 sm:space-y-3">
+                </ul>
+            </div>
         </div>
 
-        <div id="allWeeksSection" class="hidden mt-6 sm:mt-8">
-            <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-                Todas las semanas programadas
-            </h2>
-            <div id="allWeeksList" class="space-y-3 sm:space-y-4">
+        <div id="noActivitiesSection" class="hidden mb-6 sm:mb-8">
+            <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 sm:p-6 text-center">
+                <p class="text-yellow-800 text-sm sm:text-base">
+                    ℹ️ No hay actividades programadas para esta semana
+                </p>
+            </div>
+        </div>
+
+        <div id="allWeeksSection" class="hidden">
+            <div class="bg-gray-50 rounded-xl p-4 sm:p-6 border-2 border-gray-200">
+                <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 flex items-center">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    <span class="text-gray-800">📆 Todas las semanas programadas</span>
+                </h2>
+                <div id="allWeeksList" class="space-y-3 sm:space-y-4">
+                </div>
             </div>
         </div>
 
@@ -130,26 +142,30 @@
         }
 
         // Mostrar actividades de la semana actual si existen
-        if (weekActivities[weekNumber]) {
-            const activitiesSection = document.getElementById('activitiesSection');
-            const activitiesList = document.getElementById('activitiesList');
-            
-            activitiesSection.classList.remove('hidden');
-            
-            weekActivities[weekNumber].forEach((activity, index) => {
-                const li = document.createElement('li');
-                li.className = 'flex items-start p-3 sm:p-4 rounded-lg shadow-sm hover:shadow-md transition';
-                li.style.background = `linear-gradient(to right, ${color3}15, ${color3}25)`;
-                li.innerHTML = `
-                    <div class="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 text-white rounded-full flex items-center justify-center font-bold mr-2 sm:mr-3 text-sm sm:text-base" style="background: ${color1};">
-                        ${index + 1}
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-gray-800 font-medium text-sm sm:text-base">${activity}</p>
-                    </div>
-                `;
-                activitiesList.appendChild(li);
-            });
+        if (Object.keys(weekActivities).length > 0) {
+            if (weekActivities[weekNumber]) {
+                const activitiesSection = document.getElementById('activitiesSection');
+                const activitiesList = document.getElementById('activitiesList');
+                
+                activitiesSection.classList.remove('hidden');
+                
+                weekActivities[weekNumber].forEach((activity, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-start p-3 sm:p-4 rounded-lg shadow-sm hover:shadow-md transition bg-white border border-gray-200';
+                    li.innerHTML = `
+                        <div class="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 text-white rounded-full flex items-center justify-center font-bold mr-2 sm:mr-3 text-sm sm:text-base" style="background: ${color1};">
+                            ${index + 1}
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-gray-800 font-medium text-sm sm:text-base">${activity}</p>
+                        </div>
+                    `;
+                    activitiesList.appendChild(li);
+                });
+            } else {
+                // Hay actividades programadas pero no para esta semana
+                document.getElementById('noActivitiesSection').classList.remove('hidden');
+            }
         }
 
         // Mostrar todas las semanas si hay actividades definidas
@@ -165,33 +181,40 @@
             sortedWeeks.forEach(week => {
                 const weekDiv = document.createElement('div');
                 const isCurrentWeek = parseInt(week) === weekNumber;
-                weekDiv.className = `p-3 sm:p-4 rounded-lg border-2`;
+                weekDiv.className = `p-4 sm:p-5 rounded-xl border-2 shadow-sm transition hover:shadow-md`;
                 
                 if (isCurrentWeek) {
                     weekDiv.style.borderColor = color1;
-                    weekDiv.style.background = `${color3}20`;
+                    weekDiv.style.background = `linear-gradient(to right, ${color3}20, ${color3}10)`;
+                    weekDiv.classList.add('ring-2', 'ring-offset-2');
+                    weekDiv.style.setProperty('--tw-ring-color', color1);
                 } else {
-                    weekDiv.className += ' border-gray-200 bg-gray-50';
+                    weekDiv.className += ' border-gray-300 bg-white';
                 }
                 
                 let activitiesHTML = weekActivities[week].map((activity, index) => `
-                    <li class="text-gray-700 ml-3 sm:ml-4 text-xs sm:text-sm md:text-base">${activity}</li>
+                    <li class="flex items-start text-gray-700 text-xs sm:text-sm md:text-base mb-2">
+                        <span class="inline-block w-5 h-5 mr-2 mt-0.5 text-center rounded-full text-xs" style="background: ${color3}40; color: ${color1}; font-weight: bold;">
+                            ${index + 1}
+                        </span>
+                        <span class="flex-1">${activity}</span>
+                    </li>
                 `).join('');
                 
                 const currentBadge = isCurrentWeek 
-                    ? `<span class="ml-2 px-2 py-1 text-white text-xs font-semibold rounded-full" style="background: ${color1};">Actual</span>`
+                    ? `<span class="ml-2 px-3 py-1 text-white text-xs font-bold rounded-full animate-pulse" style="background: ${color1};">✓ Semana Actual</span>`
                     : '';
                 
-                const titleColor = isCurrentWeek ? `color: ${color1};` : '';
+                const titleColor = isCurrentWeek ? `color: ${color1};` : 'color: #374151;';
                 
                 weekDiv.innerHTML = `
-                    <div class="flex items-center mb-2 flex-wrap">
-                        <h3 class="text-base sm:text-lg font-bold" style="${titleColor}">
-                            Semana ${week}
+                    <div class="flex items-center mb-3 flex-wrap gap-2">
+                        <h3 class="text-lg sm:text-xl font-bold" style="${titleColor}">
+                            📍 Semana ${week}
                         </h3>
                         ${currentBadge}
                     </div>
-                    <ul class="space-y-1">
+                    <ul class="space-y-1 pl-1">
                         ${activitiesHTML}
                     </ul>
                 `;
