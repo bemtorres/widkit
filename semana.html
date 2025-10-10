@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculador de Semanas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-500 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 max-w-3xl w-full">
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-8 text-gray-800">
+            Calculador de Semanas
+        </h1>
+        
+        <div class="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl p-8 mb-8 text-center shadow-xl">
+            <div class="text-white mb-2 text-lg">Estamos en la</div>
+            <div id="weekNumber" class="text-6xl md:text-7xl font-bold text-white mb-2">
+                Semana 0
+            </div>
+            <div id="dateInfo" class="text-blue-100 text-sm md:text-base">
+            </div>
+        </div>
+
+        <div id="activitiesSection" class="hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                </svg>
+                Actividades de esta semana
+            </h2>
+            <ul id="activitiesList" class="space-y-3">
+            </ul>
+        </div>
+
+        <div id="allWeeksSection" class="hidden mt-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Todas las semanas programadas
+            </h2>
+            <div id="allWeeksList" class="space-y-4">
+            </div>
+        </div>
+
+        <div class="mt-8 p-4 bg-gray-100 rounded-lg">
+            <p class="text-sm text-gray-600 mb-2">
+                <strong>Fecha de inicio:</strong> <span id="startDateInfo"></span>
+            </p>
+            <p class="text-sm text-gray-600">
+                <strong>Fecha actual:</strong> <span id="currentDateInfo"></span>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Obtener parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Fecha de inicio del período (por defecto, inicio del año)
+        const startYear = parseInt(urlParams.get('y')) || new Date().getFullYear();
+        const startMonth = parseInt(urlParams.get('m')) || 1;
+        const startDay = parseInt(urlParams.get('d')) || 1;
+        
+        // Crear fecha de inicio
+        const startDate = new Date(startYear, startMonth - 1, startDay);
+        const currentDate = new Date();
+
+        // Obtener actividades por semana (JSON como string en parámetro)
+        let weekActivities = {};
+        try {
+            const activitiesParam = urlParams.get('activities');
+            if (activitiesParam) {
+                weekActivities = JSON.parse(decodeURIComponent(activitiesParam));
+            }
+        } catch (e) {
+            console.error('Error al parsear actividades:', e);
+        }
+
+        // Calcular número de semana
+        function calculateWeekNumber(start, current) {
+            const diffTime = Math.abs(current - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return Math.ceil(diffDays / 7);
+        }
+
+        const weekNumber = calculateWeekNumber(startDate, currentDate);
+
+        // Actualizar UI
+        document.getElementById('weekNumber').textContent = `Semana ${weekNumber}`;
+        document.getElementById('dateInfo').textContent = 
+            `Del ${getWeekStart(currentDate).toLocaleDateString('es-ES')} al ${getWeekEnd(currentDate).toLocaleDateString('es-ES')}`;
+
+        document.getElementById('startDateInfo').textContent = 
+            startDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        document.getElementById('currentDateInfo').textContent = 
+            currentDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        // Funciones auxiliares para obtener inicio y fin de semana
+        function getWeekStart(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Lunes como inicio
+            return new Date(d.setDate(diff));
+        }
+
+        function getWeekEnd(date) {
+            const start = getWeekStart(date);
+            const end = new Date(start);
+            end.setDate(start.getDate() + 6);
+            return end;
+        }
+
+        // Mostrar actividades de la semana actual si existen
+        if (weekActivities[weekNumber]) {
+            const activitiesSection = document.getElementById('activitiesSection');
+            const activitiesList = document.getElementById('activitiesList');
+            
+            activitiesSection.classList.remove('hidden');
+            
+            weekActivities[weekNumber].forEach((activity, index) => {
+                const li = document.createElement('li');
+                li.className = 'flex items-start p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg shadow-sm hover:shadow-md transition';
+                li.innerHTML = `
+                    <div class="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-3">
+                        ${index + 1}
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-gray-800 font-medium">${activity}</p>
+                    </div>
+                `;
+                activitiesList.appendChild(li);
+            });
+        }
+
+        // Mostrar todas las semanas si hay actividades definidas
+        if (Object.keys(weekActivities).length > 0) {
+            const allWeeksSection = document.getElementById('allWeeksSection');
+            const allWeeksList = document.getElementById('allWeeksList');
+            
+            allWeeksSection.classList.remove('hidden');
+            
+            // Ordenar las semanas numéricamente
+            const sortedWeeks = Object.keys(weekActivities).sort((a, b) => parseInt(a) - parseInt(b));
+            
+            sortedWeeks.forEach(week => {
+                const weekDiv = document.createElement('div');
+                const isCurrentWeek = parseInt(week) === weekNumber;
+                weekDiv.className = `p-4 rounded-lg border-2 ${
+                    isCurrentWeek 
+                        ? 'border-blue-500 bg-blue-50' 
+                        : 'border-gray-200 bg-gray-50'
+                }`;
+                
+                let activitiesHTML = weekActivities[week].map((activity, index) => `
+                    <li class="text-gray-700 ml-4">${activity}</li>
+                `).join('');
+                
+                weekDiv.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <h3 class="text-lg font-bold ${isCurrentWeek ? 'text-blue-600' : 'text-gray-700'}">
+                            Semana ${week}
+                        </h3>
+                        ${isCurrentWeek ? '<span class="ml-2 px-2 py-1 bg-blue-500 text-white text-xs font-semibold rounded-full">Actual</span>' : ''}
+                    </div>
+                    <ul class="space-y-1">
+                        ${activitiesHTML}
+                    </ul>
+                `;
+                
+                allWeeksList.appendChild(weekDiv);
+            });
+        }
+    </script>
+</body>
+</html>

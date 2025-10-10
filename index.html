@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeMachine - Temporizadores y Calculador de Semanas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white/10 backdrop-blur-md border-b border-white/20">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-4xl md:text-5xl font-bold text-white text-center">
+                ⏰ TimeMachine
+            </h1>
+            <p class="text-center text-white/90 mt-2 text-lg">
+                Temporizadores y Calculador de Semanas - Embed Friendly
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+        <!-- Sección de Temporizador -->
+        <section class="mb-16">
+            <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 flex items-center">
+                    <span class="text-4xl mr-3">⏳</span>
+                    Temporizador - Cuenta Regresiva
+                </h2>
+                <p class="text-gray-600 mb-6">
+                    Crea una cuenta regresiva personalizada pasando parámetros por URL. Perfecta para embeber en iframes.
+                </p>
+
+                <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 mb-6">
+                    <h3 class="text-white font-semibold mb-3 text-xl">Ejemplo en vivo:</h3>
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <iframe 
+                            src="temporizador.html?title=Año Nuevo 2026&y=2026&m=1&d=1&h=0&min=0" 
+                            class="w-full h-96"
+                            frameborder="0">
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <h3 class="font-bold text-gray-800 mb-3 text-lg">Parámetros disponibles:</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li><code class="bg-purple-100 px-2 py-1 rounded">title</code> - Título del evento</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded">y</code> - Año (ej: 2026)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded">m</code> - Mes (1-12)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded">d</code> - Día (1-31)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded">h</code> - Hora (0-23, opcional)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded">min</code> - Minutos (0-59, opcional)</li>
+                    </ul>
+                    
+                    <div class="mt-4 bg-white rounded-lg p-4">
+                        <p class="font-semibold text-gray-800 mb-2">Ejemplo de uso:</p>
+                        <code class="text-sm text-purple-600 break-all">
+                            temporizador.html?title=Mi Evento&y=2026&m=12&d=25&h=18&min=30
+                        </code>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-center">
+                    <a href="temporizador.html?title=Año Nuevo 2026&y=2026&m=1&d=1" 
+                       target="_blank"
+                       class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition">
+                        Abrir Temporizador
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Calculador de Semanas -->
+        <section>
+            <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 flex items-center">
+                    <span class="text-4xl mr-3">📅</span>
+                    Calculador de Semanas
+                </h2>
+                <p class="text-gray-600 mb-6">
+                    Calcula en qué semana estamos desde una fecha de inicio y muestra actividades programadas por semana.
+                </p>
+
+                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl p-6 mb-6">
+                    <h3 class="text-white font-semibold mb-3 text-xl">Ejemplo en vivo:</h3>
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <iframe 
+                            id="semanaIframe"
+                            src="" 
+                            class="w-full h-[600px]"
+                            frameborder="0">
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <h3 class="font-bold text-gray-800 mb-3 text-lg">Parámetros disponibles:</h3>
+                    <ul class="space-y-2 text-gray-700 mb-4">
+                        <li><code class="bg-blue-100 px-2 py-1 rounded">y</code> - Año de inicio (ej: 2025)</li>
+                        <li><code class="bg-blue-100 px-2 py-1 rounded">m</code> - Mes de inicio (1-12)</li>
+                        <li><code class="bg-blue-100 px-2 py-1 rounded">d</code> - Día de inicio (1-31)</li>
+                        <li><code class="bg-blue-100 px-2 py-1 rounded">activities</code> - JSON con actividades por semana (URL encoded)</li>
+                    </ul>
+
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-gray-800 mb-2">Formato del JSON de actividades:</p>
+                        <pre class="text-sm text-gray-700 bg-gray-50 p-3 rounded overflow-x-auto"><code>{
+  "1": ["Entrega de documentos", "Análisis de sistema"],
+  "2": ["Evaluación 30%", "Análisis de sistema"],
+  "3": ["Desarrollo de prototipos", "Reunión de equipo"],
+  "4": ["Presentación final", "Entrega de proyecto"]
+}</code></pre>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4">
+                        <p class="font-semibold text-gray-800 mb-2">Ejemplo de URL completa:</p>
+                        <code class="text-xs text-blue-600 break-all block">
+                            semana.html?y=2025&m=1&d=1&activities=%7B%221%22%3A%5B%22Entrega%20de%20documentos%22%2C%22An%C3%A1lisis%20de%20sistema%22%5D%2C%222%22%3A%5B%22Evaluaci%C3%B3n%2030%25%22%2C%22An%C3%A1lisis%20de%20sistema%22%5D%7D
+                        </code>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-center">
+                    <a href="semana.html?y=2025&m=1&d=1" 
+                       target="_blank"
+                       class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition">
+                        Abrir Calculador
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-16 text-center text-white/80 pb-8">
+            <p class="text-lg mb-2">Creado con ❤️ usando Tailwind CSS</p>
+            <p class="text-sm">Listo para embeber en iframes y compartir</p>
+        </footer>
+    </main>
+
+    <script>
+        // Crear ejemplo del calculador de semanas con actividades
+        const activities = {
+            "1": ["Entrega de documentos", "Análisis de sistema"],
+            "2": ["Evaluación 30%", "Análisis de sistema"],
+            "3": ["Desarrollo de prototipos", "Reunión de equipo"],
+            "4": ["Presentación final", "Entrega de proyecto"]
+        };
+
+        const activitiesJSON = encodeURIComponent(JSON.stringify(activities));
+        const semanaUrl = `semana.html?y=2025&m=1&d=1&activities=${activitiesJSON}`;
+        document.getElementById('semanaIframe').src = semanaUrl;
+    </script>
+</body>
+</html>
