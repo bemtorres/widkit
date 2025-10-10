@@ -173,6 +173,9 @@
         
         document.getElementById('currentDateInfo').textContent = 
             currentDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        console.log('Número de semana actual:', weekNumber);
+        console.log('Total de semanas programadas:', Object.keys(weekActivities).length);
 
         // Funciones auxiliares para obtener inicio y fin de semana
         function getWeekStart(date) {
@@ -191,13 +194,22 @@
 
         // Mostrar actividades de la semana actual si existen
         if (Object.keys(weekActivities).length > 0) {
-            if (weekActivities[weekNumber]) {
+            console.log('Buscando actividades para semana:', weekNumber);
+            console.log('Actividades disponibles para semanas:', Object.keys(weekActivities));
+            
+            // Convertir weekNumber a string para comparar con las claves del objeto
+            const weekKey = weekNumber.toString();
+            
+            if (weekActivities[weekKey] || weekActivities[weekNumber]) {
                 const activitiesSection = document.getElementById('activitiesSection');
                 const activitiesList = document.getElementById('activitiesList');
                 
                 activitiesSection.classList.remove('hidden');
                 
-                weekActivities[weekNumber].forEach((activity, index) => {
+                const activities = weekActivities[weekKey] || weekActivities[weekNumber];
+                console.log('Mostrando actividades:', activities);
+                
+                activities.forEach((activity, index) => {
                     const li = document.createElement('li');
                     li.className = 'flex items-start p-3 sm:p-4 rounded-lg shadow-sm hover:shadow-md transition bg-white border border-gray-200';
                     li.innerHTML = `
@@ -212,8 +224,11 @@
                 });
             } else {
                 // Hay actividades programadas pero no para esta semana
+                console.log('No hay actividades para la semana actual');
                 document.getElementById('noActivitiesSection').classList.remove('hidden');
             }
+        } else {
+            console.log('No hay actividades programadas en absoluto');
         }
 
         // Mostrar todas las semanas si hay actividades definidas
