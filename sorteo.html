@@ -9,6 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --color-primary: #9333ea;
+            --color-secondary: #ec4899;
+            --color-accent: #f97316;
+        }
         body {
             font-family: 'Poppins', sans-serif;
         }
@@ -68,15 +73,15 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 min-h-screen">
+<body class="min-h-screen" style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary), var(--color-accent));">
     <div class="container mx-auto px-4 py-8">
         <!-- Botón de parar flotante (visible durante sorteo) -->
         <button id="stopButtonContainer" 
                 onclick="stopSorteo()" 
-                class="hidden fixed top-4 right-4 w-12 h-12 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-700 transition transform hover:scale-110 z-50 flex items-center justify-center group"
+                class="hidden fixed top-4 right-4 w-12 h-12 bg-red-600 text-white rounded-lg shadow-lg hover:bg-red-700 transition transform hover:scale-110 z-50 flex items-center justify-center group"
                 title="Detener sorteo">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                <rect x="6" y="6" width="12" height="12" rx="1"></rect>
             </svg>
             <span class="absolute right-14 bg-slate-900 text-white px-3 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-100 transition whitespace-nowrap">
                 Detener
@@ -85,10 +90,10 @@
 
         <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-4xl md:text-6xl font-black text-white mb-2 drop-shadow-lg">
+            <h1 id="mainTitle" class="text-4xl md:text-6xl font-black text-white mb-2 drop-shadow-lg">
                 🎲 Sorteo Interactivo
             </h1>
-            <p class="text-white/90 text-lg">¡Que comience la suerte!</p>
+            <p id="mainSubtitle" class="text-white/90 text-lg">¡Que comience la suerte!</p>
         </div>
 
         <!-- Main Container -->
@@ -253,6 +258,22 @@
                 const radio = document.querySelector(`input[name="style"][value="${style}"]`);
                 if (radio) radio.checked = true;
             }
+            
+            // Load custom colors
+            const c1 = urlParams.get('c1') || '#9333ea';
+            const c2 = urlParams.get('c2') || '#ec4899';
+            const c3 = urlParams.get('c3') || '#f97316';
+            
+            document.documentElement.style.setProperty('--color-primary', c1);
+            document.documentElement.style.setProperty('--color-secondary', c2);
+            document.documentElement.style.setProperty('--color-accent', c3);
+            
+            // Load custom titles
+            const title = urlParams.get('title') || '🎲 Sorteo Interactivo';
+            const subtitle = urlParams.get('subtitle') || '¡Que comience la suerte!';
+            
+            document.getElementById('mainTitle').textContent = title;
+            document.getElementById('mainSubtitle').textContent = subtitle;
             
             updateParticipantCount();
             
