@@ -14,7 +14,7 @@
                 ⚙️ Administrador TimeMachine
             </h1>
             <p class="text-center text-white/90 mt-2 text-sm sm:text-base">
-                Configura y genera tus temporizadores y calculadores
+                Configura y genera tus cuentas regresivas y calculadores
             </p>
         </div>
     </header>
@@ -25,7 +25,7 @@
             <button onclick="switchTab('temporizador')" 
                     id="tab-temporizador" 
                     class="tab-button active flex-1 px-4 sm:px-6 py-3 rounded-lg font-semibold transition text-sm sm:text-base">
-                ⏳ Temporizador
+                ⏳ Cuenta Regresiva
             </button>
             <button onclick="switchTab('semana')" 
                     id="tab-semana" 
@@ -87,27 +87,31 @@
                         </div>
 
                         <div class="pt-4 border-t">
-                            <h3 class="text-lg font-bold text-gray-800 mb-3">Colores Personalizados</h3>
-                            <div class="grid grid-cols-3 gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 1</label>
+                            <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-4">🎨 Colores Personalizados</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div class="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                                    <label class="block text-sm font-bold text-gray-800 mb-2">Color Principal</label>
                                     <input type="color" id="t-color1" value="#3b82f6" 
-                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           class="w-full h-16 rounded-lg cursor-pointer border-2 border-gray-300"
                                            onchange="generateTemporizadorURL()">
+                                    <p class="text-xs text-gray-600 mt-2 text-center" id="t-color1-hex">#3b82f6</p>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 2</label>
+                                <div class="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                                    <label class="block text-sm font-bold text-gray-800 mb-2">Color Secundario</label>
                                     <input type="color" id="t-color2" value="#60a5fa" 
-                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           class="w-full h-16 rounded-lg cursor-pointer border-2 border-gray-300"
                                            onchange="generateTemporizadorURL()">
+                                    <p class="text-xs text-gray-600 mt-2 text-center" id="t-color2-hex">#60a5fa</p>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 3</label>
+                                <div class="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                                    <label class="block text-sm font-bold text-gray-800 mb-2">Color Terciario</label>
                                     <input type="color" id="t-color3" value="#93c5fd" 
-                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           class="w-full h-16 rounded-lg cursor-pointer border-2 border-gray-300"
                                            onchange="generateTemporizadorURL()">
+                                    <p class="text-xs text-gray-600 mt-2 text-center" id="t-color3-hex">#93c5fd</p>
                                 </div>
                             </div>
+                            <p class="text-xs text-gray-600 mt-3 italic">💡 Tip: Elige colores que contrasten bien para mejor legibilidad</p>
                         </div>
 
                         <div class="pt-4">
@@ -190,27 +194,31 @@
                         </div>
 
                         <div class="pt-4 border-t">
-                            <h3 class="text-lg font-bold text-gray-800 mb-3">Colores Personalizados</h3>
-                            <div class="grid grid-cols-3 gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 1</label>
+                            <h3 class="text-base sm:text-lg font-bold text-gray-800 mb-4">🎨 Colores Personalizados</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div class="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                                    <label class="block text-sm font-bold text-gray-800 mb-2">Color Principal</label>
                                     <input type="color" id="s-color1" value="#3b82f6" 
-                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           class="w-full h-16 rounded-lg cursor-pointer border-2 border-gray-300"
                                            onchange="generateSemanaURL()">
+                                    <p class="text-xs text-gray-600 mt-2 text-center" id="s-color1-hex">#3b82f6</p>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 2</label>
+                                <div class="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                                    <label class="block text-sm font-bold text-gray-800 mb-2">Color Secundario</label>
                                     <input type="color" id="s-color2" value="#60a5fa" 
-                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           class="w-full h-16 rounded-lg cursor-pointer border-2 border-gray-300"
                                            onchange="generateSemanaURL()">
+                                    <p class="text-xs text-gray-600 mt-2 text-center" id="s-color2-hex">#60a5fa</p>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 3</label>
+                                <div class="bg-gray-50 p-3 rounded-lg border-2 border-gray-200">
+                                    <label class="block text-sm font-bold text-gray-800 mb-2">Color Terciario</label>
                                     <input type="color" id="s-color3" value="#93c5fd" 
-                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           class="w-full h-16 rounded-lg cursor-pointer border-2 border-gray-300"
                                            onchange="generateSemanaURL()">
+                                    <p class="text-xs text-gray-600 mt-2 text-center" id="s-color3-hex">#93c5fd</p>
                                 </div>
                             </div>
+                            <p class="text-xs text-gray-600 mt-3 italic">💡 Tip: Elige colores que contrasten bien para mejor legibilidad</p>
                         </div>
 
                         <div class="pt-4">
@@ -299,11 +307,16 @@
             const day = document.getElementById('t-day').value;
             const hour = document.getElementById('t-hour').value;
             const minute = document.getElementById('t-minute').value;
-            const color1 = encodeURIComponent(document.getElementById('t-color1').value);
-            const color2 = encodeURIComponent(document.getElementById('t-color2').value);
-            const color3 = encodeURIComponent(document.getElementById('t-color3').value);
+            const color1 = document.getElementById('t-color1').value;
+            const color2 = document.getElementById('t-color2').value;
+            const color3 = document.getElementById('t-color3').value;
             
-            const url = `temporizador.html?title=${title}&y=${year}&m=${month}&d=${day}&h=${hour}&min=${minute}&c1=${color1}&c2=${color2}&c3=${color3}`;
+            // Actualizar labels con los valores hex
+            document.getElementById('t-color1-hex').textContent = color1.toUpperCase();
+            document.getElementById('t-color2-hex').textContent = color2.toUpperCase();
+            document.getElementById('t-color3-hex').textContent = color3.toUpperCase();
+            
+            const url = `temporizador.html?title=${title}&y=${year}&m=${month}&d=${day}&h=${hour}&min=${minute}&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}`;
             document.getElementById('t-url').value = url;
             
             // Auto-actualizar preview
@@ -315,9 +328,14 @@
             const year = document.getElementById('s-year').value;
             const month = document.getElementById('s-month').value;
             const day = document.getElementById('s-day').value;
-            const color1 = encodeURIComponent(document.getElementById('s-color1').value);
-            const color2 = encodeURIComponent(document.getElementById('s-color2').value);
-            const color3 = encodeURIComponent(document.getElementById('s-color3').value);
+            const color1 = document.getElementById('s-color1').value;
+            const color2 = document.getElementById('s-color2').value;
+            const color3 = document.getElementById('s-color3').value;
+            
+            // Actualizar labels con los valores hex
+            document.getElementById('s-color1-hex').textContent = color1.toUpperCase();
+            document.getElementById('s-color2-hex').textContent = color2.toUpperCase();
+            document.getElementById('s-color3-hex').textContent = color3.toUpperCase();
             
             // Construir objeto de actividades
             const activities = {};
@@ -329,7 +347,7 @@
             });
             
             const activitiesJSON = encodeURIComponent(JSON.stringify(activities));
-            const url = `semana.html?y=${year}&m=${month}&d=${day}&activities=${activitiesJSON}&c1=${color1}&c2=${color2}&c3=${color3}`;
+            const url = `semana.html?y=${year}&m=${month}&d=${day}&activities=${activitiesJSON}&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}`;
             document.getElementById('s-url').value = url;
             
             // Auto-actualizar preview

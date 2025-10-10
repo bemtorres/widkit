@@ -8,7 +8,26 @@ Visita `index.html` para ver ejemplos interactivos de todas las funcionalidades.
 
 ## 📋 Contenido del Proyecto
 
-### 1. **temporizador.html** - Cuenta Regresiva Personalizable
+### 🆕 **admin.html** - Panel de Administración Visual
+
+Panel de control intuitivo para crear y configurar temporizadores y calculadores sin escribir código.
+
+#### Características:
+- 🎛️ Interfaz visual para configurar todos los parámetros
+- 👁️ Vista previa en tiempo real
+- 📋 Generación automática de URLs
+- 🎨 Selector de colores visual
+- 📝 Editor de actividades por semana
+- 📱 Diseño totalmente responsive
+- 🔄 Actualización automática del preview
+
+**¡Empieza aquí si no quieres escribir URLs manualmente!**
+
+Accede directamente: `admin.html`
+
+---
+
+### 1. **temporizador.html** - Cuenta Regresiva
 
 Crea una cuenta regresiva elegante y animada hacia cualquier fecha y hora.
 
@@ -140,6 +159,7 @@ Página principal que muestra ejemplos en vivo de ambas herramientas con documen
 - **HTML5** - Estructura semántica
 - **Tailwind CSS** (CDN) - Estilos modernos y responsivos
 - **JavaScript Vanilla** - Lógica y manipulación del DOM
+- **CSS Variables** - Sistema de colores personalizables
 - Sin dependencias externas adicionales
 
 ## 📦 Instalación y Uso Local
@@ -198,8 +218,9 @@ Luego visita: `http://localhost:8000`
 
 ### URLs de las herramientas:
 - **Demo principal:** `https://TU_USUARIO.github.io/timemachine/`
-- **Temporizador:** `https://TU_USUARIO.github.io/timemachine/temporizador.html`
-- **Calculador:** `https://TU_USUARIO.github.io/timemachine/semana.html`
+- **Administrador:** `https://TU_USUARIO.github.io/timemachine/admin.html`
+- **Cuenta Regresiva:** `https://TU_USUARIO.github.io/timemachine/temporizador.html`
+- **Calculador de Semanas:** `https://TU_USUARIO.github.io/timemachine/semana.html`
 
 ## 💡 Casos de Uso
 
@@ -220,30 +241,65 @@ Luego visita: `http://localhost:8000`
 
 ## 🎨 Personalización
 
-### Cambiar colores del temporizador:
-Edita las clases de Tailwind en `temporizador.html`:
-```html
-<!-- Fondo del body -->
-<body class="bg-gradient-to-br from-purple-600 via-pink-500 to-red-500">
+### Opción 1: Usar el Administrador (Recomendado)
+La forma más fácil es usar `admin.html` que incluye selectores de color visuales.
 
-<!-- Tarjetas de tiempo -->
-<div class="bg-gradient-to-br from-purple-500 to-purple-600">
+### Opción 2: Parámetros URL
+Ambas herramientas aceptan 3 colores personalizables vía URL:
+
+**Ejemplos de paletas:**
+
+**Paleta Verde:**
+```
+?c1=%2310b981&c2=%2334d399&c3=%236ee7b7
 ```
 
-### Cambiar colores del calculador:
-Edita las clases de Tailwind en `semana.html`:
-```html
-<!-- Fondo del body -->
-<body class="bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-500">
+**Paleta Rosa:**
+```
+?c1=%23ec4899&c2=%23f472b6&c3=%23f9a8d4
 ```
 
-## 📱 Compatibilidad
+**Paleta Naranja:**
+```
+?c1=%23f59e0b&c2=%23fbbf24&c3=%23fcd34d
+```
 
+**Paleta Morada (por defecto):**
+```
+?c1=%239333ea&c2=%23a855f7&c3=%23c084fc
+```
+
+### Opción 3: Editar el código
+Para cambios permanentes, edita las variables CSS en los archivos HTML:
+```css
+:root {
+    --color-1: #3b82f6;
+    --color-2: #60a5fa;
+    --color-3: #93c5fd;
+}
+```
+
+## 📱 Compatibilidad y Responsividad
+
+### Navegadores:
 - ✅ Chrome (últimas 2 versiones)
 - ✅ Firefox (últimas 2 versiones)
 - ✅ Safari (últimas 2 versiones)
 - ✅ Edge (últimas 2 versiones)
-- ✅ Dispositivos móviles (iOS y Android)
+
+### Dispositivos:
+- 📱 **Móviles** (320px+): Layout optimizado para pantallas pequeñas
+- 📱 **Tablets** (640px+): Diseño adaptado a pantallas medianas
+- 💻 **Desktop** (1024px+): Experiencia completa
+- 🖥️ **Pantallas grandes** (1920px+): Aprovechamiento total del espacio
+
+### Breakpoints de Tailwind CSS:
+- `sm`: 640px
+- `md`: 768px
+- `lg`: 1024px
+- `xl`: 1280px
+
+Todas las páginas son **100% responsive** y se adaptan automáticamente a cualquier tamaño de pantalla.
 
 ## 🤝 Contribuciones
 
