@@ -1,16 +1,38 @@
-# ⏰ TimeMachine - Temporizadores y Calculador de Semanas
+# 🦉 Buo - Widgets Educativos Inteligentes
 
-Proyecto web con Tailwind CSS, HTML y JavaScript para crear cuentas regresivas y calcular semanas de trabajo. Diseñado específicamente para ser embebido en iframes.
+> **"Como el búho sabio, Buo conoce todo sobre tu tiempo"**
 
-## 🚀 Demo en Vivo
+**Buo** es una plataforma de widgets educativos embebibles diseñada para docentes y profesionales. Crea, configura e inserta temporizadores, calculadores de semanas y herramientas interactivas en cualquier página web, **sin base de datos** y totalmente personalizables.
 
-Visita `index.html` para ver ejemplos interactivos de todas las funcionalidades.
+## ✨ ¿Por qué Buo?
 
-## 📋 Contenido del Proyecto
+🎯 **Para educación:** Calendarios de curso, planificación de entregas, seguimiento de semanas de clase
 
-### 🆕 **admin.html** - Panel de Administración Visual
+⏰ **Cuentas regresivas:** Para exámenes, eventos o entregas importantes
 
-Panel de control intuitivo para crear y configurar temporizadores y calculadores sin escribir código.
+🎲 **Herramientas interactivas:** Sorteos, ruletas, selección de estudiantes
+
+🖼️ **Embebible en cualquier web:** Fácil de integrar con un simple iframe
+
+🌈 **Totalmente personalizable:** Colores, tipografías, títulos y contenido configurable por URL
+
+🚀 **Sin dependencias:** No requiere base de datos ni backend, funciona directamente
+
+---
+
+## 🚀 Inicio Rápido
+
+### 📦 Explora Buo
+Abre `index.html` para ver el dashboard interactivo con todas las herramientas.
+
+### ⚙️ Configura tu Widget
+Ve a `admin.html` para crear y personalizar tus widgets con el panel de administración visual.
+
+## 📋 Herramientas Incluidas en Buo
+
+### 🆕 **admin.html** - Centro de Control
+
+Panel de administración intuitivo con 3 secciones para crear y configurar todos tus widgets sin escribir código.
 
 #### Características:
 - 🎛️ Interfaz visual para configurar todos los parámetros
@@ -154,13 +176,23 @@ Página principal que muestra ejemplos en vivo de ambas herramientas con documen
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+---
 
-- **HTML5** - Estructura semántica
-- **Tailwind CSS** (CDN) - Estilos modernos y responsivos
-- **JavaScript Vanilla** - Lógica y manipulación del DOM
-- **CSS Variables** - Sistema de colores personalizables
-- Sin dependencias externas adicionales
+## 🛠️ Tecnología
+
+Buo está construido con tecnologías web modernas y eficientes:
+
+| Tecnología | Propósito |
+|------------|-----------|
+| **HTML5** | Estructura semántica y accesible |
+| **Tailwind CSS** | Estilos modernos y responsivos (vía CDN) |
+| **JavaScript Vanilla** | Lógica pura sin frameworks pesados |
+| **CSS Variables** | Sistema de temas personalizables |
+| **Google Fonts** | Tipografías elegantes opcionales |
+
+✅ **Sin backend** - Todo funciona en el cliente
+✅ **Sin base de datos** - Configuración por URL
+✅ **Sin npm install** - Abre y usa directamente
 
 ## 📦 Instalación y Uso Local
 
