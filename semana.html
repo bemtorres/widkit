@@ -140,10 +140,18 @@
         try {
             const activitiesParam = urlParams.get('activities');
             if (activitiesParam) {
-                weekActivities = JSON.parse(decodeURIComponent(activitiesParam));
+                // Intentar parsear directamente primero
+                try {
+                    weekActivities = JSON.parse(activitiesParam);
+                } catch {
+                    // Si falla, intentar decodificar primero
+                    weekActivities = JSON.parse(decodeURIComponent(activitiesParam));
+                }
             }
+            console.log('Actividades cargadas:', weekActivities);
         } catch (e) {
             console.error('Error al parsear actividades:', e);
+            console.log('Parámetro recibido:', urlParams.get('activities'));
         }
 
         // Calcular número de semana
