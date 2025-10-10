@@ -25,22 +25,25 @@
     <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12 max-w-2xl w-full" id="mainContainer">
         <h1 id="eventTitle" class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 sm:mb-6 md:mb-8 text-gray-800 px-2"></h1>
         
-        <div id="countdown" class="grid grid-cols-2 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 md:mb-8">
-            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105" style="background: var(--color-1);">
-                <div id="days" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">0</div>
-                <div class="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide">Días</div>
+        <div id="countdown" class="flex justify-center items-center gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6 md:mb-8 flex-wrap">
+            <div id="daysContainer" class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 text-center shadow-lg transform transition hover:scale-105 flex-shrink-0" style="background: var(--color-1);">
+                <div id="days" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1">0</div>
+                <div class="text-xs sm:text-sm text-white/80 uppercase tracking-wide">Días</div>
             </div>
-            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105" style="background: var(--color-2);">
-                <div id="hours" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">0</div>
-                <div class="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide">Horas</div>
+            <div class="text-2xl sm:text-3xl md:text-4xl text-white font-bold">:</div>
+            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 text-center shadow-lg transform transition hover:scale-105 flex-shrink-0" style="background: var(--color-2);">
+                <div id="hours" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1">0</div>
+                <div class="text-xs sm:text-sm text-white/80 uppercase tracking-wide">Horas</div>
             </div>
-            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105" style="background: var(--color-3);">
-                <div id="minutes" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">0</div>
-                <div class="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide">Minutos</div>
+            <div class="text-2xl sm:text-3xl md:text-4xl text-white font-bold">:</div>
+            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 text-center shadow-lg transform transition hover:scale-105 flex-shrink-0" style="background: var(--color-3);">
+                <div id="minutes" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1">0</div>
+                <div class="text-xs sm:text-sm text-white/80 uppercase tracking-wide">Minutos</div>
             </div>
-            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105" style="background: var(--color-2);">
-                <div id="seconds" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">0</div>
-                <div class="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide">Segundos</div>
+            <div class="text-2xl sm:text-3xl md:text-4xl text-white font-bold">:</div>
+            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 text-center shadow-lg transform transition hover:scale-105 flex-shrink-0" style="background: var(--color-2);">
+                <div id="seconds" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1">0</div>
+                <div class="text-xs sm:text-sm text-white/80 uppercase tracking-wide">Segundos</div>
             </div>
         </div>
 
@@ -140,6 +143,20 @@
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Mostrar/ocultar días según el tiempo restante
+            const daysContainer = document.getElementById('daysContainer');
+            const separators = document.querySelectorAll('#countdown > .text-2xl');
+            
+            if (days === 0) {
+                // Ocultar días y primer separador
+                daysContainer.style.display = 'none';
+                if (separators[0]) separators[0].style.display = 'none';
+            } else {
+                // Mostrar días
+                daysContainer.style.display = 'block';
+                if (separators[0]) separators[0].style.display = 'block';
+            }
 
             // Actualizar valores en el DOM
             document.getElementById('days').textContent = days;
