@@ -5,16 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculador de Semanas</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@400;600;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --color-1: #3b82f6;
             --color-2: #60a5fa;
             --color-3: #93c5fd;
         }
+        .font-serif { font-family: 'Georgia', 'Times New Roman', serif; }
+        .font-mono { font-family: 'Courier New', monospace; }
+        .font-rounded { font-family: 'Quicksand', sans-serif; }
+        .font-elegant { font-family: 'Playfair Display', serif; }
+        .font-modern { font-family: 'Poppins', sans-serif; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-2 sm:p-4 md:p-6" style="background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-3) 100%);">
-    <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12 max-w-3xl w-full">
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4 md:p-6" id="mainBody" style="background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-3) 100%);">
+    <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12 max-w-3xl w-full" id="mainContainer">
         <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 sm:mb-6 md:mb-8 text-gray-800 px-2">
             Calculador de Semanas
         </h1>
@@ -81,10 +89,42 @@
         const color2 = urlParams.get('c2') || '#60a5fa'; // Azul medio
         const color3 = urlParams.get('c3') || '#93c5fd'; // Azul claro
         
+        // Color de fondo personalizable
+        const bgColor = urlParams.get('bg') || null;
+        
+        // Tipografía personalizable
+        const font = urlParams.get('font') || 'system';
+        
         // Aplicar colores personalizados
         document.documentElement.style.setProperty('--color-1', color1);
         document.documentElement.style.setProperty('--color-2', color2);
         document.documentElement.style.setProperty('--color-3', color3);
+
+        // Aplicar fondo personalizado si existe
+        if (bgColor) {
+            document.getElementById('mainBody').style.background = bgColor;
+            // Si es un fondo claro, ajustar el contenedor
+            const rgb = parseInt(bgColor.replace('#',''), 16);
+            const r = (rgb >> 16) & 0xff;
+            const g = (rgb >>  8) & 0xff;
+            const b = (rgb >>  0) & 0xff;
+            const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            if (luma > 180) {
+                document.getElementById('mainContainer').classList.add('shadow-xl');
+            }
+        }
+        
+        // Aplicar tipografía
+        const fontClasses = {
+            'serif': 'font-serif',
+            'mono': 'font-mono',
+            'rounded': 'font-rounded',
+            'elegant': 'font-elegant',
+            'modern': 'font-modern'
+        };
+        if (fontClasses[font]) {
+            document.getElementById('mainContainer').classList.add(fontClasses[font]);
+        }
         
         // Fecha de inicio del período (por defecto, inicio del año)
         const startYear = parseInt(urlParams.get('y')) || new Date().getFullYear();

@@ -70,6 +70,15 @@
                                        onchange="generateTemporizadorURL()">
                             </div>
 
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5">Mensaje de Finalización</label>
+                                <input type="text" id="t-message" value="🎉 ¡El evento ha llegado! 🎉" 
+                                       class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                       placeholder="Mensaje cuando la cuenta llegue a cero"
+                                       onchange="generateTemporizadorURL()">
+                                <p class="text-xs text-slate-500 mt-1">Este mensaje se mostrará cuando el evento llegue</p>
+                            </div>
+
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-slate-700 mb-1.5">Año</label>
@@ -99,9 +108,34 @@
                         </div>
                     </div>
 
-                    <!-- Paleta de Colores -->
+                    <!-- Estilo Visual -->
                     <div class="bg-white rounded-lg border border-slate-200 p-6">
-                        <h3 class="text-base font-semibold text-slate-900 mb-4">Paleta de Colores</h3>
+                        <h3 class="text-base font-semibold text-slate-900 mb-4">Estilo Visual</h3>
+                        
+                        <!-- Tipografía -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Tipografía</label>
+                            <select id="t-font" 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                    onchange="generateTemporizadorURL()">
+                                <option value="system">Sistema (Sans-serif)</option>
+                                <option value="serif">Serif (Times)</option>
+                                <option value="mono">Monospace (Courier)</option>
+                                <option value="rounded">Redondeada (Quicksand)</option>
+                                <option value="elegant">Elegante (Playfair)</option>
+                                <option value="modern">Moderna (Poppins)</option>
+                            </select>
+                        </div>
+
+                        <!-- Color de Fondo -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Color de Fondo</label>
+                            <input type="color" id="t-bgcolor" value="#ffffff" 
+                                   class="w-full h-10 rounded-lg cursor-pointer border border-slate-300"
+                                   onchange="generateTemporizadorURL()">
+                        </div>
+
+                        <h4 class="text-sm font-medium text-slate-700 mb-3 mt-4">Colores del Contador</h4>
                         
                         <div class="grid grid-cols-3 gap-4">
                             <div>
@@ -225,9 +259,34 @@
                         </div>
                     </div>
 
-                    <!-- Paleta de Colores -->
+                    <!-- Estilo Visual -->
                     <div class="bg-white rounded-lg border border-slate-200 p-6">
-                        <h3 class="text-base font-semibold text-slate-900 mb-4">Paleta de Colores</h3>
+                        <h3 class="text-base font-semibold text-slate-900 mb-4">Estilo Visual</h3>
+                        
+                        <!-- Tipografía -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Tipografía</label>
+                            <select id="s-font" 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                    onchange="generateSemanaURL()">
+                                <option value="system">Sistema (Sans-serif)</option>
+                                <option value="serif">Serif (Times)</option>
+                                <option value="mono">Monospace (Courier)</option>
+                                <option value="rounded">Redondeada (Quicksand)</option>
+                                <option value="elegant">Elegante (Playfair)</option>
+                                <option value="modern">Moderna (Poppins)</option>
+                            </select>
+                        </div>
+
+                        <!-- Color de Fondo -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Color de Fondo</label>
+                            <input type="color" id="s-bgcolor" value="#ffffff" 
+                                   class="w-full h-10 rounded-lg cursor-pointer border border-slate-300"
+                                   onchange="generateSemanaURL()">
+                        </div>
+
+                        <h4 class="text-sm font-medium text-slate-700 mb-3 mt-4">Colores del Calculador</h4>
                         
                         <div class="grid grid-cols-3 gap-4">
                             <div>
@@ -341,6 +400,7 @@
         // Generar URL del temporizador
         function generateTemporizadorURL() {
             const title = encodeURIComponent(document.getElementById('t-title').value);
+            const message = encodeURIComponent(document.getElementById('t-message').value);
             const year = document.getElementById('t-year').value;
             const month = document.getElementById('t-month').value;
             const day = document.getElementById('t-day').value;
@@ -348,12 +408,14 @@
             const color1 = document.getElementById('t-color1').value;
             const color2 = document.getElementById('t-color2').value;
             const color3 = document.getElementById('t-color3').value;
+            const bgColor = document.getElementById('t-bgcolor')?.value || '#ffffff';
+            const font = document.getElementById('t-font')?.value || 'system';
             
             document.getElementById('t-color1-hex').textContent = color1.toUpperCase();
             document.getElementById('t-color2-hex').textContent = color2.toUpperCase();
             document.getElementById('t-color3-hex').textContent = color3.toUpperCase();
             
-            const url = `cuentaregresiva.html?title=${title}&y=${year}&m=${month}&d=${day}&h=${hour}&min=0&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}`;
+            const url = `cuentaregresiva.html?title=${title}&message=${message}&y=${year}&m=${month}&d=${day}&h=${hour}&min=0&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}&bg=${encodeURIComponent(bgColor)}&font=${font}`;
             document.getElementById('t-url').value = url;
             document.getElementById('preview-temporizador').src = url;
         }
@@ -366,6 +428,8 @@
             const color1 = document.getElementById('s-color1').value;
             const color2 = document.getElementById('s-color2').value;
             const color3 = document.getElementById('s-color3').value;
+            const bgColor = document.getElementById('s-bgcolor')?.value || '#ffffff';
+            const font = document.getElementById('s-font')?.value || 'system';
             
             document.getElementById('s-color1-hex').textContent = color1.toUpperCase();
             document.getElementById('s-color2-hex').textContent = color2.toUpperCase();
@@ -380,7 +444,7 @@
             });
             
             const activitiesJSON = encodeURIComponent(JSON.stringify(activities));
-            const url = `semana.html?y=${year}&m=${month}&d=${day}&activities=${activitiesJSON}&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}`;
+            const url = `semana.html?y=${year}&m=${month}&d=${day}&activities=${activitiesJSON}&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}&bg=${encodeURIComponent(bgColor)}&font=${font}`;
             document.getElementById('s-url').value = url;
             document.getElementById('preview-semana').src = url;
         }
