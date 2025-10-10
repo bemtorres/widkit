@@ -57,18 +57,6 @@
             </div>
         </div>
 
-        <div id="allWeeksSection" class="hidden">
-            <div class="bg-gray-50 rounded-xl p-4 sm:p-6 border-2 border-gray-200">
-                <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 flex items-center">
-                    <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    <span class="text-gray-800">📆 Todas las semanas programadas</span>
-                </h2>
-                <div id="allWeeksList" class="space-y-3 sm:space-y-4">
-                </div>
-            </div>
-        </div>
 
         <div class="mt-6 sm:mt-8 p-3 sm:p-4 bg-gray-100 rounded-lg">
             <p class="text-xs sm:text-sm text-gray-600 mb-2">
@@ -231,60 +219,6 @@
             console.log('No hay actividades programadas en absoluto');
         }
 
-        // Mostrar todas las semanas si hay actividades definidas
-        if (Object.keys(weekActivities).length > 0) {
-            const allWeeksSection = document.getElementById('allWeeksSection');
-            const allWeeksList = document.getElementById('allWeeksList');
-            
-            allWeeksSection.classList.remove('hidden');
-            
-            // Ordenar las semanas numéricamente
-            const sortedWeeks = Object.keys(weekActivities).sort((a, b) => parseInt(a) - parseInt(b));
-            
-            sortedWeeks.forEach(week => {
-                const weekDiv = document.createElement('div');
-                const isCurrentWeek = parseInt(week) === weekNumber;
-                weekDiv.className = `p-4 sm:p-5 rounded-xl border-2 shadow-sm transition hover:shadow-md`;
-                
-                if (isCurrentWeek) {
-                    weekDiv.style.borderColor = color1;
-                    weekDiv.style.background = `linear-gradient(to right, ${color3}20, ${color3}10)`;
-                    weekDiv.classList.add('ring-2', 'ring-offset-2');
-                    weekDiv.style.setProperty('--tw-ring-color', color1);
-                } else {
-                    weekDiv.className += ' border-gray-300 bg-white';
-                }
-                
-                let activitiesHTML = weekActivities[week].map((activity, index) => `
-                    <li class="flex items-start text-gray-700 text-xs sm:text-sm md:text-base mb-2">
-                        <span class="inline-block w-5 h-5 mr-2 mt-0.5 text-center rounded-full text-xs" style="background: ${color3}40; color: ${color1}; font-weight: bold;">
-                            ${index + 1}
-                        </span>
-                        <span class="flex-1">${activity}</span>
-                    </li>
-                `).join('');
-                
-                const currentBadge = isCurrentWeek 
-                    ? `<span class="ml-2 px-3 py-1 text-white text-xs font-bold rounded-full animate-pulse" style="background: ${color1};">✓ Semana Actual</span>`
-                    : '';
-                
-                const titleColor = isCurrentWeek ? `color: ${color1};` : 'color: #374151;';
-                
-                weekDiv.innerHTML = `
-                    <div class="flex items-center mb-3 flex-wrap gap-2">
-                        <h3 class="text-lg sm:text-xl font-bold" style="${titleColor}">
-                            📍 Semana ${week}
-                        </h3>
-                        ${currentBadge}
-                    </div>
-                    <ul class="space-y-1 pl-1">
-                        ${activitiesHTML}
-                    </ul>
-                `;
-                
-                allWeeksList.appendChild(weekDiv);
-            });
-        }
     </script>
 </body>
 </html>
