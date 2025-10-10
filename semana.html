@@ -5,49 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculador de Semanas</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --color-1: #3b82f6;
+            --color-2: #60a5fa;
+            --color-3: #93c5fd;
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-500 min-h-screen flex items-center justify-center p-4">
-    <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 max-w-3xl w-full">
-        <h1 class="text-4xl md:text-5xl font-bold text-center mb-8 text-gray-800">
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4 md:p-6" style="background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-3) 100%);">
+    <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12 max-w-3xl w-full">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 sm:mb-6 md:mb-8 text-gray-800 px-2">
             Calculador de Semanas
         </h1>
         
-        <div class="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl p-8 mb-8 text-center shadow-xl">
-            <div class="text-white mb-2 text-lg">Estamos en la</div>
-            <div id="weekNumber" class="text-6xl md:text-7xl font-bold text-white mb-2">
+        <div class="rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 text-center shadow-xl" style="background: linear-gradient(135deg, var(--color-1), var(--color-2));">
+            <div class="text-white mb-1 sm:mb-2 text-sm sm:text-base md:text-lg">Estamos en la</div>
+            <div id="weekNumber" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-1 sm:mb-2">
                 Semana 0
             </div>
-            <div id="dateInfo" class="text-blue-100 text-sm md:text-base">
+            <div id="dateInfo" class="text-white/80 text-xs sm:text-sm md:text-base px-2">
             </div>
         </div>
 
         <div id="activitiesSection" class="hidden">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                 </svg>
                 Actividades de esta semana
             </h2>
-            <ul id="activitiesList" class="space-y-3">
+            <ul id="activitiesList" class="space-y-2 sm:space-y-3">
             </ul>
         </div>
 
-        <div id="allWeeksSection" class="hidden mt-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div id="allWeeksSection" class="hidden mt-6 sm:mt-8">
+            <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
                 Todas las semanas programadas
             </h2>
-            <div id="allWeeksList" class="space-y-4">
+            <div id="allWeeksList" class="space-y-3 sm:space-y-4">
             </div>
         </div>
 
-        <div class="mt-8 p-4 bg-gray-100 rounded-lg">
-            <p class="text-sm text-gray-600 mb-2">
+        <div class="mt-6 sm:mt-8 p-3 sm:p-4 bg-gray-100 rounded-lg">
+            <p class="text-xs sm:text-sm text-gray-600 mb-2">
                 <strong>Fecha de inicio:</strong> <span id="startDateInfo"></span>
             </p>
-            <p class="text-sm text-gray-600">
+            <p class="text-xs sm:text-sm text-gray-600">
                 <strong>Fecha actual:</strong> <span id="currentDateInfo"></span>
             </p>
         </div>
@@ -56,6 +63,16 @@
     <script>
         // Obtener parámetros de la URL
         const urlParams = new URLSearchParams(window.location.search);
+        
+        // Colores personalizables (minimalista por defecto: azul suave)
+        const color1 = urlParams.get('c1') || '#3b82f6'; // Azul
+        const color2 = urlParams.get('c2') || '#60a5fa'; // Azul medio
+        const color3 = urlParams.get('c3') || '#93c5fd'; // Azul claro
+        
+        // Aplicar colores personalizados
+        document.documentElement.style.setProperty('--color-1', color1);
+        document.documentElement.style.setProperty('--color-2', color2);
+        document.documentElement.style.setProperty('--color-3', color3);
         
         // Fecha de inicio del período (por defecto, inicio del año)
         const startYear = parseInt(urlParams.get('y')) || new Date().getFullYear();
@@ -121,13 +138,14 @@
             
             weekActivities[weekNumber].forEach((activity, index) => {
                 const li = document.createElement('li');
-                li.className = 'flex items-start p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg shadow-sm hover:shadow-md transition';
+                li.className = 'flex items-start p-3 sm:p-4 rounded-lg shadow-sm hover:shadow-md transition';
+                li.style.background = `linear-gradient(to right, ${color3}15, ${color3}25)`;
                 li.innerHTML = `
-                    <div class="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold mr-3">
+                    <div class="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 text-white rounded-full flex items-center justify-center font-bold mr-2 sm:mr-3 text-sm sm:text-base" style="background: ${color1};">
                         ${index + 1}
                     </div>
                     <div class="flex-1">
-                        <p class="text-gray-800 font-medium">${activity}</p>
+                        <p class="text-gray-800 font-medium text-sm sm:text-base">${activity}</p>
                     </div>
                 `;
                 activitiesList.appendChild(li);
@@ -147,22 +165,31 @@
             sortedWeeks.forEach(week => {
                 const weekDiv = document.createElement('div');
                 const isCurrentWeek = parseInt(week) === weekNumber;
-                weekDiv.className = `p-4 rounded-lg border-2 ${
-                    isCurrentWeek 
-                        ? 'border-blue-500 bg-blue-50' 
-                        : 'border-gray-200 bg-gray-50'
-                }`;
+                weekDiv.className = `p-3 sm:p-4 rounded-lg border-2`;
+                
+                if (isCurrentWeek) {
+                    weekDiv.style.borderColor = color1;
+                    weekDiv.style.background = `${color3}20`;
+                } else {
+                    weekDiv.className += ' border-gray-200 bg-gray-50';
+                }
                 
                 let activitiesHTML = weekActivities[week].map((activity, index) => `
-                    <li class="text-gray-700 ml-4">${activity}</li>
+                    <li class="text-gray-700 ml-3 sm:ml-4 text-xs sm:text-sm md:text-base">${activity}</li>
                 `).join('');
                 
+                const currentBadge = isCurrentWeek 
+                    ? `<span class="ml-2 px-2 py-1 text-white text-xs font-semibold rounded-full" style="background: ${color1};">Actual</span>`
+                    : '';
+                
+                const titleColor = isCurrentWeek ? `color: ${color1};` : '';
+                
                 weekDiv.innerHTML = `
-                    <div class="flex items-center mb-2">
-                        <h3 class="text-lg font-bold ${isCurrentWeek ? 'text-blue-600' : 'text-gray-700'}">
+                    <div class="flex items-center mb-2 flex-wrap">
+                        <h3 class="text-base sm:text-lg font-bold" style="${titleColor}">
                             Semana ${week}
                         </h3>
-                        ${isCurrentWeek ? '<span class="ml-2 px-2 py-1 bg-blue-500 text-white text-xs font-semibold rounded-full">Actual</span>' : ''}
+                        ${currentBadge}
                     </div>
                     <ul class="space-y-1">
                         ${activitiesHTML}

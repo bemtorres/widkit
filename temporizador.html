@@ -5,35 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Temporizador - Cuenta Regresiva</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --color-1: #3b82f6;
+            --color-2: #60a5fa;
+            --color-3: #93c5fd;
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 min-h-screen flex items-center justify-center p-4">
-    <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 max-w-2xl w-full">
-        <h1 id="eventTitle" class="text-4xl md:text-5xl font-bold text-center mb-8 text-gray-800"></h1>
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4 md:p-6" style="background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-3) 100%);">
+    <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12 max-w-2xl w-full">
+        <h1 id="eventTitle" class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 sm:mb-6 md:mb-8 text-gray-800 px-2"></h1>
         
-        <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
-            <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105">
-                <div id="days" class="text-4xl md:text-5xl font-bold text-white mb-2">0</div>
-                <div class="text-sm md:text-base text-purple-100 uppercase tracking-wide">Días</div>
+        <div id="countdown" class="grid grid-cols-2 gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 md:mb-8">
+            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105" style="background: var(--color-1);">
+                <div id="days" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">0</div>
+                <div class="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide">Días</div>
             </div>
-            <div class="bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105">
-                <div id="hours" class="text-4xl md:text-5xl font-bold text-white mb-2">0</div>
-                <div class="text-sm md:text-base text-pink-100 uppercase tracking-wide">Horas</div>
+            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105" style="background: var(--color-2);">
+                <div id="hours" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">0</div>
+                <div class="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide">Horas</div>
             </div>
-            <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105">
-                <div id="minutes" class="text-4xl md:text-5xl font-bold text-white mb-2">0</div>
-                <div class="text-sm md:text-base text-red-100 uppercase tracking-wide">Minutos</div>
+            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105" style="background: var(--color-3);">
+                <div id="minutes" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">0</div>
+                <div class="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide">Minutos</div>
             </div>
-            <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105">
-                <div id="seconds" class="text-4xl md:text-5xl font-bold text-white mb-2">0</div>
-                <div class="text-sm md:text-base text-orange-100 uppercase tracking-wide">Segundos</div>
+            <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 text-center shadow-lg transform transition hover:scale-105" style="background: var(--color-2);">
+                <div id="seconds" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1 sm:mb-2">0</div>
+                <div class="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide">Segundos</div>
             </div>
         </div>
 
-        <div id="message" class="text-center text-2xl font-semibold text-gray-700 hidden">
+        <div id="message" class="text-center text-xl sm:text-2xl font-semibold text-gray-700 hidden px-2">
             🎉 ¡El evento ha llegado! 🎉
         </div>
 
-        <div class="text-center text-sm text-gray-500 mt-6">
+        <div class="text-center text-xs sm:text-sm text-gray-500 mt-4 sm:mt-6 px-2">
             <p id="targetDate"></p>
         </div>
     </div>
@@ -47,6 +54,16 @@
         const day = parseInt(urlParams.get('d')) || new Date().getDate();
         const hour = parseInt(urlParams.get('h')) || 0;
         const minute = parseInt(urlParams.get('min')) || 0;
+
+        // Colores personalizables (minimalista por defecto: azul suave)
+        const color1 = urlParams.get('c1') || '#3b82f6'; // Azul
+        const color2 = urlParams.get('c2') || '#60a5fa'; // Azul medio
+        const color3 = urlParams.get('c3') || '#93c5fd'; // Azul claro
+        
+        // Aplicar colores personalizados
+        document.documentElement.style.setProperty('--color-1', color1);
+        document.documentElement.style.setProperty('--color-2', color2);
+        document.documentElement.style.setProperty('--color-3', color3);
 
         // Establecer el título
         document.getElementById('eventTitle').textContent = title;

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador - TimeMachine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white/10 backdrop-blur-md border-b border-white/20 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 sm:py-6">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center">
+                ⚙️ Administrador TimeMachine
+            </h1>
+            <p class="text-center text-white/90 mt-2 text-sm sm:text-base">
+                Configura y genera tus temporizadores y calculadores
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-6 sm:py-8 md:py-12 max-w-7xl">
+        <!-- Tabs -->
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-6 sm:mb-8">
+            <button onclick="switchTab('temporizador')" 
+                    id="tab-temporizador" 
+                    class="tab-button active flex-1 px-4 sm:px-6 py-3 rounded-lg font-semibold transition text-sm sm:text-base">
+                ⏳ Temporizador
+            </button>
+            <button onclick="switchTab('semana')" 
+                    id="tab-semana" 
+                    class="tab-button flex-1 px-4 sm:px-6 py-3 rounded-lg font-semibold transition text-sm sm:text-base">
+                📅 Calculador de Semanas
+            </button>
+        </div>
+
+        <!-- Panel Temporizador -->
+        <div id="panel-temporizador" class="tab-panel">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+                <!-- Formulario -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Configuración</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Título del Evento</label>
+                            <input type="text" id="t-title" value="Año Nuevo 2026" 
+                                   class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-sm sm:text-base"
+                                   onchange="generateTemporizadorURL()">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Año</label>
+                                <input type="number" id="t-year" value="2026" 
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-sm sm:text-base"
+                                       onchange="generateTemporizadorURL()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Mes</label>
+                                <input type="number" id="t-month" value="1" min="1" max="12"
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-sm sm:text-base"
+                                       onchange="generateTemporizadorURL()">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Día</label>
+                                <input type="number" id="t-day" value="1" min="1" max="31"
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-sm sm:text-base"
+                                       onchange="generateTemporizadorURL()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Hora (opcional)</label>
+                                <input type="number" id="t-hour" value="0" min="0" max="23"
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-sm sm:text-base"
+                                       onchange="generateTemporizadorURL()">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Minutos (opcional)</label>
+                            <input type="number" id="t-minute" value="0" min="0" max="59"
+                                   class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none text-sm sm:text-base"
+                                   onchange="generateTemporizadorURL()">
+                        </div>
+
+                        <div class="pt-4 border-t">
+                            <h3 class="text-lg font-bold text-gray-800 mb-3">Colores Personalizados</h3>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 1</label>
+                                    <input type="color" id="t-color1" value="#3b82f6" 
+                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           onchange="generateTemporizadorURL()">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 2</label>
+                                    <input type="color" id="t-color2" value="#60a5fa" 
+                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           onchange="generateTemporizadorURL()">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 3</label>
+                                    <input type="color" id="t-color3" value="#93c5fd" 
+                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           onchange="generateTemporizadorURL()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">URL Generada</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="t-url" readonly 
+                                       class="flex-1 px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-xs sm:text-sm">
+                                <button onclick="copyURL('t-url')" 
+                                        class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-semibold text-sm whitespace-nowrap">
+                                    📋 Copiar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button onclick="openTemporizador()" 
+                                    class="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-xl transition font-semibold text-sm sm:text-base">
+                                🚀 Abrir en Nueva Pestaña
+                            </button>
+                            <button onclick="refreshPreview('temporizador')" 
+                                    class="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold text-sm sm:text-base whitespace-nowrap">
+                                🔄 Actualizar Vista
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Vista Previa</h2>
+                    <div class="bg-gray-100 rounded-xl overflow-hidden shadow-inner" style="height: 500px;">
+                        <iframe id="preview-temporizador" class="w-full h-full" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel Semana -->
+        <div id="panel-semana" class="tab-panel hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+                <!-- Formulario -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Configuración</h2>
+                    
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-bold text-gray-800">Fecha de Inicio del Período</h3>
+                        
+                        <div class="grid grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Año</label>
+                                <input type="number" id="s-year" value="2025" 
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none text-sm sm:text-base"
+                                       onchange="generateSemanaURL()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Mes</label>
+                                <input type="number" id="s-month" value="1" min="1" max="12"
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none text-sm sm:text-base"
+                                       onchange="generateSemanaURL()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Día</label>
+                                <input type="number" id="s-day" value="1" min="1" max="31"
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none text-sm sm:text-base"
+                                       onchange="generateSemanaURL()">
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-lg font-bold text-gray-800">Actividades por Semana</h3>
+                                <button onclick="addWeek()" 
+                                        class="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold text-sm">
+                                    + Agregar Semana
+                                </button>
+                            </div>
+                            <div id="weeks-container" class="space-y-4 max-h-64 overflow-y-auto">
+                                <!-- Las semanas se agregan dinámicamente -->
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t">
+                            <h3 class="text-lg font-bold text-gray-800 mb-3">Colores Personalizados</h3>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 1</label>
+                                    <input type="color" id="s-color1" value="#3b82f6" 
+                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           onchange="generateSemanaURL()">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 2</label>
+                                    <input type="color" id="s-color2" value="#60a5fa" 
+                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           onchange="generateSemanaURL()">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 mb-2">Color 3</label>
+                                    <input type="color" id="s-color3" value="#93c5fd" 
+                                           class="w-full h-12 rounded-lg cursor-pointer"
+                                           onchange="generateSemanaURL()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">URL Generada</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="s-url" readonly 
+                                       class="flex-1 px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg text-xs sm:text-sm break-all">
+                                <button onclick="copyURL('s-url')" 
+                                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold text-sm whitespace-nowrap">
+                                    📋 Copiar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button onclick="openSemana()" 
+                                    class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:shadow-xl transition font-semibold text-sm sm:text-base">
+                                🚀 Abrir en Nueva Pestaña
+                            </button>
+                            <button onclick="refreshPreview('semana')" 
+                                    class="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold text-sm sm:text-base whitespace-nowrap">
+                                🔄 Actualizar Vista
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6">Vista Previa</h2>
+                    <div class="bg-gray-100 rounded-xl overflow-hidden shadow-inner" style="height: 600px;">
+                        <iframe id="preview-semana" class="w-full h-full" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón volver -->
+        <div class="mt-8 text-center">
+            <a href="index.html" 
+               class="inline-block px-6 py-3 bg-white/20 hover:bg-white/30 text-white rounded-lg transition font-semibold backdrop-blur-sm text-sm sm:text-base">
+                ← Volver a Inicio
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Estado de las semanas
+        let weeks = {};
+        let weekCounter = 0;
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar 4 semanas por defecto
+            addWeek('Entrega de documentos\nAnálisis de sistema');
+            addWeek('Evaluación 30%\nAnálisis de sistema');
+            addWeek('Desarrollo de prototipos\nReunión de equipo');
+            addWeek('Presentación final\nEntrega de proyecto');
+            
+            generateTemporizadorURL();
+            generateSemanaURL();
+        });
+
+        // Cambiar tabs
+        function switchTab(tab) {
+            // Ocultar todos los paneles
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+            
+            // Remover clase active de todos los botones
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Mostrar panel seleccionado
+            document.getElementById('panel-' + tab).classList.remove('hidden');
+            document.getElementById('tab-' + tab).classList.add('active');
+        }
+
+        // Generar URL del temporizador
+        function generateTemporizadorURL() {
+            const title = encodeURIComponent(document.getElementById('t-title').value);
+            const year = document.getElementById('t-year').value;
+            const month = document.getElementById('t-month').value;
+            const day = document.getElementById('t-day').value;
+            const hour = document.getElementById('t-hour').value;
+            const minute = document.getElementById('t-minute').value;
+            const color1 = encodeURIComponent(document.getElementById('t-color1').value);
+            const color2 = encodeURIComponent(document.getElementById('t-color2').value);
+            const color3 = encodeURIComponent(document.getElementById('t-color3').value);
+            
+            const url = `temporizador.html?title=${title}&y=${year}&m=${month}&d=${day}&h=${hour}&min=${minute}&c1=${color1}&c2=${color2}&c3=${color3}`;
+            document.getElementById('t-url').value = url;
+            
+            // Auto-actualizar preview
+            document.getElementById('preview-temporizador').src = url;
+        }
+
+        // Generar URL del calculador de semanas
+        function generateSemanaURL() {
+            const year = document.getElementById('s-year').value;
+            const month = document.getElementById('s-month').value;
+            const day = document.getElementById('s-day').value;
+            const color1 = encodeURIComponent(document.getElementById('s-color1').value);
+            const color2 = encodeURIComponent(document.getElementById('s-color2').value);
+            const color3 = encodeURIComponent(document.getElementById('s-color3').value);
+            
+            // Construir objeto de actividades
+            const activities = {};
+            Object.keys(weeks).forEach(weekNum => {
+                const textarea = document.getElementById(`week-${weekNum}-activities`);
+                if (textarea && textarea.value.trim()) {
+                    activities[weekNum] = textarea.value.trim().split('\n').filter(a => a.trim());
+                }
+            });
+            
+            const activitiesJSON = encodeURIComponent(JSON.stringify(activities));
+            const url = `semana.html?y=${year}&m=${month}&d=${day}&activities=${activitiesJSON}&c1=${color1}&c2=${color2}&c3=${color3}`;
+            document.getElementById('s-url').value = url;
+            
+            // Auto-actualizar preview
+            document.getElementById('preview-semana').src = url;
+        }
+
+        // Agregar semana
+        function addWeek(defaultText = '') {
+            weekCounter++;
+            const weekNum = weekCounter;
+            weeks[weekNum] = true;
+            
+            const container = document.getElementById('weeks-container');
+            const weekDiv = document.createElement('div');
+            weekDiv.id = `week-${weekNum}`;
+            weekDiv.className = 'bg-gray-50 p-4 rounded-lg border-2 border-gray-200';
+            weekDiv.innerHTML = `
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="font-bold text-gray-800">Semana ${weekNum}</h4>
+                    <button onclick="removeWeek(${weekNum})" class="text-red-600 hover:text-red-800 font-bold text-xl">×</button>
+                </div>
+                <textarea id="week-${weekNum}-activities" 
+                          class="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none text-sm"
+                          rows="3" 
+                          placeholder="Una actividad por línea..."
+                          onchange="generateSemanaURL()">${defaultText}</textarea>
+            `;
+            container.appendChild(weekDiv);
+            generateSemanaURL();
+        }
+
+        // Eliminar semana
+        function removeWeek(weekNum) {
+            delete weeks[weekNum];
+            document.getElementById(`week-${weekNum}`).remove();
+            generateSemanaURL();
+        }
+
+        // Copiar URL
+        function copyURL(inputId) {
+            const input = document.getElementById(inputId);
+            input.select();
+            document.execCommand('copy');
+            
+            // Mostrar feedback
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '✓ Copiado';
+            button.classList.add('bg-green-600');
+            button.classList.remove('bg-purple-600', 'bg-blue-600');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('bg-green-600');
+                if (inputId === 't-url') {
+                    button.classList.add('bg-purple-600');
+                } else {
+                    button.classList.add('bg-blue-600');
+                }
+            }, 2000);
+        }
+
+        // Abrir en nueva pestaña
+        function openTemporizador() {
+            const url = document.getElementById('t-url').value;
+            window.open(url, '_blank');
+        }
+
+        function openSemana() {
+            const url = document.getElementById('s-url').value;
+            window.open(url, '_blank');
+        }
+
+        // Actualizar preview
+        function refreshPreview(type) {
+            if (type === 'temporizador') {
+                const url = document.getElementById('t-url').value;
+                document.getElementById('preview-temporizador').src = url;
+            } else {
+                const url = document.getElementById('s-url').value;
+                document.getElementById('preview-semana').src = url;
+            }
+        }
+    </script>
+
+    <style>
+        .tab-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .tab-button.active {
+            background: white;
+            color: #1e293b;
+            border-color: white;
+        }
+    </style>
+</body>
+</html>
+

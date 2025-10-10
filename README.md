@@ -29,8 +29,13 @@ Crea una cuenta regresiva elegante y animada hacia cualquier fecha y hora.
 | `d` | Día objetivo (1-31) | `25` | No* |
 | `h` | Hora objetivo (0-23) | `18` | No |
 | `min` | Minutos objetivo (0-59) | `30` | No |
+| `c1` | Color primario (hex) | `#3b82f6` | No |
+| `c2` | Color secundario (hex) | `#60a5fa` | No |
+| `c3` | Color terciario (hex) | `#93c5fd` | No |
 
 *Si no se proporcionan, se usa la fecha actual.
+
+**Colores por defecto:** Paleta minimalista azul (#3b82f6, #60a5fa, #93c5fd)
 
 #### Ejemplos de Uso:
 

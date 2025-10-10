@@ -9,62 +9,83 @@
 <body class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 min-h-screen">
     <!-- Header -->
     <header class="bg-white/10 backdrop-blur-md border-b border-white/20">
-        <div class="container mx-auto px-4 py-6">
-            <h1 class="text-4xl md:text-5xl font-bold text-white text-center">
-                ⏰ TimeMachine
-            </h1>
-            <p class="text-center text-white/90 mt-2 text-lg">
+        <div class="container mx-auto px-4 py-4 sm:py-6">
+            <div class="flex justify-between items-center mb-2">
+                <div class="flex-1"></div>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center flex-1">
+                    ⏰ TimeMachine
+                </h1>
+                <div class="flex-1 flex justify-end">
+                    <a href="admin.html" 
+                       class="px-3 sm:px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition font-semibold text-xs sm:text-sm backdrop-blur-sm whitespace-nowrap">
+                        ⚙️ Admin
+                    </a>
+                </div>
+            </div>
+            <p class="text-center text-white/90 mt-2 text-sm sm:text-base md:text-lg px-2">
                 Temporizadores y Calculador de Semanas - Embed Friendly
             </p>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-12">
+    <main class="container mx-auto px-4 py-6 sm:py-8 md:py-12">
         <!-- Sección de Temporizador -->
-        <section class="mb-16">
-            <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 flex items-center">
-                    <span class="text-4xl mr-3">⏳</span>
-                    Temporizador - Cuenta Regresiva
-                </h2>
-                <p class="text-gray-600 mb-6">
+        <section class="mb-8 sm:mb-12 md:mb-16">
+            <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12">
+                <div class="mb-4">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2 flex flex-col sm:flex-row items-start sm:items-center">
+                        <span class="text-3xl sm:text-4xl mr-0 sm:mr-3 mb-2 sm:mb-0">⏳</span>
+                        <span>Temporizador - Cuenta Regresiva</span>
+                    </h2>
+                </div>
+                <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
                     Crea una cuenta regresiva personalizada pasando parámetros por URL. Perfecta para embeber en iframes.
                 </p>
 
-                <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 mb-6">
-                    <h3 class="text-white font-semibold mb-3 text-xl">Ejemplo en vivo:</h3>
-                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6">
+                    <h3 class="text-white font-semibold mb-3 text-lg sm:text-xl">Ejemplo en vivo:</h3>
+                    <div class="bg-white rounded-lg sm:rounded-xl overflow-hidden shadow-lg">
                         <iframe 
                             src="temporizador.html?title=Año Nuevo 2026&y=2026&m=1&d=1&h=0&min=0" 
-                            class="w-full h-96"
+                            class="w-full h-64 sm:h-80 md:h-96"
                             frameborder="0">
                         </iframe>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 rounded-xl p-6">
-                    <h3 class="font-bold text-gray-800 mb-3 text-lg">Parámetros disponibles:</h3>
-                    <ul class="space-y-2 text-gray-700">
-                        <li><code class="bg-purple-100 px-2 py-1 rounded">title</code> - Título del evento</li>
-                        <li><code class="bg-purple-100 px-2 py-1 rounded">y</code> - Año (ej: 2026)</li>
-                        <li><code class="bg-purple-100 px-2 py-1 rounded">m</code> - Mes (1-12)</li>
-                        <li><code class="bg-purple-100 px-2 py-1 rounded">d</code> - Día (1-31)</li>
-                        <li><code class="bg-purple-100 px-2 py-1 rounded">h</code> - Hora (0-23, opcional)</li>
-                        <li><code class="bg-purple-100 px-2 py-1 rounded">min</code> - Minutos (0-59, opcional)</li>
+                <div class="bg-gray-50 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                    <h3 class="font-bold text-gray-800 mb-3 text-base sm:text-lg">Parámetros disponibles:</h3>
+                    <ul class="space-y-2 text-xs sm:text-sm md:text-base text-gray-700">
+                        <li class="break-words"><code class="bg-purple-100 px-2 py-1 rounded text-xs sm:text-sm">title</code> - Título del evento</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded text-xs sm:text-sm">y</code> - Año (ej: 2026)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded text-xs sm:text-sm">m</code> - Mes (1-12)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded text-xs sm:text-sm">d</code> - Día (1-31)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded text-xs sm:text-sm">h</code> - Hora (0-23, opcional)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded text-xs sm:text-sm">min</code> - Minutos (0-59, opcional)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded text-xs sm:text-sm">c1</code> - Color 1 (ej: #3b82f6, opcional)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded text-xs sm:text-sm">c2</code> - Color 2 (ej: #60a5fa, opcional)</li>
+                        <li><code class="bg-purple-100 px-2 py-1 rounded text-xs sm:text-sm">c3</code> - Color 3 (ej: #93c5fd, opcional)</li>
                     </ul>
                     
-                    <div class="mt-4 bg-white rounded-lg p-4">
-                        <p class="font-semibold text-gray-800 mb-2">Ejemplo de uso:</p>
-                        <code class="text-sm text-purple-600 break-all">
+                    <div class="mt-4 bg-white rounded-lg p-3 sm:p-4">
+                        <p class="font-semibold text-gray-800 mb-2 text-sm sm:text-base">Ejemplo básico:</p>
+                        <code class="text-xs sm:text-sm text-purple-600 break-all block">
                             temporizador.html?title=Mi Evento&y=2026&m=12&d=25&h=18&min=30
+                        </code>
+                    </div>
+
+                    <div class="mt-4 bg-white rounded-lg p-3 sm:p-4">
+                        <p class="font-semibold text-gray-800 mb-2 text-sm sm:text-base">Con colores personalizados (verde):</p>
+                        <code class="text-xs sm:text-sm text-purple-600 break-all block">
+                            temporizador.html?title=Evento&y=2026&m=6&d=15&c1=%2310b981&c2=%2334d399&c3=%236ee7b7
                         </code>
                     </div>
                 </div>
 
-                <div class="mt-6 flex justify-center">
+                <div class="mt-4 sm:mt-6 flex justify-center">
                     <a href="temporizador.html?title=Año Nuevo 2026&y=2026&m=1&d=1" 
                        target="_blank"
-                       class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition">
+                       class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition text-sm sm:text-base w-full sm:w-auto text-center">
                         Abrir Temporizador
                     </a>
                 </div>
@@ -73,39 +94,44 @@
 
         <!-- Sección de Calculador de Semanas -->
         <section>
-            <div class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 flex items-center">
-                    <span class="text-4xl mr-3">📅</span>
-                    Calculador de Semanas
-                </h2>
-                <p class="text-gray-600 mb-6">
+            <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 lg:p-12">
+                <div class="mb-4">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2 flex flex-col sm:flex-row items-start sm:items-center">
+                        <span class="text-3xl sm:text-4xl mr-0 sm:mr-3 mb-2 sm:mb-0">📅</span>
+                        <span>Calculador de Semanas</span>
+                    </h2>
+                </div>
+                <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
                     Calcula en qué semana estamos desde una fecha de inicio y muestra actividades programadas por semana.
                 </p>
 
-                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl p-6 mb-6">
-                    <h3 class="text-white font-semibold mb-3 text-xl">Ejemplo en vivo:</h3>
-                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6">
+                    <h3 class="text-white font-semibold mb-3 text-lg sm:text-xl">Ejemplo en vivo:</h3>
+                    <div class="bg-white rounded-lg sm:rounded-xl overflow-hidden shadow-lg">
                         <iframe 
                             id="semanaIframe"
                             src="" 
-                            class="w-full h-[600px]"
+                            class="w-full h-96 sm:h-[500px] md:h-[600px]"
                             frameborder="0">
                         </iframe>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 rounded-xl p-6">
-                    <h3 class="font-bold text-gray-800 mb-3 text-lg">Parámetros disponibles:</h3>
-                    <ul class="space-y-2 text-gray-700 mb-4">
-                        <li><code class="bg-blue-100 px-2 py-1 rounded">y</code> - Año de inicio (ej: 2025)</li>
-                        <li><code class="bg-blue-100 px-2 py-1 rounded">m</code> - Mes de inicio (1-12)</li>
-                        <li><code class="bg-blue-100 px-2 py-1 rounded">d</code> - Día de inicio (1-31)</li>
-                        <li><code class="bg-blue-100 px-2 py-1 rounded">activities</code> - JSON con actividades por semana (URL encoded)</li>
+                <div class="bg-gray-50 rounded-lg sm:rounded-xl p-4 sm:p-6">
+                    <h3 class="font-bold text-gray-800 mb-3 text-base sm:text-lg">Parámetros disponibles:</h3>
+                    <ul class="space-y-2 text-xs sm:text-sm md:text-base text-gray-700 mb-4">
+                        <li><code class="bg-blue-100 px-2 py-1 rounded text-xs sm:text-sm">y</code> - Año de inicio (ej: 2025)</li>
+                        <li><code class="bg-blue-100 px-2 py-1 rounded text-xs sm:text-sm">m</code> - Mes de inicio (1-12)</li>
+                        <li><code class="bg-blue-100 px-2 py-1 rounded text-xs sm:text-sm">d</code> - Día de inicio (1-31)</li>
+                        <li class="break-words"><code class="bg-blue-100 px-2 py-1 rounded text-xs sm:text-sm">activities</code> - JSON con actividades por semana (URL encoded)</li>
+                        <li><code class="bg-blue-100 px-2 py-1 rounded text-xs sm:text-sm">c1</code> - Color 1 (ej: #3b82f6, opcional)</li>
+                        <li><code class="bg-blue-100 px-2 py-1 rounded text-xs sm:text-sm">c2</code> - Color 2 (ej: #60a5fa, opcional)</li>
+                        <li><code class="bg-blue-100 px-2 py-1 rounded text-xs sm:text-sm">c3</code> - Color 3 (ej: #93c5fd, opcional)</li>
                     </ul>
 
-                    <div class="bg-white rounded-lg p-4 mb-4">
-                        <p class="font-semibold text-gray-800 mb-2">Formato del JSON de actividades:</p>
-                        <pre class="text-sm text-gray-700 bg-gray-50 p-3 rounded overflow-x-auto"><code>{
+                    <div class="bg-white rounded-lg p-3 sm:p-4 mb-4">
+                        <p class="font-semibold text-gray-800 mb-2 text-sm sm:text-base">Formato del JSON de actividades:</p>
+                        <pre class="text-xs sm:text-sm text-gray-700 bg-gray-50 p-2 sm:p-3 rounded overflow-x-auto"><code>{
   "1": ["Entrega de documentos", "Análisis de sistema"],
   "2": ["Evaluación 30%", "Análisis de sistema"],
   "3": ["Desarrollo de prototipos", "Reunión de equipo"],
@@ -113,18 +139,18 @@
 }</code></pre>
                     </div>
                     
-                    <div class="bg-white rounded-lg p-4">
-                        <p class="font-semibold text-gray-800 mb-2">Ejemplo de URL completa:</p>
+                    <div class="bg-white rounded-lg p-3 sm:p-4">
+                        <p class="font-semibold text-gray-800 mb-2 text-sm sm:text-base">Ejemplo de URL completa:</p>
                         <code class="text-xs text-blue-600 break-all block">
                             semana.html?y=2025&m=1&d=1&activities=%7B%221%22%3A%5B%22Entrega%20de%20documentos%22%2C%22An%C3%A1lisis%20de%20sistema%22%5D%2C%222%22%3A%5B%22Evaluaci%C3%B3n%2030%25%22%2C%22An%C3%A1lisis%20de%20sistema%22%5D%7D
                         </code>
                     </div>
                 </div>
 
-                <div class="mt-6 flex justify-center">
+                <div class="mt-4 sm:mt-6 flex justify-center">
                     <a href="semana.html?y=2025&m=1&d=1" 
                        target="_blank"
-                       class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition">
+                       class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition text-sm sm:text-base w-full sm:w-auto text-center">
                         Abrir Calculador
                     </a>
                 </div>
@@ -132,9 +158,9 @@
         </section>
 
         <!-- Footer -->
-        <footer class="mt-16 text-center text-white/80 pb-8">
-            <p class="text-lg mb-2">Creado con ❤️ usando Tailwind CSS</p>
-            <p class="text-sm">Listo para embeber en iframes y compartir</p>
+        <footer class="mt-8 sm:mt-12 md:mt-16 text-center text-white/80 pb-6 sm:pb-8 px-4">
+            <p class="text-base sm:text-lg mb-2">Creado con ❤️ usando Tailwind CSS</p>
+            <p class="text-xs sm:text-sm">Listo para embeber en iframes y compartir</p>
         </footer>
     </main>
 
