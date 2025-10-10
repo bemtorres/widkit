@@ -353,7 +353,7 @@
             document.getElementById('t-color2-hex').textContent = color2.toUpperCase();
             document.getElementById('t-color3-hex').textContent = color3.toUpperCase();
             
-            const url = `temporizador.html?title=${title}&y=${year}&m=${month}&d=${day}&h=${hour}&min=0&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}`;
+            const url = `cuentaregresiva.html?title=${title}&y=${year}&m=${month}&d=${day}&h=${hour}&min=0&c1=${encodeURIComponent(color1)}&c2=${encodeURIComponent(color2)}&c3=${encodeURIComponent(color3)}`;
             document.getElementById('t-url').value = url;
             document.getElementById('preview-temporizador').src = url;
         }

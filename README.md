@@ -27,7 +27,7 @@ Accede directamente: `admin.html`
 
 ---
 
-### 1. **temporizador.html** - Cuenta Regresiva
+### 1. **cuentaregresiva.html** - Cuenta Regresiva
 
 Crea una cuenta regresiva elegante y animada hacia cualquier fecha y hora.
 
@@ -60,18 +60,18 @@ Crea una cuenta regresiva elegante y animada hacia cualquier fecha y hora.
 
 **Cuenta regresiva para Año Nuevo:**
 ```
-temporizador.html?title=Año Nuevo 2026&y=2026&m=1&d=1&h=0&min=0
+cuentaregresiva.html?title=Año Nuevo 2026&y=2026&m=1&d=1&h=0&min=0
 ```
 
 **Cuenta regresiva para Navidad:**
 ```
-temporizador.html?title=Navidad 2025&y=2025&m=12&d=25&h=18&min=30
+cuentaregresiva.html?title=Navidad 2025&y=2025&m=12&d=25&h=18&min=30
 ```
 
 **Embeber en iframe:**
 ```html
 <iframe 
-    src="temporizador.html?title=Mi Evento&y=2026&m=6&d=15" 
+    src="cuentaregresiva.html?title=Mi Evento&y=2026&m=6&d=15" 
     width="100%" 
     height="400"
     frameborder="0">
@@ -219,7 +219,7 @@ Luego visita: `http://localhost:8000`
 ### URLs de las herramientas:
 - **Demo principal:** `https://TU_USUARIO.github.io/timemachine/`
 - **Administrador:** `https://TU_USUARIO.github.io/timemachine/admin.html`
-- **Cuenta Regresiva:** `https://TU_USUARIO.github.io/timemachine/temporizador.html`
+- **Cuenta Regresiva:** `https://TU_USUARIO.github.io/timemachine/cuentaregresiva.html`
 - **Calculador de Semanas:** `https://TU_USUARIO.github.io/timemachine/semana.html`
 
 ## 💡 Casos de Uso
