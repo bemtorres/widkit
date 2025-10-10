@@ -1,10 +1,10 @@
-# 🦉 Buo - Widgets Educativos Inteligentes
+# 🦉 WidKit - Widgets que Funcionan para Todo
 
-> **"Como el búho sabio, Buo conoce todo sobre tu tiempo"**
+> **"Como el búho sabio, WidKit conoce todo sobre tu tiempo"**
 
-**Buo** es una plataforma de widgets educativos embebibles diseñada para docentes y profesionales. Crea, configura e inserta temporizadores, calculadores de semanas y herramientas interactivas en cualquier página web, **sin base de datos** y totalmente personalizables.
+**WidKit** es una plataforma de widgets educativos embebibles diseñada para docentes y profesionales. Crea, configura e inserta temporizadores, calculadores de semanas y herramientas interactivas en cualquier página web, **sin base de datos** y totalmente personalizables.
 
-## ✨ ¿Por qué Buo?
+## ✨ ¿Por qué WidKit?
 
 🎯 **Para educación:** Calendarios de curso, planificación de entregas, seguimiento de semanas de clase
 
@@ -22,13 +22,13 @@
 
 ## 🚀 Inicio Rápido
 
-### 📦 Explora Buo
+### 📦 Explora WidKit
 Abre `index.html` para ver el dashboard interactivo con todas las herramientas.
 
 ### ⚙️ Configura tu Widget
 Ve a `admin.html` para crear y personalizar tus widgets con el panel de administración visual.
 
-## 📋 Herramientas Incluidas en Buo
+## 📋 Herramientas Incluidas en WidKit
 
 ### 🆕 **admin.html** - Centro de Control
 
@@ -180,7 +180,7 @@ Página principal que muestra ejemplos en vivo de ambas herramientas con documen
 
 ## 🛠️ Tecnología
 
-Buo está construido con tecnologías web modernas y eficientes:
+WidKit está construido con tecnologías web modernas y eficientes:
 
 | Tecnología | Propósito |
 |------------|-----------|
