@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplos de Widgets - WidKit</title>
+    <meta name="description" content="Galería de ejemplos de todos los widgets de WidKit con diferentes configuraciones">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .example-card {
+            transition: all 0.3s ease;
+        }
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl">
+                        🦉
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900">WidKit - Ejemplos</h1>
+                        <p class="text-xs text-slate-500">Galería de widgets configurados</p>
+                    </div>
+                </div>
+                <a href="index.html" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold text-sm transition">
+                    ← Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="bg-gradient-to-r from-amber-500 to-orange-600 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">📚 Galería de Ejemplos</h2>
+            <p class="text-xl opacity-90 mb-6">35+ variantes de widgets listas para usar</p>
+            <p class="text-sm opacity-80">Haz clic en "📋 Copiar" para obtener el código al instante</p>
+        </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <div class="sticky top-16 z-40 bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex overflow-x-auto gap-2 py-4 scrollbar-thin">
+                <button onclick="showTab('countdown')" class="tab-btn active px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="countdown">
+                    ⏱️ Cuenta Regresiva
+                </button>
+                <button onclick="showTab('chronometer')" class="tab-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="chronometer">
+                    🥇 Cronómetro
+                </button>
+                <button onclick="showTab('weeks')" class="tab-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="weeks">
+                    📅 Semanas
+                </button>
+                <button onclick="showTab('raffle')" class="tab-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="raffle">
+                    🎲 Sorteo
+                </button>
+                <button onclick="showTab('qr')" class="tab-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="qr">
+                    📱 Código QR
+                </button>
+                <button onclick="showTab('roulette')" class="tab-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="roulette">
+                    🎯 Selector
+                </button>
+                <button onclick="showTab('grades')" class="tab-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="grades">
+                    🔢 Notas
+                </button>
+                <button onclick="showTab('teams')" class="tab-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="teams">
+                    👥 Equipos
+                </button>
+                <button onclick="showTab('pomodoro')" class="tab-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="pomodoro">
+                    ⏲️ Pomodoro
+                </button>
+                <button onclick="showTab('voting')" class="tab-btn px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold text-sm whitespace-nowrap transition" data-tab="voting">
+                    🗳️ Votación
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- CUENTA REGRESIVA -->
+        <div id="countdown" class="tab-content active">
+            <div class="mb-8">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">⏱️ Cuenta Regresiva - 8 Variantes</h3>
+                <p class="text-slate-600">Diferentes estilos y casos de uso para temporizadores</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Ejemplo 1: Examen Final -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
+                        <h4 class="text-white font-bold text-lg">1. Examen Final - Estilo Clásico</h4>
+                        <p class="text-blue-100 text-sm">Azul profesional, con cards</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cuentaregresiva.html?title=Examen%20Final&y=2025&m=12&d=15&h=14&c1=%233b82f6&c2=%2360a5fa&c3=%2393c5fd&showCards=1" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cuentaregresiva.html?title=Examen%20Final&y=2025&m=12&d=15&h=14&c1=%233b82f6&c2=%2360a5fa&c3=%2393c5fd&showCards=1" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejemplo 2: Entrega de Proyecto -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-4">
+                        <h4 class="text-white font-bold text-lg">2. Entrega de Proyecto - Verde</h4>
+                        <p class="text-green-100 text-sm">Minimalista, sin cards</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cuentaregresiva.html?title=Entrega%20Proyecto%20Final&y=2025&m=11&d=30&h=23&min=59&c1=%2310b981&c2=%2334d399&c3=%236ee7b7&bg=%23f0fdf4&showCards=0&font=system" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cuentaregresiva.html?title=Entrega%20Proyecto%20Final&y=2025&m=11&d=30&h=23&min=59&c1=%2310b981&c2=%2334d399&c3=%236ee7b7&bg=%23f0fdf4&showCards=0&font=system" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejemplo 3: Lanzamiento -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-600 p-4">
+                        <h4 class="text-white font-bold text-lg">3. Lanzamiento de Producto</h4>
+                        <p class="text-purple-100 text-sm">Degradado vibrante, tipografía moderna</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cuentaregresiva.html?title=Gran%20Lanzamiento&y=2026&m=1&d=1&h=0&c1=%23a855f7&c2=%23ec4899&c3=%23f472b6&bg=%23fdf4ff&showCards=1&font=modern" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cuentaregresiva.html?title=Gran%20Lanzamiento&y=2026&m=1&d=1&h=0&c1=%23a855f7&c2=%23ec4899&c3=%23f472b6&bg=%23fdf4ff&showCards=1&font=modern" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-purple-500 hover:bg-purple-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejemplo 4: Conferencia -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-600 p-4">
+                        <h4 class="text-white font-bold text-lg">4. Conferencia Educativa</h4>
+                        <p class="text-orange-100 text-sm">Naranja cálido, tipografía elegante</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cuentaregresiva.html?title=Conferencia%20Anual&y=2025&m=10&d=20&h=9&c1=%23f97316&c2=%23fb923c&c3=%23fdba74&bg=%23fff7ed&showCards=1&font=elegant" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cuentaregresiva.html?title=Conferencia%20Anual&y=2025&m=10&d=20&h=9&c1=%23f97316&c2=%23fb923c&c3=%23fdba74&bg=%23fff7ed&showCards=1&font=elegant" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejemplo 5: Vacaciones -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-cyan-500 to-blue-600 p-4">
+                        <h4 class="text-white font-bold text-lg">5. Vacaciones de Verano</h4>
+                        <p class="text-cyan-100 text-sm">Azul cielo, tipografía redondeada</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cuentaregresiva.html?title=Vacaciones%20de%20Verano&y=2025&m=7&d=1&c1=%2306b6d4&c2=%2322d3ee&c3=%2367e8f9&bg=%23ecfeff&showCards=0&font=rounded" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cuentaregresiva.html?title=Vacaciones%20de%20Verano&y=2025&m=7&d=1&c1=%2306b6d4&c2=%2322d3ee&c3=%2367e8f9&bg=%23ecfeff&showCards=0&font=rounded" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-cyan-500 hover:bg-cyan-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejemplo 6: Black Friday -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-4">
+                        <h4 class="text-white font-bold text-lg">6. Black Friday - Oscuro</h4>
+                        <p class="text-slate-300 text-sm">Tema oscuro elegante</p>
+                    </div>
+                    <div class="p-4 bg-slate-900">
+                        <iframe src="app/cuentaregresiva.html?title=Black%20Friday&y=2025&m=11&d=28&h=0&c1=%23fbbf24&c2=%23f59e0b&c3=%23d97706&bg=%231e293b&showCards=1&font=modern" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cuentaregresiva.html?title=Black%20Friday&y=2025&m=11&d=28&h=0&c1=%23fbbf24&c2=%23f59e0b&c3=%23d97706&bg=%231e293b&showCards=1&font=modern" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejemplo 7: Año Nuevo -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-indigo-500 to-purple-600 p-4">
+                        <h4 class="text-white font-bold text-lg">7. Año Nuevo 2026</h4>
+                        <p class="text-indigo-100 text-sm">Celebración, colores festivos</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cuentaregresiva.html?title=Año%20Nuevo%202026&y=2026&m=1&d=1&h=0&c1=%236366f1&c2=%238b5cf6&c3=%23a78bfa&bg=%23f5f3ff&showCards=1&font=elegant&message=¡Feliz%20Año%20Nuevo!" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cuentaregresiva.html?title=Año%20Nuevo%202026&y=2026&m=1&d=1&h=0&c1=%236366f1&c2=%238b5cf6&c3=%23a78bfa&bg=%23f5f3ff&showCards=1&font=elegant&message=¡Feliz%20Año%20Nuevo!" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ejemplo 8: Sprint -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-teal-500 to-green-600 p-4">
+                        <h4 class="text-white font-bold text-lg">8. Sprint de Desarrollo</h4>
+                        <p class="text-teal-100 text-sm">Tema tech, monospace</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cuentaregresiva.html?title=Sprint%202%20-%20Fin&y=2025&m=10&d=25&h=17&c1=%2314b8a6&c2=%232dd4bf&c3=%235eead4&bg=%23f0fdfa&showCards=0&font=mono" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cuentaregresiva.html?title=Sprint%202%20-%20Fin&y=2025&m=10&d=25&h=17&c1=%2314b8a6&c2=%232dd4bf&c3=%235eead4&bg=%23f0fdfa&showCards=0&font=mono" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-teal-500 hover:bg-teal-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CRONÓMETRO -->
+        <div id="chronometer" class="tab-content">
+            <div class="mb-8">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">🥇 Cronómetro Ascendente - 6 Variantes</h3>
+                <p class="text-slate-600">Cuenta el tiempo transcurrido desde un evento</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Cronómetro 1: Desde Lanzamiento -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-emerald-500 to-green-600 p-4">
+                        <h4 class="text-white font-bold text-lg">1. Tiempo desde Lanzamiento</h4>
+                        <p class="text-emerald-100 text-sm">Verde corporativo</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cronometro.html?title=En%20línea%20desde&y=2024&m=1&d=1&h=0&c1=%2310b981&c2=%2334d399&c3=%236ee7b7" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cronometro.html?title=En%20línea%20desde&y=2024&m=1&d=1&h=0&c1=%2310b981&c2=%2334d399&c3=%236ee7b7" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cronómetro 2: Días sin accidentes -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-cyan-600 p-4">
+                        <h4 class="text-white font-bold text-lg">2. Días Sin Accidentes</h4>
+                        <p class="text-blue-100 text-sm">Seguridad industrial</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cronometro.html?title=Días%20sin%20accidentes&y=2024&m=6&d=15&c1=%233b82f6&c2=%2306b6d4&c3=%2322d3ee&font=system" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cronometro.html?title=Días%20sin%20accidentes&y=2024&m=6&d=15&c1=%233b82f6&c2=%2306b6d4&c3=%2322d3ee&font=system" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cronómetro 3: Tiempo de Servicio -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-600 p-4">
+                        <h4 class="text-white font-bold text-lg">3. Tiempo de Servicio</h4>
+                        <p class="text-purple-100 text-sm">Recursos humanos</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cronometro.html?title=Colaborando%20desde&y=2023&m=3&d=10&h=9&c1=%23a855f7&c2=%23d946ef&c3=%23f0abfc&font=elegant" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cronometro.html?title=Colaborando%20desde&y=2023&m=3&d=10&h=9&c1=%23a855f7&c2=%23d946ef&c3=%23f0abfc&font=elegant" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-purple-500 hover:bg-purple-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cronómetro 4: Proyecto Iniciado -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-amber-500 to-orange-600 p-4">
+                        <h4 class="text-white font-bold text-lg">4. Proyecto en Marcha</h4>
+                        <p class="text-amber-100 text-sm">Gestión de proyectos</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cronometro.html?title=Proyecto%20iniciado%20hace&y=2024&m=9&d=1&c1=%23f59e0b&c2=%23fb923c&c3=%23fbbf24&font=modern" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cronometro.html?title=Proyecto%20iniciado%20hace&y=2024&m=9&d=1&c1=%23f59e0b&c2=%23fb923c&c3=%23fbbf24&font=modern" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cronómetro 5: Aniversario -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-rose-500 to-red-600 p-4">
+                        <h4 class="text-white font-bold text-lg">5. Aniversario de Empresa</h4>
+                        <p class="text-rose-100 text-sm">Celebración corporativa</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/cronometro.html?title=Celebrando%20juntos%20desde&y=2020&m=5&d=20&c1=%23f43f5e&c2=%23fb7185&c3=%23fda4af&font=elegant" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cronometro.html?title=Celebrando%20juntos%20desde&y=2020&m=5&d=20&c1=%23f43f5e&c2=%23fb7185&c3=%23fda4af&font=elegant" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cronómetro 6: Uptime del Servidor -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-slate-700 to-slate-900 p-4">
+                        <h4 class="text-white font-bold text-lg">6. Uptime del Servidor</h4>
+                        <p class="text-slate-300 text-sm">IT / Tecnología</p>
+                    </div>
+                    <div class="p-4 bg-slate-50">
+                        <iframe src="app/cronometro.html?title=Servidor%20activo%20desde&y=2024&m=1&d=1&h=0&c1=%2364748b&c2=%2394a3b8&c3=%23cbd5e1&font=mono" 
+                                width="100%" height="400" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/cronometro.html?title=Servidor%20activo%20desde&y=2024&m=1&d=1&h=0&c1=%2364748b&c2=%2394a3b8&c3=%23cbd5e1&font=mono" width="100%" height="400" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SORTEO -->
+        <div id="raffle" class="tab-content">
+            <div class="mb-8">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">🎲 Sorteo Interactivo - 7 Variantes</h3>
+                <p class="text-slate-600">Diferentes estilos y configuraciones de sorteos</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Sorteo 1: Clásico -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-600 p-4">
+                        <h4 class="text-white font-bold text-lg">1. Sorteo Clásico - 3 Ganadores</h4>
+                        <p class="text-purple-100 text-sm">Estilo medallas</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/sorteo.html?title=Sorteo%20Mensual&list=Ana,Benja,Carlos,Diana,Elena,Fernando,Gloria,Hugo,Isabel,Javier&time=3&win=3&style=medal" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/sorteo.html?title=Sorteo%20Mensual&list=Ana,Benja,Carlos,Diana,Elena,Fernando,Gloria,Hugo,Isabel,Javier&time=3&win=3&style=medal" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-purple-500 hover:bg-purple-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sorteo 2: Trofeos -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-amber-500 to-orange-600 p-4">
+                        <h4 class="text-white font-bold text-lg">2. Competencia - Estilo Trofeos</h4>
+                        <p class="text-amber-100 text-sm">5 ganadores, 5 segundos</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/sorteo.html?title=Concurso%20de%20Ideas&subtitle=Top%205%20Proyectos&list=Proyecto%20A,Proyecto%20B,Proyecto%20C,Proyecto%20D,Proyecto%20E,Proyecto%20F,Proyecto%20G,Proyecto%20H&time=5&win=5&style=trophy&c1=%23f59e0b&c2=%23fb923c&c3=%23f97316" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/sorteo.html?title=Concurso%20de%20Ideas&subtitle=Top%205%20Proyectos&list=Proyecto%20A,Proyecto%20B,Proyecto%20C,Proyecto%20D,Proyecto%20E,Proyecto%20F,Proyecto%20G,Proyecto%20H&time=5&win=5&style=trophy&c1=%23f59e0b&c2=%23fb923c&c3=%23f97316" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sorteo 3: Estrellas -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-4">
+                        <h4 class="text-white font-bold text-lg">3. Sorteo Rápido - Estrellas</h4>
+                        <p class="text-blue-100 text-sm">1 ganador, sin cuenta regresiva</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/sorteo.html?title=Ganador%20Instantáneo&list=María,Pedro,Lucía,Miguel,Carmen,Diego,Sofía,Andrés,Valentina,Mateo&time=0&win=1&style=star&c1=%233b82f6&c2=%236366f1&c3=%238b5cf6" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/sorteo.html?title=Ganador%20Instantáneo&list=María,Pedro,Lucía,Miguel,Carmen,Diego,Sofía,Andrés,Valentina,Mateo&time=0&win=1&style=star&c1=%233b82f6&c2=%236366f1&c3=%238b5cf6" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sorteo 4: Todos ganan -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-4">
+                        <h4 class="text-white font-bold text-lg">4. Orden Aleatorio - Todos Ganan</h4>
+                        <p class="text-green-100 text-sm">win=all para orden de presentación</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/sorteo.html?title=Orden%20de%20Presentación&subtitle=Exposiciones%20de%20hoy&list=Equipo%201,Equipo%202,Equipo%203,Equipo%204,Equipo%205&time=2&win=all&style=medal&c1=%2310b981&c2=%2334d399&c3=%236ee7b7" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/sorteo.html?title=Orden%20de%20Presentación&subtitle=Exposiciones%20de%20hoy&list=Equipo%201,Equipo%202,Equipo%203,Equipo%204,Equipo%205&time=2&win=all&style=medal&c1=%2310b981&c2=%2334d399&c3=%236ee7b7" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sorteo 5: Premios -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-rose-500 to-pink-600 p-4">
+                        <h4 class="text-white font-bold text-lg">5. Sorteo de Premios</h4>
+                        <p class="text-rose-100 text-sm">2 afortunados</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/sorteo.html?title=Gran%20Sorteo%20de%20Premios&subtitle=¡Mucha%20suerte!&list=Julia,Tomás,Laura,Sergio,Patricia,Roberto,Claudia,Felipe,Natalia,Raúl&time=4&win=2&style=trophy&c1=%23f43f5e&c2=%23ec4899&c3=%23f472b6" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/sorteo.html?title=Gran%20Sorteo%20de%20Premios&subtitle=¡Mucha%20suerte!&list=Julia,Tomás,Laura,Sergio,Patricia,Roberto,Claudia,Felipe,Natalia,Raúl&time=4&win=2&style=trophy&c1=%23f43f5e&c2=%23ec4899&c3=%23f472b6" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sorteo 6: Grupos pequeños -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-cyan-500 to-teal-600 p-4">
+                        <h4 class="text-white font-bold text-lg">6. Sorteo Grupos Pequeños</h4>
+                        <p class="text-cyan-100 text-sm">4 participantes, 1 ganador</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/sorteo.html?title=Selección%20Aleatoria&list=Opción%20A,Opción%20B,Opción%20C,Opción%20D&time=1&win=1&style=star&c1=%2306b6d4&c2=%2314b8a6&c3=%232dd4bf" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/sorteo.html?title=Selección%20Aleatoria&list=Opción%20A,Opción%20B,Opción%20C,Opción%20D&time=1&win=1&style=star&c1=%2306b6d4&c2=%2314b8a6&c3=%232dd4bf" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-cyan-500 hover:bg-cyan-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sorteo 7: Oscuro -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-4">
+                        <h4 class="text-white font-bold text-lg">7. Tema Oscuro Premium</h4>
+                        <p class="text-slate-300 text-sm">Elegante y moderno</p>
+                    </div>
+                    <div class="p-4 bg-slate-900">
+                        <iframe src="app/sorteo.html?title=Sorteo%20VIP&subtitle=Categoría%20Premium&list=VIP-001,VIP-002,VIP-003,VIP-004,VIP-005,VIP-006,VIP-007,VIP-008&time=3&win=3&style=trophy&c1=%23fbbf24&c2=%23f59e0b&c3=%23d97706" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/sorteo.html?title=Sorteo%20VIP&subtitle=Categoría%20Premium&list=VIP-001,VIP-002,VIP-003,VIP-004,VIP-005,VIP-006,VIP-007,VIP-008&time=3&win=3&style=trophy&c1=%23fbbf24&c2=%23f59e0b&c3=%23d97706" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Placeholders para otros tabs -->
+        <div id="weeks" class="tab-content">
+            <div class="text-center py-16">
+                <div class="text-6xl mb-4">📅</div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Calculador de Semanas</h3>
+                <p class="text-slate-600 mb-4">Próximamente: 8 variantes de calendario semanal</p>
+                <a href="admin/semana.html" class="inline-block px-6 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition">
+                    Ir al Configurador
+                </a>
+            </div>
+        </div>
+
+        <div id="qr" class="tab-content">
+            <div class="text-center py-16">
+                <div class="text-6xl mb-4">📱</div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Generador de Códigos QR</h3>
+                <p class="text-slate-600 mb-4">Próximamente: 6 variantes de códigos QR</p>
+                <a href="admin/qr.html" class="inline-block px-6 py-3 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 transition">
+                    Ir al Configurador
+                </a>
+            </div>
+        </div>
+
+        <div id="roulette" class="tab-content">
+            <div class="text-center py-16">
+                <div class="text-6xl mb-4">🎯</div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Selector de Estudiante</h3>
+                <p class="text-slate-600 mb-4">Próximamente: 5 variantes de ruleta</p>
+                <a href="admin/ruleta.html" class="inline-block px-6 py-3 bg-cyan-600 text-white rounded-lg font-bold hover:bg-cyan-700 transition">
+                    Ir al Configurador
+                </a>
+            </div>
+        </div>
+
+        <div id="grades" class="tab-content">
+            <div class="text-center py-16">
+                <div class="text-6xl mb-4">🔢</div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Calculadora de Notas</h3>
+                <p class="text-slate-600 mb-4">Próximamente: 7 variantes de calculadoras</p>
+                <a href="admin/notas.html" class="inline-block px-6 py-3 bg-purple-600 text-white rounded-lg font-bold hover:bg-purple-700 transition">
+                    Ir al Configurador
+                </a>
+            </div>
+        </div>
+
+        <div id="teams" class="tab-content">
+            <div class="text-center py-16">
+                <div class="text-6xl mb-4">👥</div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Generador de Equipos</h3>
+                <p class="text-slate-600 mb-4">Próximamente: 6 variantes de generadores</p>
+                <a href="admin/equipos.html" class="inline-block px-6 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition">
+                    Ir al Configurador
+                </a>
+            </div>
+        </div>
+
+        <!-- POMODORO TIMER -->
+        <div id="pomodoro" class="tab-content">
+            <div class="mb-8">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">⏲️ Pomodoro Timer - 6 Variantes</h3>
+                <p class="text-slate-600">Técnica de productividad con intervalos trabajo-descanso</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Pomodoro 1: Clásico -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-red-500 to-orange-600 p-4">
+                        <h4 class="text-white font-bold text-lg">1. Pomodoro Clásico</h4>
+                        <p class="text-red-100 text-sm">25 min trabajo / 5 min descanso / 4 sesiones</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/pomodoro.html?work=25&break=5&sessions=4" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/pomodoro.html?work=25&break=5&sessions=4" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pomodoro 2: Corto -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-cyan-600 p-4">
+                        <h4 class="text-white font-bold text-lg">2. Sesiones Cortas</h4>
+                        <p class="text-blue-100 text-sm">15 min trabajo / 3 min descanso / 6 sesiones</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/pomodoro.html?title=Sesiones%20Cortas&work=15&break=3&sessions=6&c1=%233b82f6&c2=%2306b6d4&c3=%2322d3ee" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/pomodoro.html?title=Sesiones%20Cortas&work=15&break=3&sessions=6&c1=%233b82f6&c2=%2306b6d4&c3=%2322d3ee" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pomodoro 3: Largo -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-4">
+                        <h4 class="text-white font-bold text-lg">3. Sesiones Largas</h4>
+                        <p class="text-green-100 text-sm">50 min trabajo / 10 min descanso / 3 sesiones</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/pomodoro.html?title=Sesión%20Intensiva&work=50&break=10&sessions=3&c1=%2310b981&c2=%2334d399&c3=%236ee7b7" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/pomodoro.html?title=Sesión%20Intensiva&work=50&break=10&sessions=3&c1=%2310b981&c2=%2334d399&c3=%236ee7b7" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pomodoro 4: Estudio -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-600 p-4">
+                        <h4 class="text-white font-bold text-lg">4. Sesión de Estudio</h4>
+                        <p class="text-purple-100 text-sm">30 min trabajo / 5 min descanso / 4 sesiones</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/pomodoro.html?title=Estudio%20Concentrado&work=30&break=5&sessions=4&c1=%23a855f7&c2=%23ec4899&c3=%23f472b6" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/pomodoro.html?title=Estudio%20Concentrado&work=30&break=5&sessions=4&c1=%23a855f7&c2=%23ec4899&c3=%23f472b6" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-purple-500 hover:bg-purple-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pomodoro 5: Autostart -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-amber-500 to-orange-600 p-4">
+                        <h4 class="text-white font-bold text-lg">5. Inicio Automático</h4>
+                        <p class="text-amber-100 text-sm">40 min trabajo / 5 min descanso / autostart</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/pomodoro.html?title=Modo%20Productivo&work=40&break=5&sessions=5&autostart=1&c1=%23f59e0b&c2=%23fb923c&c3=%23fbbf24" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/pomodoro.html?title=Modo%20Productivo&work=40&break=5&sessions=5&autostart=1&c1=%23f59e0b&c2=%23fb923c&c3=%23fbbf24" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pomodoro 6: Tema Oscuro -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-4">
+                        <h4 class="text-white font-bold text-lg">6. Tema Oscuro</h4>
+                        <p class="text-slate-300 text-sm">25 min / 5 min / fondo oscuro</p>
+                    </div>
+                    <div class="p-4 bg-slate-900">
+                        <iframe src="app/pomodoro.html?title=Focus%20Time&work=25&break=5&sessions=4&c1=%23fbbf24&c2=%23f59e0b&c3=%23d97706&bg=%231e293b&font=modern" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/pomodoro.html?title=Focus%20Time&work=25&break=5&sessions=4&c1=%23fbbf24&c2=%23f59e0b&c3=%23d97706&bg=%231e293b&font=modern" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-slate-600 hover:bg-slate-700 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VOTACIÓN EN VIVO -->
+        <div id="voting" class="tab-content">
+            <div class="mb-8">
+                <h3 class="text-3xl font-bold text-slate-900 mb-2">🗳️ Votación en Vivo - 6 Variantes</h3>
+                <p class="text-slate-600">Toma decisiones en clase con votación manual en tiempo real</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Votación 1: Decisión de Proyecto -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-indigo-500 to-purple-600 p-4">
+                        <h4 class="text-white font-bold text-lg">1. Decisión de Proyecto</h4>
+                        <p class="text-indigo-100 text-sm">¿Qué proyecto haremos?</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/votacion.html?question=¿Qué%20proyecto%20haremos?&alternatives=Energía%20Solar,Reciclaje,Huertos%20Urbanos,Agua%20Limpia" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/votacion.html?question=¿Qué%20proyecto%20haremos?&alternatives=Energía%20Solar,Reciclaje,Huertos%20Urbanos,Agua%20Limpia" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Votación 2: Tema de Clase -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-cyan-600 p-4">
+                        <h4 class="text-white font-bold text-lg">2. Tema de la Clase</h4>
+                        <p class="text-blue-100 text-sm">¿Qué tema estudiar primero?</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/votacion.html?question=¿Qué%20tema%20estudiamos%20primero?&alternatives=Tema%201:%20Introducción,Tema%202:%20Teoría,Tema%203:%20Práctica&c1=%233b82f6&c2=%2306b6d4" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/votacion.html?question=¿Qué%20tema%20estudiamos%20primero?&alternatives=Tema%201:%20Introducción,Tema%202:%20Teoría,Tema%203:%20Práctica&c1=%233b82f6&c2=%2306b6d4" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Votación 3: Actividad del Día -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-4">
+                        <h4 class="text-white font-bold text-lg">3. Actividad del Día</h4>
+                        <p class="text-green-100 text-sm">Elegir actividad recreativa</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/votacion.html?question=¿Qué%20actividad%20hacemos%20hoy?&alternatives=Debate,Juego%20Educativo,Video,Ejercicios,Proyecto&c1=%2310b981&c2=%2334d399" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/votacion.html?question=¿Qué%20actividad%20hacemos%20hoy?&alternatives=Debate,Juego%20Educativo,Video,Ejercicios,Proyecto&c1=%2310b981&c2=%2334d399" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Votación 4: Horario de Examen -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-600 p-4">
+                        <h4 class="text-white font-bold text-lg">4. Horario de Examen</h4>
+                        <p class="text-purple-100 text-sm">Decidir fecha del examen</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/votacion.html?question=¿Cuándo%20prefieres%20el%20examen?&alternatives=Lunes%208:00,Martes%2010:00,Miércoles%208:00,Jueves%2010:00&c1=%23a855f7&c2=%23ec4899" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/votacion.html?question=¿Cuándo%20prefieres%20el%20examen?&alternatives=Lunes%208:00,Martes%2010:00,Miércoles%208:00,Jueves%2010:00&c1=%23a855f7&c2=%23ec4899" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-purple-500 hover:bg-purple-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Votación 5: Opciones Simples -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-600 p-4">
+                        <h4 class="text-white font-bold text-lg">5. Sí o No Simple</h4>
+                        <p class="text-orange-100 text-sm">Decisión binaria rápida</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/votacion.html?question=¿Hacemos%20prueba%20grupal?&alternatives=Sí,No&c1=%23f97316&c2=%23dc2626" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/votacion.html?question=¿Hacemos%20prueba%20grupal?&alternatives=Sí,No&c1=%23f97316&c2=%23dc2626" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Votación 6: Múltiples Opciones -->
+                <div class="example-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="bg-gradient-to-r from-teal-500 to-cyan-600 p-4">
+                        <h4 class="text-white font-bold text-lg">6. Muchas Opciones</h4>
+                        <p class="text-teal-100 text-sm">Votación con 6 alternativas</p>
+                    </div>
+                    <div class="p-4">
+                        <iframe src="app/votacion.html?question=¿Qué%20libro%20leemos?&alternatives=El%20Principito,Cien%20Años,Don%20Quijote,1984,Fahrenheit%20451,Matar%20un%20Ruiseñor&c1=%2314b8a6&c2=%2306b6d4" 
+                                width="100%" height="700" frameborder="0" class="rounded-lg"></iframe>
+                    </div>
+                    <div class="p-4 border-t border-slate-200">
+                        <div class="code-block">
+                            <pre class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto"><code>&lt;iframe src="app/votacion.html?question=¿Qué%20libro%20leemos?&alternatives=El%20Principito,Cien%20Años,Don%20Quijote,1984,Fahrenheit%20451,Matar%20un%20Ruiseñor&c1=%2314b8a6&c2=%2306b6d4" width="100%" height="700" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copyCode(this)" class="copy-btn px-3 py-1.5 bg-teal-500 hover:bg-teal-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="text-4xl mb-4">🦉</div>
+            <h3 class="text-2xl font-bold mb-2">WidKit</h3>
+            <p class="text-slate-400 mb-4">Widgets educativos para todos</p>
+            <a href="index.html" class="text-amber-400 hover:text-amber-300 font-semibold">
+                Volver al Inicio →
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Sistema de tabs
+        function showTab(tabId) {
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remover active de todos los botones
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('bg-slate-100', 'hover:bg-slate-200');
+            });
+            
+            // Mostrar el contenido seleccionado
+            document.getElementById(tabId).classList.add('active');
+            
+            // Activar el botón correspondiente
+            const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('bg-slate-100', 'hover:bg-slate-200');
+            
+            // Scroll suave al top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Función para copiar código
+        function copyCode(button) {
+            const codeBlock = button.previousElementSibling;
+            const code = codeBlock.textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '✓ ¡Copiado!';
+                button.classList.add('bg-green-500');
+                button.classList.remove('bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-cyan-500', 'bg-amber-500', 'bg-emerald-500', 'bg-rose-500', 'bg-teal-500', 'bg-indigo-500', 'bg-slate-600');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('bg-green-500');
+                    // Restaurar el color original basado en el gradiente del header
+                    const card = button.closest('.example-card');
+                    const header = card.querySelector('div[class*="bg-gradient"]');
+                    
+                    if (header.className.includes('blue')) {
+                        button.classList.add('bg-blue-500');
+                    } else if (header.className.includes('green') || header.className.includes('emerald')) {
+                        button.classList.add('bg-green-500');
+                    } else if (header.className.includes('purple')) {
+                        button.classList.add('bg-purple-500');
+                    } else if (header.className.includes('orange')) {
+                        button.classList.add('bg-orange-500');
+                    } else if (header.className.includes('cyan')) {
+                        button.classList.add('bg-cyan-500');
+                    } else if (header.className.includes('amber')) {
+                        button.classList.add('bg-amber-500');
+                    } else if (header.className.includes('rose')) {
+                        button.classList.add('bg-rose-500');
+                    } else if (header.className.includes('teal')) {
+                        button.classList.add('bg-teal-500');
+                    } else if (header.className.includes('indigo')) {
+                        button.classList.add('bg-indigo-500');
+                    } else if (header.className.includes('slate')) {
+                        button.classList.add('bg-slate-600');
+                    }
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar:', err);
+                button.innerHTML = '❌ Error';
+                setTimeout(() => {
+                    button.innerHTML = '📋 Copiar';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
+

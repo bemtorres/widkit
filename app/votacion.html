@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votación en Vivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --color-1: #6366f1;
+            --color-2: #8b5cf6;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+            }
+        }
+        
+        .option-card {
+            animation: slideIn 0.5s ease-out;
+            transition: all 0.3s ease;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .vote-count {
+            font-variant-numeric: tabular-nums;
+            transition: all 0.3s ease;
+        }
+        
+        .winner-card {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--color-1);
+            pointer-events: none;
+            animation: confetti-fall 3s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4" id="mainBody" style="background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 100%);">
+    <div class="w-full max-w-4xl">
+        <!-- Header -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 mb-6 shadow-xl" id="headerCard">
+            <h1 id="pregunta" class="text-3xl font-bold text-center text-gray-800 mb-2"></h1>
+            <p class="text-center text-gray-600 text-sm">Presiona los botones para registrar los votos</p>
+        </div>
+
+        <!-- Opciones -->
+        <div id="opciones-container" class="space-y-4 mb-6">
+            <!-- Las opciones se generan dinámicamente -->
+        </div>
+
+        <!-- Botones de Control -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <button onclick="mostrarResultado()" 
+                    class="px-6 py-4 bg-white/95 backdrop-blur-sm hover:bg-white text-gray-800 font-bold rounded-xl shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                Ver Resultado
+            </button>
+            <button onclick="resetearVotacion()" 
+                    class="px-6 py-4 bg-white/95 backdrop-blur-sm hover:bg-white text-gray-800 font-bold rounded-xl shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Resetear
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center">
+            <a href="https://widkit.lol/" target="_blank" class="text-xs text-white/80 hover:text-white transition">
+                Powered by WidKit 🦉
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal de Resultado -->
+    <div id="resultado-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50" onclick="cerrarResultado(event)">
+        <div class="bg-white rounded-3xl p-8 max-w-2xl w-full transform transition-all" onclick="event.stopPropagation()">
+            <div class="text-center mb-6">
+                <div class="text-6xl mb-4">🏆</div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">¡Resultado Final!</h2>
+                <p class="text-gray-600">Alternativa ganadora</p>
+            </div>
+
+            <div id="ganador-display" class="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl p-6 mb-6 text-center">
+                <!-- Se llena dinámicamente -->
+            </div>
+
+            <div id="todas-opciones" class="space-y-3 mb-6">
+                <!-- Se llena dinámicamente -->
+            </div>
+
+            <button onclick="cerrarResultado()" 
+                    class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl hover:from-blue-700 hover:to-purple-700 transition">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Obtener parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Soportar ambos formatos: inglés (question/alternatives) y español (pregunta/alternativas)
+        const pregunta = urlParams.get('question') || urlParams.get('pregunta') || '¿Cuál es tu opción favorita?';
+        const alternativasParam = urlParams.get('alternatives') || urlParams.get('alternativas') || 'Opción A,Opción B,Opción C';
+        const color1 = urlParams.get('c1') || '#6366f1';
+        const color2 = urlParams.get('c2') || '#8b5cf6';
+
+        // Aplicar colores personalizados
+        document.documentElement.style.setProperty('--color-1', color1);
+        document.documentElement.style.setProperty('--color-2', color2);
+
+        // Parsear alternativas - soporta tanto formato JSON como lista separada por comas
+        let alternativas = [];
+        try {
+            // Intentar parsear como JSON (formato antiguo)
+            if (alternativasParam.startsWith('[')) {
+                alternativas = JSON.parse(decodeURIComponent(alternativasParam));
+            } else {
+                // Formato nuevo: lista separada por comas
+                alternativas = alternativasParam.split(',').map(a => a.trim()).filter(a => a !== '');
+            }
+        } catch(e) {
+            // Fallback: split por comas
+            alternativas = alternativasParam.split(',').map(a => a.trim()).filter(a => a !== '');
+        }
+        
+        // Si aún no hay alternativas, usar valores por defecto
+        if (alternativas.length === 0) {
+            alternativas = ['Opción A', 'Opción B', 'Opción C'];
+        }
+
+        // Estado de los votos
+        let votos = {};
+        alternativas.forEach(alt => {
+            votos[alt] = 0;
+        });
+
+        // Establecer pregunta
+        document.getElementById('pregunta').textContent = pregunta;
+
+        // Generar opciones
+        const container = document.getElementById('opciones-container');
+        alternativas.forEach((alternativa, index) => {
+            const card = document.createElement('div');
+            card.className = 'option-card bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg';
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-lg text-gray-800 mb-1">${alternativa}</h3>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
+                                <div id="bar-${index}" class="h-full transition-all duration-500 rounded-full" 
+                                     style="width: 0%; background: linear-gradient(90deg, ${color1}, ${color2});"></div>
+                            </div>
+                            <span class="vote-count text-2xl font-bold text-gray-800 w-16 text-right" id="count-${index}">0</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <button onclick="incrementarVoto('${alternativa}', ${index})" 
+                                class="w-12 h-12 rounded-lg font-bold text-xl transition transform hover:scale-110 active:scale-95 flex items-center justify-center shadow-md"
+                                style="background: linear-gradient(135deg, ${color1}, ${color2}); color: white;">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </button>
+                        <button onclick="decrementarVoto('${alternativa}', ${index})" 
+                                class="w-12 h-12 bg-gray-300 hover:bg-gray-400 rounded-lg font-bold text-xl text-gray-700 transition transform hover:scale-110 active:scale-95 flex items-center justify-center shadow-md">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M20 12H4"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        function incrementarVoto(alternativa, index) {
+            votos[alternativa]++;
+            actualizarVista();
+            animarBoton(event.target);
+        }
+
+        function decrementarVoto(alternativa, index) {
+            if (votos[alternativa] > 0) {
+                votos[alternativa]--;
+                actualizarVista();
+                animarBoton(event.target);
+            }
+        }
+
+        function actualizarVista() {
+            const totalVotos = Object.values(votos).reduce((a, b) => a + b, 0);
+            
+            alternativas.forEach((alternativa, index) => {
+                const count = votos[alternativa];
+                const porcentaje = totalVotos > 0 ? (count / totalVotos) * 100 : 0;
+                
+                document.getElementById(`count-${index}`).textContent = count;
+                document.getElementById(`bar-${index}`).style.width = `${porcentaje}%`;
+            });
+        }
+
+        function animarBoton(btn) {
+            btn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        function mostrarResultado() {
+            const totalVotos = Object.values(votos).reduce((a, b) => a + b, 0);
+            
+            if (totalVotos === 0) {
+                alert('¡No hay votos registrados aún!');
+                return;
+            }
+
+            // Encontrar ganador
+            let maxVotos = -1;
+            let ganador = '';
+            Object.entries(votos).forEach(([alt, count]) => {
+                if (count > maxVotos) {
+                    maxVotos = count;
+                    ganador = alt;
+                }
+            });
+
+            const porcentajeGanador = ((maxVotos / totalVotos) * 100).toFixed(1);
+
+            // Mostrar ganador
+            document.getElementById('ganador-display').innerHTML = `
+                <h3 class="text-2xl font-bold text-white mb-2">${ganador}</h3>
+                <p class="text-4xl font-bold text-white">${maxVotos} votos (${porcentajeGanador}%)</p>
+            `;
+
+            // Mostrar todas las opciones ordenadas
+            const opcionesOrdenadas = Object.entries(votos).sort((a, b) => b[1] - a[1]);
+            const todasHTML = opcionesOrdenadas.map(([alt, count], i) => {
+                const porcentaje = ((count / totalVotos) * 100).toFixed(1);
+                const emoji = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '📊';
+                return `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">${emoji}</span>
+                            <span class="font-semibold text-gray-800">${alt}</span>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-gray-800">${count} votos</div>
+                            <div class="text-sm text-gray-600">${porcentaje}%</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('todas-opciones').innerHTML = todasHTML;
+
+            // Mostrar modal
+            document.getElementById('resultado-modal').classList.remove('hidden');
+            document.getElementById('resultado-modal').classList.add('flex');
+
+            // Confetti
+            lanzarConfetti();
+        }
+
+        function cerrarResultado(event) {
+            if (!event || event.target.id === 'resultado-modal') {
+                document.getElementById('resultado-modal').classList.add('hidden');
+                document.getElementById('resultado-modal').classList.remove('flex');
+            }
+        }
+
+        function resetearVotacion() {
+            if (confirm('¿Estás seguro de resetear todos los votos?')) {
+                alternativas.forEach(alt => {
+                    votos[alt] = 0;
+                });
+                actualizarVista();
+            }
+        }
+
+        function lanzarConfetti() {
+            const colors = [color1, color2, '#fbbf24', '#f59e0b', '#ef4444'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                cerrarResultado();
+            }
+        });
+    </script>
+</body>
+</html>
+

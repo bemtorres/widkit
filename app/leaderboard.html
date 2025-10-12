@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Clasificación - WidKit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes shine {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .animate-fadeInUp { animation: fadeInUp 0.6s ease-out; }
+        .animate-shine { animation: shine 2s ease-in-out infinite; }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        body { margin: 0; padding: 0; min-height: 100vh; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div id="leaderboardApp" class="w-full max-w-3xl"></div>
+
+    <script>
+        // Obtener parámetros de URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('title') || 'Tabla de Clasificación';
+        const dataParam = urlParams.get('data') || 'Ana:95,Juan:92,María:88,Pedro:85,Lucía:82';
+        const showMedals = urlParams.get('showMedals') !== '0';
+        const maxItems = parseInt(urlParams.get('maxItems')) || 10;
+        const c1 = urlParams.get('c1') || '#3b82f6';
+        const c2 = urlParams.get('c2') || '#8b5cf6';
+        const c3 = urlParams.get('c3') || '#ec4899';
+        const bg = urlParams.get('bg') || 'transparent';
+        const font = urlParams.get('font') || 'system';
+        const style = urlParams.get('style') || 'modern';
+
+        // Aplicar estilos
+        if (bg !== 'transparent') {
+            document.body.style.background = bg;
+        }
+        document.body.style.fontFamily = getFontFamily(font);
+
+        function getFontFamily(font) {
+            const fonts = {
+                system: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                serif: 'Georgia, "Times New Roman", serif',
+                mono: '"Courier New", Courier, monospace',
+                rounded: '"Quicksand", "Varela Round", sans-serif',
+                elegant: '"Playfair Display", Georgia, serif',
+                modern: '"Inter", "SF Pro Display", sans-serif'
+            };
+            return fonts[font] || fonts.system;
+        }
+
+        // Procesar datos
+        function parseData(dataString) {
+            return dataString.split(',').map(item => {
+                const [name, score] = item.split(':');
+                return {
+                    name: name.trim(),
+                    score: parseFloat(score) || 0
+                };
+            }).sort((a, b) => b.score - a.score).slice(0, maxItems);
+        }
+
+        const leaderboard = parseData(dataParam);
+
+        function getMedal(position) {
+            const medals = ['🥇', '🥈', '🥉'];
+            return medals[position] || '';
+        }
+
+        function getPositionStyle(position) {
+            if (position === 0) return `background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; font-weight: bold;`;
+            if (position === 1) return `background: linear-gradient(135deg, #9ca3af, #6b7280); color: white; font-weight: bold;`;
+            if (position === 2) return `background: linear-gradient(135deg, #fb923c, #ea580c); color: white; font-weight: bold;`;
+            return `background: white; color: ${c1};`;
+        }
+
+        function getProgressColor(position) {
+            if (position === 0) return '#fbbf24';
+            if (position === 1) return '#9ca3af';
+            if (position === 2) return '#fb923c';
+            return c1;
+        }
+
+        function render() {
+            const app = document.getElementById('leaderboardApp');
+            const maxScore = leaderboard[0]?.score || 100;
+
+            if (style === 'compact') {
+                renderCompact(app, maxScore);
+            } else if (style === 'classic') {
+                renderClassic(app, maxScore);
+            } else {
+                renderModern(app, maxScore);
+            }
+        }
+
+        function renderModern(app, maxScore) {
+            app.innerHTML = `
+                <div class="glass-effect rounded-3xl p-8 shadow-2xl">
+                    <!-- Header -->
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full mb-4" 
+                             style="background: linear-gradient(135deg, ${c1}20, ${c2}20); border: 2px solid ${c1}40;">
+                            <span class="text-3xl">🏆</span>
+                            <h1 class="text-2xl font-bold" style="background: linear-gradient(135deg, ${c1}, ${c2}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                                ${title}
+                            </h1>
+                        </div>
+                        <p class="text-gray-500 text-sm font-medium">Top ${leaderboard.length} mejores resultados</p>
+                    </div>
+
+                    <!-- Podio (Top 3) -->
+                    ${leaderboard.length >= 3 ? `
+                    <div class="grid grid-cols-3 gap-4 mb-8">
+                        <!-- 2do Lugar -->
+                        <div class="text-center pt-8">
+                            <div class="w-20 h-20 mx-auto mb-3 rounded-2xl flex items-center justify-center text-4xl shadow-lg" 
+                                 style="background: linear-gradient(135deg, #9ca3af, #6b7280);">
+                                🥈
+                            </div>
+                            <div class="font-bold text-lg mb-1 truncate">${leaderboard[1].name}</div>
+                            <div class="text-3xl font-bold mb-2" style="color: #9ca3af">${leaderboard[1].score}</div>
+                            <div class="px-4 py-2 rounded-xl text-white text-sm font-bold" style="background: linear-gradient(135deg, #9ca3af, #6b7280)">
+                                2° Lugar
+                            </div>
+                        </div>
+
+                        <!-- 1er Lugar (Más alto) -->
+                        <div class="text-center">
+                            <div class="w-24 h-24 mx-auto mb-3 rounded-2xl flex items-center justify-center text-5xl shadow-2xl animate-shine" 
+                                 style="background: linear-gradient(135deg, #fbbf24, #f59e0b);">
+                                🥇
+                            </div>
+                            <div class="font-bold text-xl mb-1 truncate">${leaderboard[0].name}</div>
+                            <div class="text-4xl font-bold mb-2" style="color: #fbbf24">${leaderboard[0].score}</div>
+                            <div class="px-4 py-2 rounded-xl text-white text-sm font-bold shadow-lg" style="background: linear-gradient(135deg, #fbbf24, #f59e0b)">
+                                🏆 1° Lugar
+                            </div>
+                        </div>
+
+                        <!-- 3er Lugar -->
+                        <div class="text-center pt-12">
+                            <div class="w-18 h-18 mx-auto mb-3 rounded-2xl flex items-center justify-center text-3xl shadow-lg" 
+                                 style="background: linear-gradient(135deg, #fb923c, #ea580c);">
+                                🥉
+                            </div>
+                            <div class="font-bold text-base mb-1 truncate">${leaderboard[2].name}</div>
+                            <div class="text-2xl font-bold mb-2" style="color: #fb923c">${leaderboard[2].score}</div>
+                            <div class="px-4 py-2 rounded-xl text-white text-sm font-bold" style="background: linear-gradient(135deg, #fb923c, #ea580c)">
+                                3° Lugar
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <!-- Lista completa -->
+                    <div class="space-y-3">
+                        ${leaderboard.map((item, index) => `
+                            <div class="group p-4 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg" 
+                                 style="border-color: ${index < 3 ? getProgressColor(index) : '#e5e7eb'}; background: ${index < 3 ? getProgressColor(index) + '08' : 'white'};">
+                                <div class="flex items-center gap-4">
+                                    <!-- Posición -->
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg shadow-md" 
+                                         style="${getPositionStyle(index)}">
+                                        ${showMedals && index < 3 ? getMedal(index) : index + 1}
+                                    </div>
+
+                                    <!-- Nombre -->
+                                    <div class="flex-1">
+                                        <div class="font-bold text-lg mb-1">${item.name}</div>
+                                        <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                                            <div class="h-full rounded-full transition-all duration-1000" 
+                                                 style="width: ${(item.score / maxScore) * 100}%; background: linear-gradient(90deg, ${c1}, ${c2});">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Puntuación -->
+                                    <div class="text-right">
+                                        <div class="text-3xl font-bold" style="color: ${getProgressColor(index)}">
+                                            ${item.score}
+                                        </div>
+                                        <div class="text-xs text-gray-500 font-medium">puntos</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- Footer Stats -->
+                    <div class="mt-8 grid grid-cols-3 gap-4">
+                        <div class="text-center p-4 rounded-2xl" style="background: linear-gradient(135deg, ${c1}10, ${c2}10);">
+                            <div class="text-2xl font-bold" style="color: ${c1}">${leaderboard.length}</div>
+                            <div class="text-xs text-gray-600 font-medium">Participantes</div>
+                        </div>
+                        <div class="text-center p-4 rounded-2xl" style="background: linear-gradient(135deg, ${c2}10, ${c3}10);">
+                            <div class="text-2xl font-bold" style="color: ${c2}">${maxScore}</div>
+                            <div class="text-xs text-gray-600 font-medium">Puntaje Máximo</div>
+                        </div>
+                        <div class="text-center p-4 rounded-2xl" style="background: linear-gradient(135deg, ${c3}10, ${c1}10);">
+                            <div class="text-2xl font-bold" style="color: ${c3}">${(leaderboard.reduce((sum, item) => sum + item.score, 0) / leaderboard.length).toFixed(1)}</div>
+                            <div class="text-xs text-gray-600 font-medium">Promedio</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderClassic(app, maxScore) {
+            app.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 shadow-xl border border-gray-200">
+                    <h1 class="text-3xl font-bold text-center mb-6 flex items-center justify-center gap-3" style="color: ${c1}">
+                        <span class="text-4xl">🏆</span>
+                        ${title}
+                    </h1>
+                    
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b-2" style="border-color: ${c1}">
+                                <th class="py-3 px-4 text-left font-bold" style="color: ${c1}">#</th>
+                                <th class="py-3 px-4 text-left font-bold" style="color: ${c1}">Nombre</th>
+                                <th class="py-3 px-4 text-right font-bold" style="color: ${c1}">Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${leaderboard.map((item, index) => `
+                                <tr class="border-b hover:bg-gray-50 transition">
+                                    <td class="py-4 px-4 font-bold text-lg" style="color: ${getProgressColor(index)}">
+                                        ${showMedals && index < 3 ? getMedal(index) : index + 1}
+                                    </td>
+                                    <td class="py-4 px-4 font-semibold">${item.name}</td>
+                                    <td class="py-4 px-4 text-right">
+                                        <span class="text-2xl font-bold" style="color: ${getProgressColor(index)}">${item.score}</span>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function renderCompact(app, maxScore) {
+            app.innerHTML = `
+                <div class="bg-white rounded-xl p-4 shadow-lg">
+                    <h2 class="text-xl font-bold text-center mb-4 flex items-center justify-center gap-2" style="color: ${c1}">
+                        <span class="text-2xl">🏆</span>
+                        ${title}
+                    </h2>
+                    
+                    <div class="space-y-2">
+                        ${leaderboard.map((item, index) => `
+                            <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm" 
+                                     style="${getPositionStyle(index)}">
+                                    ${showMedals && index < 3 ? getMedal(index) : index + 1}
+                                </div>
+                                <div class="flex-1 font-semibold">${item.name}</div>
+                                <div class="text-xl font-bold" style="color: ${getProgressColor(index)}">${item.score}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render inicial
+        render();
+    </script>
+</body>
+</html>
+

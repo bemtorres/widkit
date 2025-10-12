@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer - WidKit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(239, 68, 68, 0.6);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+        .animate-slideUp { animation: slideUp 0.6s ease-out; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-rotate { animation: rotate 20s linear infinite; }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div id="pomodoroApp" class="w-full max-w-2xl animate-fadeIn"></div>
+
+    <script>
+        // Obtener parámetros de URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const workTime = parseInt(urlParams.get('work')) || 25;
+        const breakTime = parseInt(urlParams.get('break')) || 5;
+        const totalSessions = parseInt(urlParams.get('sessions')) || 4;
+        const autostart = urlParams.get('autostart') === '1';
+        const title = urlParams.get('title') || 'Pomodoro Timer';
+        const c1 = urlParams.get('c1') || '#ef4444';
+        const c2 = urlParams.get('c2') || '#f97316';
+        const c3 = urlParams.get('c3') || '#fbbf24';
+        const bg = urlParams.get('bg') || 'transparent';
+        const font = urlParams.get('font') || 'system';
+
+        // Estado del timer
+        let currentTime = workTime * 60;
+        let isWorking = true;
+        let isRunning = autostart;
+        let completedSessions = 0;
+        let intervalId = null;
+
+        // Aplicar estilos
+        if (bg !== 'transparent') {
+            document.body.style.background = bg;
+        }
+        document.body.style.fontFamily = getFontFamily(font);
+
+        function getFontFamily(font) {
+            const fonts = {
+                system: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                serif: 'Georgia, "Times New Roman", serif',
+                mono: '"Courier New", Courier, monospace',
+                rounded: '"Quicksand", "Varela Round", sans-serif',
+                elegant: '"Playfair Display", Georgia, serif',
+                modern: '"Inter", "SF Pro Display", sans-serif'
+            };
+            return fonts[font] || fonts.system;
+        }
+
+        function render() {
+            const app = document.getElementById('pomodoroApp');
+            const minutes = Math.floor(currentTime / 60);
+            const seconds = currentTime % 60;
+            const progress = isWorking 
+                ? ((workTime * 60 - currentTime) / (workTime * 60)) * 100
+                : ((breakTime * 60 - currentTime) / (breakTime * 60)) * 100;
+            const circumference = 2 * Math.PI * 140;
+            const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+            app.innerHTML = `
+                <div class="glass-effect rounded-3xl p-8 shadow-2xl">
+                    <!-- Header -->
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full mb-4" 
+                             style="background: linear-gradient(135deg, ${c1}20, ${c2}20); border: 2px solid ${c1}40;">
+                            <span class="text-2xl">${isWorking ? '💪' : '☕'}</span>
+                            <span class="font-bold text-lg" style="color: ${c1}">${isWorking ? 'Tiempo de Trabajo' : 'Momento de Descanso'}</span>
+                        </div>
+                        <h1 class="text-3xl font-bold" style="background: linear-gradient(135deg, ${c1}, ${c2}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            ${title}
+                        </h1>
+                    </div>
+
+                    <!-- Timer Circle -->
+                    <div class="relative flex items-center justify-center mb-10">
+                        <!-- Background decorativo -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-80 h-80 rounded-full opacity-5" 
+                                 style="background: conic-gradient(from 0deg, ${c1}, ${c2}, ${c3}, ${c1})">
+                            </div>
+                        </div>
+                        
+                        <!-- SVG Progress Ring -->
+                        <svg class="w-80 h-80 relative z-10" viewBox="0 0 320 320">
+                            <!-- Background circle -->
+                            <circle cx="160" cy="160" r="140" 
+                                    fill="none" stroke="${c1}20" stroke-width="12"/>
+                            
+                            <!-- Progress circle -->
+                            <circle class="progress-ring" cx="160" cy="160" r="140" 
+                                    fill="none" stroke="url(#gradient)" stroke-width="12"
+                                    stroke-dasharray="${circumference}"
+                                    stroke-dashoffset="${strokeDashoffset}"
+                                    stroke-linecap="round"/>
+                            
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:${c1};stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:${c2};stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:${c3};stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+
+                        <!-- Timer Display -->
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <div class="text-7xl font-bold tracking-tight mb-2 tabular-nums" 
+                                 style="color: ${c1}">
+                                ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}
+                            </div>
+                            <div class="text-sm text-gray-500 font-medium">
+                                ${isWorking ? `${workTime} minutos de trabajo` : `${breakTime} minutos de descanso`}
+                            </div>
+                            <div class="mt-3 px-4 py-1.5 rounded-full text-xs font-semibold" 
+                                 style="background: ${c1}15; color: ${c1}">
+                                ${Math.round(progress)}% completado
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controles -->
+                    <div class="flex justify-center items-center gap-4 mb-8">
+                        <button onclick="toggleTimer()" 
+                                class="w-20 h-20 rounded-full text-white font-bold text-3xl shadow-xl hover:shadow-2xl"
+                                style="background: linear-gradient(135deg, ${c1}, ${c2})">
+                            ${isRunning ? '⏸' : '▶'}
+                        </button>
+                        
+                        <button onclick="resetTimer()" 
+                                class="w-16 h-16 rounded-full bg-white text-gray-600 hover:text-gray-900 font-bold text-2xl shadow-lg hover:shadow-xl border-2 border-gray-200 hover:border-gray-300">
+                            🔄
+                        </button>
+                        
+                        <button onclick="skipTimer()" 
+                                class="w-16 h-16 rounded-full bg-white text-gray-600 hover:text-gray-900 font-bold text-2xl shadow-lg hover:shadow-xl border-2 border-gray-200 hover:border-gray-300">
+                            ⏭
+                        </button>
+                    </div>
+
+                    <!-- Sesiones -->
+                    <div class="mb-8">
+                        <div class="text-center mb-4">
+                            <div class="text-sm text-gray-500 font-medium mb-3">Progreso de Sesiones</div>
+                            <div class="flex justify-center gap-3 mb-4">
+                                ${Array.from({length: totalSessions}, (_, i) => `
+                                    <div class="relative">
+                                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-sm font-bold ${
+                                            i < completedSessions 
+                                                ? 'text-white shadow-lg' 
+                                                : 'bg-gray-100 text-gray-400'
+                                        }" ${i < completedSessions ? `style="background: linear-gradient(135deg, ${c1}, ${c2})"` : ''}>
+                                            ${i < completedSessions ? '✓' : i + 1}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="text-3xl font-bold mb-2" style="color: ${c1}">
+                                ${completedSessions} / ${totalSessions}
+                            </div>
+                        </div>
+                        
+                        <!-- Barra de progreso -->
+                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full rounded-full" 
+                                 style="width: ${(completedSessions / totalSessions) * 100}%; background: linear-gradient(90deg, ${c1}, ${c2}, ${c3})">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tip -->
+                    <div class="p-5 rounded-2xl" style="background: linear-gradient(135deg, ${c1}08, ${c2}08); border: 1px solid ${c1}20;">
+                        <div class="flex items-start gap-3">
+                            <div class="text-2xl mt-0.5">${isWorking ? '💡' : '🌟'}</div>
+                            <div class="flex-1">
+                                <div class="font-bold mb-1" style="color: ${c1}">
+                                    ${isWorking ? 'Mantén el Enfoque' : 'Recarga Energías'}
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    ${isWorking 
+                                        ? 'Elimina distracciones y concéntrate en una sola tarea. Silencia notificaciones y cierra pestañas innecesarias.'
+                                        : 'Levántate, estira, respira profundo. Descansa los ojos mirando a lo lejos. Hidrátate y relájate.'
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleTimer() {
+            isRunning = !isRunning;
+            if (isRunning) {
+                startTimer();
+            } else {
+                stopTimer();
+            }
+            render();
+        }
+
+        function startTimer() {
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(() => {
+                if (currentTime > 0) {
+                    currentTime--;
+                    render();
+                } else {
+                    playSound();
+                    showNotification();
+                    
+                    if (isWorking) {
+                        completedSessions++;
+                        if (completedSessions >= totalSessions) {
+                            isRunning = false;
+                            stopTimer();
+                            showCompletionMessage();
+                            render();
+                            return;
+                        }
+                        isWorking = false;
+                        currentTime = breakTime * 60;
+                    } else {
+                        isWorking = true;
+                        currentTime = workTime * 60;
+                    }
+                    render();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+
+        function resetTimer() {
+            stopTimer();
+            isRunning = false;
+            isWorking = true;
+            currentTime = workTime * 60;
+            completedSessions = 0;
+            render();
+        }
+
+        function skipTimer() {
+            if (isWorking) {
+                completedSessions++;
+                if (completedSessions >= totalSessions) {
+                    isRunning = false;
+                    stopTimer();
+                    showCompletionMessage();
+                    render();
+                    return;
+                }
+                isWorking = false;
+                currentTime = breakTime * 60;
+            } else {
+                isWorking = true;
+                currentTime = workTime * 60;
+            }
+            render();
+        }
+
+        function playSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Crear tres tonos armoniosos
+                [800, 1000, 1200].forEach((freq, i) => {
+                    setTimeout(() => {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                        
+                        oscillator.start(audioContext.currentTime);
+                        oscillator.stop(audioContext.currentTime + 0.3);
+                    }, i * 150);
+                });
+            } catch (e) {
+                console.log('Audio not available');
+            }
+        }
+
+        function showNotification() {
+            const message = isWorking 
+                ? '⏰ ¡Tiempo de trabajo completado! Toma un descanso merecido.' 
+                : '✨ ¡Descanso terminado! Listo para la siguiente sesión.';
+            
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Pomodoro Timer', {
+                    body: message,
+                    icon: '/assets/img/icon-192x192.png',
+                    badge: '/assets/img/icon-96x96.png'
+                });
+            }
+        }
+
+        function showCompletionMessage() {
+            const app = document.getElementById('pomodoroApp');
+            app.innerHTML = `
+                <div class="glass-effect rounded-3xl p-12 shadow-2xl text-center animate-fadeIn">
+                    <div class="text-8xl mb-6 animate-bounce">🎉</div>
+                    <h2 class="text-5xl font-bold mb-4" 
+                        style="background: linear-gradient(135deg, ${c1}, ${c2}, ${c3}); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        ¡Felicitaciones!
+                    </h2>
+                    <p class="text-2xl mb-8 text-gray-600">
+                        Has completado todas las sesiones de trabajo
+                    </p>
+                    
+                    <div class="inline-flex items-center gap-4 mb-10">
+                        <div class="text-7xl font-bold" style="color: ${c1}">
+                            ${completedSessions}
+                        </div>
+                        <div class="text-3xl text-gray-400">/</div>
+                        <div class="text-5xl font-bold text-gray-400">
+                            ${totalSessions}
+                        </div>
+                    </div>
+                    
+                    <button onclick="resetTimer()" 
+                            class="px-10 py-5 rounded-2xl text-white font-bold text-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
+                            style="background: linear-gradient(135deg, ${c1}, ${c2})">
+                        🔄 Comenzar de Nuevo
+                    </button>
+                    
+                    <div class="mt-10 p-6 rounded-2xl" 
+                         style="background: linear-gradient(135deg, ${c1}08, ${c2}08); border: 1px solid ${c1}20;">
+                        <div class="text-lg font-medium mb-2" style="color: ${c1}">
+                            💪 ¡Excelente Trabajo!
+                        </div>
+                        <div class="text-gray-600">
+                            Has demostrado gran disciplina y concentración. ¡Sigue así!
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Solicitar permiso para notificaciones
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // Render inicial
+        render();
+
+        // Autostart si está configurado
+        if (autostart) {
+            startTimer();
+        }
+    </script>
+</body>
+</html>

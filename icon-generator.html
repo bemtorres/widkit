@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Iconos - WidKit PWA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-white min-h-screen p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+            🦉 Generador de Iconos PWA
+        </h1>
+        <p class="text-slate-400 mb-8">Genera todos los iconos necesarios para tu PWA de WidKit</p>
+
+        <div class="bg-slate-800 rounded-xl p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Configuración del Icono</h2>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Emoji o Texto:</label>
+                <input type="text" id="iconText" value="🦉" 
+                       class="w-full px-4 py-2 bg-slate-700 rounded-lg text-4xl text-center"
+                       placeholder="🦉">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Color de Fondo:</label>
+                <div class="flex gap-4">
+                    <input type="color" id="bgColor" value="#f59e0b" 
+                           class="w-20 h-12 rounded cursor-pointer">
+                    <input type="text" id="bgColorText" value="#f59e0b" 
+                           class="flex-1 px-4 py-2 bg-slate-700 rounded-lg">
+                </div>
+            </div>
+
+            <button onclick="generateIcons()" 
+                    class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg font-bold hover:shadow-lg transition">
+                🎨 Generar Todos los Iconos
+            </button>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Vista Previa</h2>
+            <div id="preview" class="grid grid-cols-4 gap-4"></div>
+        </div>
+
+        <div class="bg-slate-800 rounded-xl p-6">
+            <h2 class="text-xl font-bold mb-4">Instrucciones</h2>
+            <ol class="list-decimal list-inside space-y-2 text-slate-300">
+                <li>Haz clic en "Generar Todos los Iconos"</li>
+                <li>Los iconos se descargarán automáticamente</li>
+                <li>Coloca todos los archivos en la carpeta <code class="bg-slate-700 px-2 py-1 rounded">assets/img/</code></li>
+                <li>¡Tu PWA estará lista!</li>
+            </ol>
+        </div>
+
+        <div id="status" class="mt-6 text-center text-sm text-slate-400"></div>
+    </div>
+
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        // Sincronizar color picker con input de texto
+        document.getElementById('bgColor').addEventListener('input', (e) => {
+            document.getElementById('bgColorText').value = e.target.value;
+            updatePreview();
+        });
+        
+        document.getElementById('bgColorText').addEventListener('input', (e) => {
+            document.getElementById('bgColor').value = e.target.value;
+            updatePreview();
+        });
+
+        document.getElementById('iconText').addEventListener('input', updatePreview);
+
+        function updatePreview() {
+            const iconText = document.getElementById('iconText').value || '🦉';
+            const bgColor = document.getElementById('bgColor').value;
+            const previewContainer = document.getElementById('preview');
+            
+            previewContainer.innerHTML = '';
+            
+            [72, 96, 128, 192].forEach(size => {
+                const canvas = createIconCanvas(size, iconText, bgColor);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'text-center';
+                
+                const canvasElement = document.createElement('canvas');
+                canvasElement.width = size;
+                canvasElement.height = size;
+                canvasElement.className = 'mx-auto rounded-lg shadow-lg';
+                canvasElement.style.width = '100px';
+                canvasElement.style.height = '100px';
+                
+                const ctx = canvasElement.getContext('2d');
+                ctx.drawImage(canvas, 0, 0);
+                
+                const label = document.createElement('p');
+                label.textContent = `${size}x${size}`;
+                label.className = 'text-xs text-slate-400 mt-2';
+                
+                wrapper.appendChild(canvasElement);
+                wrapper.appendChild(label);
+                previewContainer.appendChild(wrapper);
+            });
+        }
+
+        function createIconCanvas(size, text, bgColor) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Gradiente de fondo
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, bgColor);
+            gradient.addColorStop(1, adjustColor(bgColor, -20));
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Agregar un poco de sombra para profundidad
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+            ctx.shadowBlur = size * 0.05;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = size * 0.02;
+            
+            // Texto/Emoji
+            const fontSize = size * 0.6;
+            ctx.font = `${fontSize}px Arial, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = 'white';
+            ctx.fillText(text, size / 2, size / 2);
+            
+            // Resetear sombra
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            
+            // Borde sutil
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = size * 0.01;
+            ctx.strokeRect(0, 0, size, size);
+            
+            return canvas;
+        }
+
+        function adjustColor(color, amount) {
+            const num = parseInt(color.replace("#", ""), 16);
+            const r = Math.max(0, Math.min(255, (num >> 16) + amount));
+            const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amount));
+            const b = Math.max(0, Math.min(255, (num & 0x0000FF) + amount));
+            return "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+        }
+
+        async function generateIcons() {
+            const iconText = document.getElementById('iconText').value || '🦉';
+            const bgColor = document.getElementById('bgColor').value;
+            const statusDiv = document.getElementById('status');
+            
+            statusDiv.innerHTML = '<span class="text-yellow-400">⏳ Generando iconos...</span>';
+            
+            let count = 0;
+            
+            for (const size of sizes) {
+                const canvas = createIconCanvas(size, iconText, bgColor);
+                
+                // Convertir a blob y descargar
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `icon-${size}x${size}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    count++;
+                    statusDiv.innerHTML = `<span class="text-blue-400">📥 Descargando... (${count}/${sizes.length})</span>`;
+                    
+                    if (count === sizes.length) {
+                        setTimeout(() => {
+                            statusDiv.innerHTML = '<span class="text-green-400">✅ ¡Todos los iconos generados! Colócalos en assets/img/</span>';
+                        }, 500);
+                    }
+                }, 'image/png', 1.0);
+                
+                // Pequeño delay entre descargas
+                await new Promise(resolve => setTimeout(resolve, 300));
+            }
+        }
+
+        // Generar vista previa inicial
+        updatePreview();
+    </script>
+</body>
+</html>
+

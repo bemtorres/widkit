@@ -1,0 +1,45 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporales
+*.tmp
+*.temp
+.cache/
+
+# Build (si decides agregar un build step en el futuro)
+dist/
+build/
+
+# Env files (si decides usar variables de entorno)
+.env
+.env.local
+.env.production
+
+# PWA Cache (generado por el service worker)
+sw.js.map
+
+# Backup files
+*.bak
+*.backup
+

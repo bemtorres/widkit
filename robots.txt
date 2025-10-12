@@ -1,0 +1,42 @@
+# Robots.txt para WidKit - Widgets Educativos
+# Optimizado para SEO y rastreo eficiente
+
+User-agent: *
+Allow: /
+Allow: /admin/
+Allow: /app/
+Allow: /assets/
+Allow: /example.html
+Allow: /icon-generator.html
+
+# Evitar rastreo de archivos internos
+Disallow: /assets/js/*.map
+Disallow: /*.log
+Disallow: /node_modules/
+Disallow: /.git/
+
+# Sitemap
+Sitemap: https://widkit.lol/sitemap.xml
+
+# Crawl-delay para ser amigable con el servidor
+Crawl-delay: 1
+
+# Permitir todos los bots educativos y académicos
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+

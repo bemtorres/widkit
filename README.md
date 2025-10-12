@@ -1,565 +1,355 @@
-# 🦉 WidKit - Widgets Educativos Embebibles
+# 🦉 WidKit - Widgets Educativos PWA
 
-> **"Como el búho sabio, WidKit conoce todo sobre tu tiempo"**
+<div align="center">
 
-**WidKit** es una colección de widgets educativos interactivos diseñados para integrarse fácilmente en Moodle, Blackboard, Canvas o cualquier sitio web mediante iframes. **Sin instalación, sin base de datos, sin backend**. Todo funciona por URL.
+**Widgets educativos listos para usar en Moodle, Blackboard, Canvas y cualquier LMS**
 
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://tu-dominio.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/es/docs/Web/HTML)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![PWA Ready](https://img.shields.io/badge/PWA-Ready-success?style=for-the-badge&logo=pwa)](https://web.dev/progressive-web-apps/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge)](https://github.com/bemtorres)
 
----
+[🌐 Demo en Vivo](https://widkit.lol/) • [📱 Instalar App](#-instalación-como-pwa) • [📚 Documentación](#-widgets-disponibles)
 
-## ✨ Cualidades Principales
-
-### 🚀 **Cero Configuración Técnica**
-- **Sin instalación:** Solo copia y pega el código iframe
-- **Sin base de datos:** Toda la configuración va en la URL
-- **Sin backend:** HTML, CSS y JavaScript puro
-- **Sin dependencias:** Funciona con solo un navegador
-
-### ⚡ **Integración Instantánea**
-- **Compatible con LMS:** Moodle, Blackboard, Canvas, Google Classroom
-- **Embebible en cualquier sitio:** WordPress, Wix, Squarespace, HTML estático
-- **Código iframe simple:** Un solo `<iframe>` tag y listo
-- **Funciona al instante:** Sin compilación ni configuración
-
-### 🎨 **Totalmente Personalizable**
-- **Panel visual:** Configura sin tocar código
-- **Colores personalizados:** 3 colores por widget
-- **6 tipografías:** Desde elegante hasta moderna
-- **Responsive:** Se adapta a móvil, tablet y desktop
-- **Vista previa en vivo:** Ve los cambios al instante
-
-### 🎯 **Arquitectura Inteligente**
-- **Stateless:** Sin sesiones ni cookies
-- **URL-driven:** Toda la configuración en parámetros GET
-- **Portable:** Funciona en cualquier servidor o CDN
-- **Cacheable:** Archivos estáticos para máxima velocidad
-- **SEO friendly:** HTML semántico
-
-### 📦 **Ultraligero y Rápido**
-- **< 50KB por widget:** Sin frameworks pesados
-- **Tailwind CDN:** Solo CSS necesario
-- **Carga instantánea:** < 100ms típico
-- **Sin jQuery:** JavaScript vanilla moderno
-- **Optimizado para móvil:** Touch-friendly
-
-### 🔒 **Seguro y Privado**
-- **Sin tracking:** No recopilamos datos
-- **Sin cookies:** Privacidad por diseño
-- **Sin APIs externas:** Todo self-contained
-- **CORS-friendly:** Funciona embebido en cualquier dominio
+</div>
 
 ---
 
-## 📦 Widgets Incluidos
+## ✨ Características
 
-### 1. ⏱️ **Cuenta Regresiva**
-Temporizador elegante para exámenes, entregas y eventos importantes.
+- 🚀 **Progressive Web App (PWA)** - Instálala como app nativa
+- 📴 **Funciona Offline** - Gracias al Service Worker
+- ⚡ **Carga Rápida** - Sistema de caché inteligente
+- 🎨 **8 Widgets Diferentes** - Listos para usar
+- 🔧 **Sin Backend** - Todo funciona por URL
+- 📱 **100% Responsive** - Funciona en todos los dispositivos
+- 🆓 **Completamente Gratis** - Sin registro ni anuncios
+- 🎯 **Cero Configuración** - Copia y pega el iframe
 
-**Características:**
-- ⏰ Actualización en tiempo real (días, horas, minutos, segundos)
-- 🎨 3 colores personalizables
-- 📝 Mensaje personalizado al finalizar
-- 🔤 6 tipografías disponibles
-- 📱 Totalmente responsive
-- 🎛️ Dos estilos: minimalista (default) o con cards
+## 🎯 Widgets Disponibles
 
-**Ejemplo rápido:**
+| Widget | Descripción | Demo |
+|--------|-------------|------|
+| ⏱️ **Cuenta Regresiva** | Temporizador para exámenes y entregas | [Ver demo](app/cuentaregresiva.html) |
+| 🥇 **Cronómetro** | Tiempo transcurrido desde un evento | [Ver demo](app/cronometro.html) |
+| 📅 **Calculador de Semanas** | Organiza tu curso por semanas | [Ver demo](app/semana.html) |
+| 🎲 **Sorteo Interactivo** | Sorteos con animación y confetti | [Ver demo](app/sorteo.html) |
+| 📱 **Generador de QR** | Códigos QR personalizables | [Ver demo](app/qr.html) |
+| 🎯 **Selector de Estudiante** | Selección aleatoria rápida | [Ver demo](app/ruleta.html) |
+| 🔢 **Calculadora de Notas** | Promedio ponderado y más | [Ver demo](app/notas.html) |
+| 👥 **Generador de Equipos** | Divide en equipos balanceados | [Ver demo](app/equipos.html) |
+
+## 📱 Instalación como PWA
+
+### Para Usuarios:
+
+1. **En el navegador:**
+   - Busca el ícono de instalación (⊕) en la barra de direcciones
+   - O haz clic en el botón flotante "📱 Instalar App"
+
+2. **En móvil:**
+   - Chrome: Menú (⋮) → "Instalar aplicación"
+   - Safari: Compartir → "Agregar a pantalla de inicio"
+
+3. **¡Listo!** La app aparecerá en tu pantalla de inicio
+
+### Para Desarrolladores:
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/bemtorres/widkit.git
+cd widkit
+
+# Iniciar servidor local con Node.js
+npm start
+
+# O usa Python
+python -m http.server 8080
+
+# O usa npx serve
+npx serve .
+```
+
+Luego abre `http://localhost:8080` en tu navegador.
+
+## 🎨 Generar Iconos PWA
+
+**Opción 1: Generador Incluido (Más Fácil)**
+
+```bash
+# Abre el generador en tu navegador:
+http://localhost:8080/icon-generator.html
+
+# 1. Personaliza el emoji/texto y color
+# 2. Haz clic en "Generar Todos los Iconos"
+# 3. Los iconos se descargarán automáticamente
+# 4. Coloca los archivos en assets/img/
+```
+
+**Opción 2: Herramienta Online**
+- Ve a [PWA Asset Generator](https://www.pwabuilder.com/imageGenerator)
+- Sube tu logo (512x512px recomendado)
+- Descarga y coloca en `assets/img/`
+
+**Opción 3: ImageMagick (Línea de Comandos)**
+```bash
+# Generar todos los tamaños desde logo.png
+for size in 72 96 128 144 152 192 384 512; do
+  convert logo.png -resize ${size}x${size} assets/img/icon-${size}x${size}.png
+done
+```
+
+## 🔧 Integración en LMS
+
+### Moodle
 ```html
-<iframe src="https://tu-dominio.com/app/cuentaregresiva.html?title=Examen Final&y=2025&m=12&d=15&h=14" 
+1. Activa el modo edición en tu curso
+2. Añade una "Etiqueta" o "Página"
+3. Haz clic en el botón HTML (</>)
+4. Pega el código iframe:
+
+<iframe src="https://tu-dominio.com/app/cuentaregresiva.html?title=Examen&y=2025&m=12&d=15" 
         width="100%" height="450" frameborder="0"></iframe>
 ```
 
-**Parámetros disponibles:**
-- `title` - Título del evento
-- `message` - Mensaje al finalizar
-- `y`, `m`, `d`, `h`, `min` - Fecha objetivo
-- `c1`, `c2`, `c3` - Colores (hex con #)
-- `bg` - Color de fondo
-- `font` - Tipografía (system, serif, mono, rounded, elegant, modern)
-- `showCards` - Mostrar números con cards (0 o 1)
-
----
-
-### 2. 📅 **Calculador de Semanas**
-Planifica tu curso por semanas con actividades automáticas.
-
-**Características:**
-- 📊 Cálculo automático de semana actual
-- 🗓️ Fechas de inicio y fin por semana
-- ✅ Semana actual destacada visualmente
-- 📝 Actividades por semana en JSON
-- 🎨 Colores personalizables
-- ⏱️ Actualización diaria automática
-
-**Ejemplo rápido:**
+### Blackboard
 ```html
-<iframe src="https://tu-dominio.com/app/semana.html?y=2025&m=1&d=1&activities=%7B%221%22%3A%5B%22Clase 1%22%2C%22Tarea 1%22%5D%7D" 
-        width="100%" height="650" frameborder="0"></iframe>
-```
-
-**Parámetros disponibles:**
-- `y`, `m`, `d` - Fecha de inicio del período
-- `activities` - JSON con actividades por semana (URL encoded)
-- `c1`, `c2`, `c3` - Colores
-- `bg` - Color de fondo
-- `font` - Tipografía
-
-**Formato del JSON de actividades:**
-```json
-{
-  "1": ["Entrega de documentos", "Análisis"],
-  "2": ["Evaluación 30%", "Desarrollo"],
-  "3": ["Presentación final"]
-}
-```
-
----
-
-### 3. 🎲 **Sorteo Interactivo**
-Sorteos animados con ruleta, confetti y efectos visuales.
-
-**Características:**
-- 🎯 Animación de ruleta suave
-- ⏰ Cuenta regresiva personalizable
-- 🏆 3 estilos de medallones (medals, trophies, stars)
-- 🎊 Efectos de confetti
-- 🔊 Sonidos opcionales
-- 👥 Múltiples ganadores
-
-**Ejemplo rápido:**
-```html
-<iframe src="https://tu-dominio.com/app/sorteo.html?title=Sorteo de Premios&list=Ana,Luis,María,Pedro,Juan&time=3&win=3" 
-        width="100%" height="700" frameborder="0"></iframe>
-```
-
-**Parámetros disponibles:**
-- `title` - Título del sorteo
-- `subtitle` - Subtítulo
-- `list` - Participantes separados por comas
-- `time` - Segundos de cuenta regresiva (0-60)
-- `win` - Número de ganadores o "all"
-- `style` - Estilo (medal, trophy, star)
-- `c1`, `c2`, `c3` - Colores del degradado
-
----
-
-## 🚀 Inicio en 30 Segundos
-
-### Para Usuarios (No Técnicos)
-
-1. **Abre el configurador:** Ve a `https://tu-dominio.com/`
-2. **Elige tu widget:** Cuenta Regresiva, Semanas o Sorteo
-3. **Personaliza:** Colores, textos, fechas (interfaz visual)
-4. **Copia el código:** Botón "Copiar código embebido"
-5. **Pégalo en tu LMS:** En Moodle, Blackboard, Canvas, etc.
-
-¡Listo! El widget funciona instantáneamente.
-
----
-
-### Para Desarrolladores
-
-```bash
-# 1. Clona el repositorio
-git clone https://github.com/tu-usuario/widkit.git
-cd widkit
-
-# 2. Abre index.html en tu navegador
-# No necesitas instalar nada, es HTML puro
-
-# 3. Despliega a GitHub Pages, Netlify, Vercel o cualquier hosting estático
-```
-
----
-
-## 🎨 Panel de Configuración
-
-Accede al panel de administración visual para cada widget:
-
-- **Cuenta Regresiva:** `/admin/temporizador.html`
-- **Calculador de Semanas:** `/admin/semana.html`
-- **Sorteo Interactivo:** `/admin/sorteo.html`
-
-### Características del Panel:
-- ⚙️ **Interfaz visual:** Sin tocar código
-- 👁️ **Vista previa en vivo:** Ve cambios al instante
-- 🎨 **Selectores de color:** Elige colores visualmente
-- 📋 **Generación automática:** URL e iframe listos para copiar
-- 📱 **Responsive:** Funciona en cualquier dispositivo
-
----
-
-## 🌐 Integración en Plataformas LMS
-
-### 🎓 Moodle
-
-1. Activa el modo edición en tu curso
-2. Añade una "Etiqueta" o "Página"
-3. Haz clic en el botón HTML (`</>`)
-4. Pega el código iframe
-5. Guarda ¡y listo!
-
-### 📚 Blackboard
-
 1. Ve al área de contenido
 2. Selecciona "Crear contenido" → "Elemento"
 3. En el editor, cambia a vista HTML
 4. Pega el código iframe
-5. Envía ¡y funciona!
+5. Envía y ¡funciona!
+```
 
-### 🖼️ Canvas
-
+### Canvas
+```html
 1. Edita una página o módulo
-2. Haz clic en "Editor HTML" (icono `</>`)
+2. Haz clic en "Editor HTML" (icono </>)
 3. Pega el código iframe
 4. Guarda cambios
-5. ¡Listo para usar!
+```
 
-### 🌐 WordPress / Sitio Web
+## 🚀 Despliegue
 
-1. Edita tu página o entrada
-2. Agrega un bloque "HTML personalizado"
-3. Pega el código iframe
-4. Publica
-5. ¡Visible al instante!
+### GitHub Pages
+```bash
+git add .
+git commit -m "Deploy PWA"
+git push origin main
 
----
+# Activa GitHub Pages en Settings → Pages
+# Source: main branch / root
+```
 
-## 📂 Estructura del Proyecto
+### Netlify
+```bash
+# 1. Conecta tu repositorio en netlify.com
+# 2. Build command: (vacío)
+# 3. Publish directory: .
+# 4. Deploy!
+```
+
+### Vercel
+```bash
+vercel deploy
+```
+
+## 📊 Verificar PWA
+
+### Lighthouse Audit
+1. Abre Chrome DevTools (F12)
+2. Pestaña "Lighthouse"
+3. Selecciona "Progressive Web App"
+4. "Generate report"
+5. **Objetivo: 100/100** ✅
+
+### Service Worker
+1. DevTools → Application
+2. Service Workers (sidebar)
+3. Debe mostrar "activated and running"
+
+### Manifest
+1. DevTools → Application
+2. Manifest (sidebar)
+3. Verifica nombre, iconos y colores
+
+## 🛠️ Estructura del Proyecto
 
 ```
 widkit/
-├── index.html              # Página principal con info de widgets
-├── admin/                  # Configuradores visuales
-│   ├── temporizador.html   # Configurador de cuenta regresiva
-│   ├── semana.html         # Configurador de semanas
-│   ├── sorteo.html         # Configurador de sorteo
-│   └── js/                 # Controladores JavaScript
-│       ├── temporizador.js
-│       ├── semana.js
-│       └── sorteo.js
+├── index.html              # Página principal (PWA ready)
+├── manifest.json           # Configuración de la PWA
+├── sw.js                   # Service Worker
+├── offline.html            # Página sin conexión
+├── icon-generator.html     # Generador de iconos
+├── server.js               # Servidor de desarrollo
+├── package.json            # Dependencias npm
+├── PWA-SETUP.md           # Guía detallada de PWA
+│
+├── admin/                  # Páginas de configuración
+│   ├── cronometro.html
+│   ├── equipos.html
+│   ├── notas.html
+│   ├── qr.html
+│   ├── ruleta.html
+│   ├── semana.html
+│   ├── sorteo.html
+│   ├── temporizador.html
+│   └── js/                 # Scripts de admin
+│
 ├── app/                    # Widgets embebibles
+│   ├── cronometro.html
 │   ├── cuentaregresiva.html
+│   ├── equipos.html
+│   ├── notas.html
+│   ├── qr.html
+│   ├── ruleta.html
 │   ├── semana.html
 │   └── sorteo.html
-└── README.md
+│
+└── assets/
+    ├── css/
+    ├── js/
+    └── img/
+        ├── icon-*.png      # Iconos de la PWA (genera con icon-generator.html)
+        ├── Moodle-logo.png
+        ├── Blackboard-Original.png
+        └── canvas-lms-logo.png
 ```
 
-**Arquitectura:**
-- **HTML puro:** Sin frameworks, sin compilación
-- **Tailwind CDN:** Estilos utility-first
-- **JavaScript vanilla:** Sin jQuery ni dependencias
-- **Stateless:** Todo en parámetros URL
+## 🧪 Desarrollo
 
----
+### Requisitos
+- Navegador moderno (Chrome, Edge, Firefox)
+- Node.js (opcional, para servidor local)
 
-## 🎯 Casos de Uso Reales
+### Comandos
+```bash
+# Iniciar servidor de desarrollo
+npm start
 
-### 📚 **Educación**
-- Cuenta regresiva para exámenes finales
-- Planificación de curso por semanas
-- Sorteos de participación en clase
-- Calendario de entregas
-- Recordatorios de fechas importantes
+# O usar Python
+python -m http.server 8080
 
-### 💼 **Proyectos**
-- Sprints de desarrollo con semanas
-- Deadlines de milestones
-- Sorteos de revisores de código
-- Planificación de releases
+# O usar npx
+npx serve .
+```
 
-### 🎉 **Eventos**
-- Lanzamientos de productos
-- Conferencias y webinars
-- Sorteos de entradas o premios
-- Cuentas regresivas de festivales
+### Actualizar Service Worker
+```javascript
+// En sw.js, incrementa la versión:
+const CACHE_NAME = 'widkit-v1.1.0';  // ← Cambia esto
+```
 
-### 🏢 **Empresas**
-- Reuniones importantes
-- Plazos de entrega
-- Sorteos de equipos
-- Planning de proyectos
+Los usuarios recibirán una notificación para actualizar.
 
----
+## 🌐 Arquitectura PWA
 
-## 🛠️ Tecnologías Utilizadas
+### Archivos Clave
 
-| Tecnología | Propósito |
-|------------|-----------|
-| **HTML5** | Estructura semántica |
-| **Tailwind CSS** (CDN) | Estilos utility-first |
-| **JavaScript Vanilla** | Lógica de widgets |
-| **Google Fonts** | Tipografías opcionales |
-| **Canvas Confetti** | Efectos visuales de sorteo |
+- **manifest.json**: Define metadatos, iconos, colores y shortcuts
+- **sw.js**: Service Worker para caché y funcionalidad offline
+- **offline.html**: Página mostrada cuando no hay conexión
 
-**Ventajas de esta arquitectura:**
-- ✅ Sin compilación
-- ✅ Sin node_modules
-- ✅ Sin build steps
-- ✅ Funciona directamente
-- ✅ Fácil de modificar
-- ✅ Desplegable en cualquier servidor
+### Estrategia de Caché
 
----
+- **Cache First**: Archivos estáticos (HTML, CSS, JS)
+- **Network First**: Contenido dinámico con fallback a caché
+- **Stale While Revalidate**: Imágenes y assets
 
-## 🌐 Despliegue
+### Características PWA Implementadas
 
-### GitHub Pages (Gratis)
-
-1. **Sube tu código a GitHub:**
-   ```bash
-   git init
-   git add .
-   git commit -m "feat: WidKit inicial"
-   git remote add origin https://github.com/tu-usuario/widkit.git
-   git push -u origin main
-   ```
-
-2. **Activa GitHub Pages:**
-   - Settings → Pages
-   - Source: Deploy from branch
-   - Branch: main / (root)
-   - Save
-
-3. **Tu sitio estará en:** `https://tu-usuario.github.io/widkit/`
-
-### Netlify (1-Click Deploy)
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start)
-
-### Vercel (1-Click Deploy)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
-
-### Cualquier Hosting Estático
-
-Sube los archivos a:
-- AWS S3 + CloudFront
-- Google Cloud Storage
-- Azure Static Web Apps
-- Cloudflare Pages
-- Render
-- Surge.sh
-
----
+✅ Instalable en escritorio y móvil  
+✅ Funciona sin conexión  
+✅ Actualizaciones automáticas  
+✅ Shortcuts a widgets populares  
+✅ Notificación de actualizaciones  
+✅ Modo standalone (sin barra del navegador)  
+✅ Splash screen personalizado  
+✅ Tema color adaptable  
 
 ## 📱 Compatibilidad
 
 ### Navegadores Soportados
-| Navegador | Versión Mínima |
-|-----------|----------------|
-| Chrome | 90+ |
-| Firefox | 88+ |
-| Safari | 14+ |
-| Edge | 90+ |
-| Opera | 76+ |
+| Navegador | Versión Mínima | PWA Support |
+|-----------|----------------|-------------|
+| Chrome | 90+ | ✅ Completo |
+| Firefox | 88+ | ✅ Completo |
+| Safari | 14+ | ⚠️ Limitado |
+| Edge | 90+ | ✅ Completo |
+| Opera | 76+ | ✅ Completo |
 
 ### Dispositivos
-- 📱 **Móviles:** iOS, Android (320px+)
-- 📱 **Tablets:** iPad, Android tablets (640px+)
-- 💻 **Desktop:** Windows, macOS, Linux (1024px+)
-- 🖥️ **Pantallas grandes:** 4K, ultrawide (1920px+)
-
----
-
-## 🎨 Personalización Avanzada
-
-### Cambiar Colores Globalmente
-
-Edita las variables CSS en cada widget:
-
-```css
-:root {
-    --color-1: #3b82f6;  /* Azul principal */
-    --color-2: #60a5fa;  /* Azul medio */
-    --color-3: #93c5fd;  /* Azul claro */
-}
-```
-
-### Agregar Nuevas Tipografías
-
-1. Importa desde Google Fonts en el `<head>`:
-```html
-<link href="https://fonts.googleapis.com/css2?family=TuFuente:wght@400;700&display=swap" rel="stylesheet">
-```
-
-2. Agrega la clase en el CSS:
-```css
-.font-tufuente { font-family: 'TuFuente', sans-serif; }
-```
-
-3. Actualiza el selector en el admin
-
----
-
-## 📊 Ventajas Competitivas
-
-### vs. Plugins de LMS
-- ✅ **Sin permisos de administrador**
-- ✅ **Funciona en cualquier LMS**
-- ✅ **No requiere actualizaciones**
-- ✅ **Sin problemas de compatibilidad**
-
-### vs. Servicios SaaS
-- ✅ **Gratis para siempre**
-- ✅ **Sin límites de uso**
-- ✅ **Sin cuentas ni registro**
-- ✅ **Código abierto**
-
-### vs. Widgets de terceros
-- ✅ **Sin ads ni tracking**
-- ✅ **Hospedado por ti**
-- ✅ **Totalmente personalizable**
-- ✅ **Sin dependencias externas**
-
----
-
-## 🔧 Desarrollo y Contribución
-
-### Estructura de Código
-
-Cada widget sigue este patrón:
-
-1. **Lectura de parámetros URL:** `URLSearchParams`
-2. **Aplicación de estilos:** CSS variables
-3. **Lógica de negocio:** JavaScript puro
-4. **Actualización del DOM:** Vanilla JS
-
-### Agregar un Nuevo Widget
-
-1. Crea el widget en `app/nuevo-widget.html`
-2. Crea el configurador en `admin/nuevo-widget.html`
-3. Crea el controlador en `admin/js/nuevo-widget.js`
-4. Agrega la card en `index.html`
-5. Documenta en README.md
-
-### Contribuir
-
-1. Fork el proyecto
-2. Crea una rama: `git checkout -b feature/mi-feature`
-3. Commit: `git commit -m 'feat: nueva característica'`
-4. Push: `git push origin feature/mi-feature`
-5. Abre un Pull Request
-
----
+- 📱 **Móviles:** iOS 14+, Android 5+
+- 📱 **Tablets:** iPad, Android tablets
+- 💻 **Desktop:** Windows, macOS, Linux
+- 🖥️ **Pantallas grandes:** 4K, ultrawide
 
 ## 🐛 Solución de Problemas
 
-### El widget no se muestra en iframe
+### El Service Worker no se registra:
+- Verifica que estés usando HTTPS o localhost
+- Revisa la consola del navegador para errores
+- Asegúrate de que `sw.js` esté en la raíz del proyecto
 
-**Problema:** Política CORS o X-Frame-Options
+### Los iconos no se muestran:
+- Verifica que los archivos existen en `assets/img/`
+- Revisa las rutas en `manifest.json`
+- Limpia el caché del navegador
+- Usa el generador: `icon-generator.html`
 
-**Solución:** Asegúrate de hospedar en un servidor con headers correctos:
-```
-X-Frame-Options: SAMEORIGIN
-Content-Security-Policy: frame-ancestors 'self' https://tu-lms.com
-```
+### La instalación no aparece:
+- Verifica que todos los criterios de PWA se cumplan (Lighthouse)
+- En Chrome, ve a chrome://flags y busca "bypass-app-banner-engagement-checks"
+- Limpia el cache y recarga
 
-### Los colores no se actualizan
-
-**Problema:** Caché del navegador
-
-**Solución:** Agrega un parámetro de versión:
-```
-?v=2&c1=%23color
-```
-
-### El iframe es muy grande/pequeño
-
-**Problema:** Altura fija
-
-**Solución:** Ajusta el `height` en el iframe:
-- Cuenta regresiva: 450px
-- Semanas: 650px
-- Sorteo: 700px
-
----
+### El widget no funciona offline:
+- Verifica que el Service Worker esté activo (DevTools → Application)
+- Carga la página al menos una vez con conexión
+- Revisa que los archivos estén en STATIC_ASSETS (sw.js)
 
 ## 📄 Licencia
 
-MIT License - Libre para uso personal y comercial.
+MIT License - Uso libre y gratuito
 
 ```
 Copyright (c) 2025 WidKit
 
-Por la presente se concede permiso, libre de cargos, a cualquier persona 
-que obtenga una copia de este software para usarlo sin restricción...
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction...
 ```
 
----
+## 👨‍💻 Autor
 
-## 🙏 Créditos
+Desarrollado con ❤️ por [@bemtorres](https://github.com/bemtorres)
 
-**Creado con:**
-- 💙 Tailwind CSS para estilos
-- 🎨 Google Fonts para tipografías
-- 🎊 canvas-confetti para efectos visuales
+## 🤝 Contribuir
 
-**Inspirado por:**
-- La necesidad de herramientas educativas simples
-- La filosofía "menos es más"
-- La web abierta y descentralizada
+¡Las contribuciones son bienvenidas! 
 
----
+1. Fork el proyecto
+2. Crea tu rama (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add: nueva característica'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
-## 📞 Soporte y Comunidad
+## 📚 Recursos Adicionales
 
-- 🐛 **Issues:** [GitHub Issues](https://github.com/tu-usuario/widkit/issues)
-- 💬 **Discusiones:** [GitHub Discussions](https://github.com/tu-usuario/widkit/discussions)
-- 📧 **Email:** tu-email@example.com
-- 🌐 **Website:** [widkit.com](https://widkit.com)
+- [PWA Documentation](https://web.dev/progressive-web-apps/)
+- [Service Workers Guide](https://developers.google.com/web/fundamentals/primers/service-workers)
+- [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)
+- [PWA-SETUP.md](PWA-SETUP.md) - Guía completa de configuración
 
----
+## ⭐ Apóyanos
 
-## 🚀 Roadmap
-
-### ✅ Versión 1.0 (Actual)
-- [x] Cuenta Regresiva
-- [x] Calculador de Semanas
-- [x] Sorteo Interactivo
-- [x] Panel de administración visual
-- [x] Responsive design
-
-### 🔜 Próximas Características
-- [ ] Pomodoro Timer
-- [ ] Calendario de eventos
-- [ ] Quiz interactivo
-- [ ] Gráficos de progreso
-- [ ] Modo oscuro
-- [ ] Temas predefinidos
-- [ ] Exportar configuración como JSON
-- [ ] Compartir configuración vía URL corta
+Si te gusta WidKit, dale una ⭐ en GitHub y compártelo con otros educadores.
 
 ---
 
-## ⭐ ¿Te Gusta WidKit?
+<div align="center">
 
-Si este proyecto te resultó útil:
+**[🌐 Visita widkit.lol](https://widkit.lol/)** • **[📱 Prueba la PWA](https://widkit.lol/)** • **[💬 Issues](https://github.com/bemtorres/widkit/issues)**
 
-- ⭐ Dale una estrella en GitHub
-- 🔀 Comparte con colegas
-- 🐛 Reporta bugs
-- 💡 Sugiere mejoras
-- 🤝 Contribuye con código
+Hecho con 🦉 para educadores
 
----
-
-**Construido con ❤️ para educadores y estudiantes**
-
-*"La mejor herramienta es la que no se interpone en tu camino"*
-
----
-
-### 📈 Stats
-
-![GitHub stars](https://img.shields.io/github/stars/tu-usuario/widkit?style=social)
-![GitHub forks](https://img.shields.io/github/forks/tu-usuario/widkit?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/tu-usuario/widkit?style=social)
-
----
-
-**[↑ Volver arriba](#-widkit---widgets-educativos-embebibles)**
+</div>
