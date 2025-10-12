@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de QR - WidKit Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl">
+                        🦉
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900">Generador de QR</h1>
+                        <p class="text-xs text-slate-500">Configura tu código QR - WidKit</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="../index.html" 
+                       class="inline-flex items-center gap-2 px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Navegación entre widgets -->
+    <div class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex gap-2 py-3 overflow-x-auto" aria-label="Widgets">
+                <a href="temporizador.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    ⏱️ Cuenta Regresiva
+                </a>
+                <a href="cronometro.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🥇 Cronómetro
+                </a>
+                <a href="semana.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    📅 Calculador de Semanas
+                </a>
+                <a href="sorteo.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🎲 Sorteo Interactivo
+                </a>
+                <a href="qr.html" 
+                   class="px-4 py-2 bg-blue-100 text-blue-700 text-sm font-medium rounded-lg whitespace-nowrap">
+                    📱 Generador QR
+                </a>
+                <a href="ruleta.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🎯 Selector Estudiante
+                </a>
+                <a href="notas.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🔢 Calculadora Notas
+                </a>
+                <a href="equipos.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    👥 Generador Equipos
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Configuración (2/3) -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Contenido del QR -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">Contenido del Código QR</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Tipo de Contenido</label>
+                            <select id="qr-type" 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                    onchange="updateContentType()">
+                                <option value="url">URL / Enlace Web</option>
+                                <option value="text">Texto Simple</option>
+                                <option value="email">Email</option>
+                                <option value="phone">Teléfono</option>
+                                <option value="sms">SMS</option>
+                                <option value="wifi">WiFi</option>
+                            </select>
+                        </div>
+
+                        <!-- URL / Text -->
+                        <div id="content-url" class="content-type">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">URL o Texto</label>
+                            <input type="text" id="qr-code" value="https://widkit.com" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                   placeholder="https://ejemplo.com"
+                                   onchange="generateQRURL()">
+                            <p class="text-xs text-slate-500 mt-1">Ingresa la URL completa o cualquier texto</p>
+                        </div>
+
+                        <!-- Email -->
+                        <div id="content-email" class="content-type hidden">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                            <input type="email" id="qr-email" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                   placeholder="correo@ejemplo.com"
+                                   onchange="generateQRURL()">
+                        </div>
+
+                        <!-- Phone -->
+                        <div id="content-phone" class="content-type hidden">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Teléfono</label>
+                            <input type="tel" id="qr-phone" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                   placeholder="+56912345678"
+                                   onchange="generateQRURL()">
+                        </div>
+
+                        <!-- SMS -->
+                        <div id="content-sms" class="content-type hidden">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Número</label>
+                                    <input type="tel" id="qr-sms-number" 
+                                           class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                                           placeholder="+56912345678"
+                                           onchange="generateQRURL()">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Mensaje</label>
+                                    <input type="text" id="qr-sms-text" 
+                                           class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                                           placeholder="Hola!"
+                                           onchange="generateQRURL()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- WiFi -->
+                        <div id="content-wifi" class="content-type hidden">
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Nombre de Red (SSID)</label>
+                                    <input type="text" id="qr-wifi-ssid" 
+                                           class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                                           placeholder="MiWiFi"
+                                           onchange="generateQRURL()">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Contraseña</label>
+                                    <input type="text" id="qr-wifi-password" 
+                                           class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                                           placeholder="micontraseña123"
+                                           onchange="generateQRURL()">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-2">Seguridad</label>
+                                    <select id="qr-wifi-security" 
+                                            class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
+                                            onchange="generateQRURL()">
+                                        <option value="WPA">WPA/WPA2</option>
+                                        <option value="WEP">WEP</option>
+                                        <option value="nopass">Sin contraseña</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personalización -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">Personalización Visual</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Título</label>
+                            <input type="text" id="qr-title" value="Código QR" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                   onchange="generateQRURL()">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Subtítulo</label>
+                            <input type="text" id="qr-subtitle" value="Escanea con tu cámara" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                   onchange="generateQRURL()">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Tamaño del QR (px)</label>
+                                <input type="number" id="qr-size" value="256" min="128" max="512" step="64"
+                                       class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                       onchange="generateQRURL()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Tamaño sugerido</label>
+                                <div class="flex gap-2 pt-2">
+                                    <button onclick="document.getElementById('qr-size').value=192;generateQRURL()" class="px-2 py-1 text-xs border rounded">192</button>
+                                    <button onclick="document.getElementById('qr-size').value=256;generateQRURL()" class="px-2 py-1 text-xs border rounded">256</button>
+                                    <button onclick="document.getElementById('qr-size').value=384;generateQRURL()" class="px-2 py-1 text-xs border rounded">384</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Color de Fondo</label>
+                                <input type="color" id="qr-bgcolor" value="#f3f4f6" 
+                                       class="w-full h-10 rounded-lg cursor-pointer border border-slate-300"
+                                       onchange="generateQRURL()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Fondo del QR</label>
+                                <input type="color" id="qr-qrbg" value="#ffffff" 
+                                       class="w-full h-10 rounded-lg cursor-pointer border border-slate-300"
+                                       onchange="generateQRURL()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Color del QR</label>
+                                <input type="color" id="qr-qrcolor" value="#000000" 
+                                       class="w-full h-10 rounded-lg cursor-pointer border border-slate-300"
+                                       onchange="generateQRURL()">
+                            </div>
+                        </div>
+
+                        <!-- Modo Minimal -->
+                        <div class="mt-6 pt-6 border-t border-slate-200">
+                            <h4 class="text-sm font-medium text-slate-700 mb-3">Modo de Visualización</h4>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" id="qr-minimal" 
+                                       class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500"
+                                       onchange="generateQRURL()">
+                                <div>
+                                    <span class="text-sm font-medium text-slate-700">Modo Minimal (solo QR)</span>
+                                    <p class="text-xs text-slate-500">Oculta el card, títulos y botones. Muestra solo el código QR</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- URL Generada y Código Embebido -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">Compartir e Integrar</h3>
+                    
+                    <div class="space-y-4">
+                        <!-- URL Directa -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">🔗 Link Directo</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="qr-url" readonly 
+                                       class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono text-slate-600">
+                                <button onclick="copyText('qr-url')" 
+                                        class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Copiar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Código Embebido -->
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">📦 Código Embebido (iframe)</label>
+                            <div class="flex gap-2">
+                                <textarea id="qr-embed" readonly rows="3"
+                                          class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono text-slate-600 resize-none"></textarea>
+                                <button onclick="copyText('qr-embed')" 
+                                        class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2 self-start">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Copiar
+                                </button>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Pega este código en tu sitio web, blog o plataforma educativa</p>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="openQR()" 
+                                    class="flex-1 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
+                                Abrir en Nueva Pestaña
+                            </button>
+                            <button onclick="refreshPreview('qr')" 
+                                    class="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition">
+                                Actualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista Previa (1/3) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg border border-slate-200 p-4 sticky top-24">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-slate-900">Vista Previa</h3>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">En vivo</span>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg overflow-hidden" style="height: 500px;">
+                        <iframe id="preview-qr" class="w-full h-full" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/qr.js"></script>
+    <script>
+        // Funciones auxiliares locales
+        function copyText(inputId) {
+            const element = document.getElementById(inputId);
+            element.select();
+            document.execCommand('copy');
+            
+            const button = event.target.closest('button');
+            const originalHTML = button.innerHTML;
+            button.innerHTML = '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Copiado';
+            button.classList.add('bg-green-600');
+            button.classList.remove('bg-slate-900');
+            
+            setTimeout(() => {
+                button.innerHTML = originalHTML;
+                button.classList.remove('bg-green-600');
+                button.classList.add('bg-slate-900');
+            }, 2000);
+        }
+
+        function refreshPreview(type) {
+            document.getElementById('preview-qr').src = document.getElementById('qr-url').value.replace(window.location.origin + window.location.pathname.replace('admin/qr.html', ''), '../');
+        }
+
+        function updateContentType() {
+            // Ocultar todos los tipos de contenido
+            document.querySelectorAll('.content-type').forEach(el => el.classList.add('hidden'));
+            
+            const type = document.getElementById('qr-type').value;
+            
+            // Mostrar el tipo seleccionado
+            if (type === 'url' || type === 'text') {
+                document.getElementById('content-url').classList.remove('hidden');
+            } else if (type === 'email') {
+                document.getElementById('content-email').classList.remove('hidden');
+            } else if (type === 'phone') {
+                document.getElementById('content-phone').classList.remove('hidden');
+            } else if (type === 'sms') {
+                document.getElementById('content-sms').classList.remove('hidden');
+            } else if (type === 'wifi') {
+                document.getElementById('content-wifi').classList.remove('hidden');
+            }
+            
+            generateQRURL();
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQRURL();
+        });
+    </script>
+</body>
+</html>
+

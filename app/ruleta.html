@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector de Estudiante</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --color-primary: #3b82f6;
+            --color-secondary: #60a5fa;
+            --color-accent: #93c5fd;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .winner-bounce {
+            animation: fadeInScale 0.6s ease-out;
+        }
+        
+        .confetti-particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            animation: confetti-fall 3s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Ruleta con Canvas - Responsive */
+        #spinWheel {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1 / 1;
+        }
+        
+        #spinWheel::after {
+            content: "";
+            position: absolute;
+            top: 0px;
+            left: calc(50% - 15px);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #fbbf24;
+            filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.5));
+            z-index: 10;
+        }
+        
+        #wheel {
+            display: block;
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(0,0,0,0.3);
+            width: 100%;
+            height: 100%;
+        }
+        
+        #spin {
+            font: 1.5em 'Poppins', sans-serif;
+            user-select: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16%;
+            height: 16%;
+            min-width: 60px;
+            min-height: 60px;
+            max-width: 90px;
+            max-height: 90px;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            box-shadow: 0 0 0 4px white, 0 0 15px 6px rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            transition: 0.3s;
+            text-align: center;
+            line-height: 1;
+        }
+        
+        #spin:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 0 4px white, 0 0 20px 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        #spin:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+        
+        #spin.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            #spinWheel {
+                max-width: 320px;
+            }
+            
+            #spin {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4 md:p-6" id="mainBody" style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary), var(--color-accent));">
+    <div class="w-full max-w-3xl">
+        <!-- Contenedor Principal -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-4 sm:p-6 md:p-8 text-center" id="mainContainer">
+            <h1 id="mainTitle" class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">🎯 Selector de Estudiante</h1>
+            <p id="mainSubtitle" class="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">Presiona el centro de la ruleta para seleccionar</p>
+            
+            <!-- Ruleta Visual con Canvas -->
+            <div class="mb-8 flex justify-center px-4">
+                <div id="spinWheel">
+                    <canvas id="wheel"></canvas>
+                    <div id="spin">🎯</div>
+                </div>
+            </div>
+            
+            <!-- Display del Nombre Ganador -->
+            <div class="mb-6 sm:mb-8">
+                <div id="nameDisplay" class="text-2xl sm:text-3xl md:text-5xl font-black text-center min-h-16 sm:min-h-20 flex items-center justify-center px-4" style="color: var(--color-primary);">
+                    <span class="opacity-30">Esperando...</span>
+                </div>
+            </div>
+            
+            <!-- Configuración Rápida -->
+            <div id="configSection" class="bg-gray-50 rounded-2xl p-4 sm:p-6 mb-6">
+                <h2 class="text-base sm:text-lg font-bold text-gray-800 mb-4">Lista de Participantes</h2>
+                <textarea id="participantsInput" 
+                          rows="6" 
+                          class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
+                          placeholder="Escribe un nombre por línea...&#10;Benja&#10;María&#10;Tomás&#10;Ana&#10;Pedro"></textarea>
+                <p class="text-xs text-gray-500 mt-2">Total: <span id="totalCount" class="font-bold">0</span> participantes</p>
+                
+                <div class="mt-4 flex items-center justify-center gap-3">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="removeSelected" class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Eliminar ya seleccionados</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Historial de Seleccionados -->
+            <div id="historySection" class="hidden bg-blue-50 rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6">
+                <h3 class="text-xs sm:text-sm font-bold text-gray-700 mb-2">📋 Ya seleccionados:</h3>
+                <div id="historyList" class="flex flex-wrap gap-1.5 sm:gap-2 justify-center text-xs sm:text-sm"></div>
+            </div>
+            
+            <!-- Botones de Acción -->
+            <div class="flex gap-2 sm:gap-3">
+                <button onclick="manualSpin()" 
+                        id="selectBtn"
+                        class="flex-1 px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-xl hover:from-blue-700 hover:to-blue-800 transition transform hover:scale-105 text-base sm:text-lg shadow-lg">
+                    🎲 Seleccionar
+                </button>
+                <button onclick="resetSelection()" 
+                        id="resetBtn"
+                        class="px-4 sm:px-6 py-3 sm:py-4 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition text-xl">
+                    🔄
+                </button>
+            </div>
+        </div>
+        
+        <div class="text-center mt-6">
+            <a href="https://widkit.lol/" target="_blank" class="text-sm text-white/70 hover:text-white transition">
+                Powered by WidKit 🦉
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // EventEmitter para eventos personalizados
+        class EventEmitter {
+            constructor() {
+                this.listeners = {};
+            }
+            
+            on(eventName, callback) {
+                if (!this.listeners[eventName]) {
+                    this.listeners[eventName] = [];
+                }
+                this.listeners[eventName].push(callback);
+            }
+            
+            emit(eventName, ...args) {
+                if (this.listeners[eventName]) {
+                    this.listeners[eventName].forEach(callback => callback(...args));
+                }
+            }
+        }
+        
+        // Clase SpinWheel para la ruleta
+        class SpinWheel {
+            constructor({ canvasSelector, buttonSelector, sectors, friction = 0.991 }) {
+                this.sectors = sectors;
+                this.friction = friction;
+                this.canvas = document.querySelector(canvasSelector);
+                this.context = this.canvas.getContext('2d');
+                this.button = document.querySelector(buttonSelector);
+                this.diameter = this.canvas.width;
+                this.radius = this.diameter / 2;
+                this.totalSectors = sectors.length;
+                this.arcAngle = (2 * Math.PI) / this.totalSectors;
+                this.angle = 0;
+                this.angularVelocity = 0;
+                this.spinButtonClicked = false;
+                this.events = new EventEmitter();
+                this.init();
+            }
+            
+            get currentIndex() {
+                return Math.floor(this.totalSectors - (this.angle / (2 * Math.PI)) * this.totalSectors) % this.totalSectors;
+            }
+            
+            drawSector(sector, index) {
+                const startAngle = this.arcAngle * index;
+                this.context.save();
+                
+                // Dibujar sector
+                this.context.beginPath();
+                this.context.fillStyle = sector.color;
+                this.context.moveTo(this.radius, this.radius);
+                this.context.arc(this.radius, this.radius, this.radius, startAngle, startAngle + this.arcAngle);
+                this.context.lineTo(this.radius, this.radius);
+                this.context.fill();
+                
+                // Agregar texto/nombre
+                this.context.translate(this.radius, this.radius);
+                this.context.rotate(startAngle + this.arcAngle / 2);
+                this.context.textAlign = 'right';
+                this.context.fillStyle = sector.textColor;
+                // Ajustar tamaño de fuente según el radio del canvas
+                const fontSize = Math.max(12, Math.min(20, this.radius / 12));
+                this.context.font = `bold ${fontSize}px 'Poppins', sans-serif`;
+                this.context.fillText(sector.label, this.radius - (this.radius * 0.1), fontSize / 3);
+                
+                this.context.restore();
+            }
+            
+            rotateCanvas() {
+                this.canvas.style.transform = `rotate(${this.angle - Math.PI / 2}rad)`;
+            }
+            
+            updateFrame() {
+                // Detener y emitir evento
+                if (!this.angularVelocity && this.spinButtonClicked) {
+                    const winningSector = this.sectors[this.currentIndex];
+                    this.events.emit('finishSpinning', winningSector);
+                    this.spinButtonClicked = false;
+                    return;
+                }
+                
+                // Aplicar fricción
+                this.angularVelocity *= this.friction;
+                if (this.angularVelocity < 0.002) this.angularVelocity = 0;
+                
+                // Actualizar ángulo
+                this.angle += this.angularVelocity;
+                this.angle %= 2 * Math.PI;
+                
+                this.rotateCanvas();
+            }
+            
+            startSimulation() {
+                const animate = () => {
+                    this.updateFrame();
+                    requestAnimationFrame(animate);
+                };
+                animate();
+            }
+            
+            spin() {
+                if (!this.angularVelocity) {
+                    this.angularVelocity = SpinWheel.randomInRange(0.25, 0.45);
+                    this.spinButtonClicked = true;
+                }
+            }
+            
+            init() {
+                this.sectors.forEach((sector, index) => this.drawSector(sector, index));
+                this.rotateCanvas();
+                this.startSimulation();
+                
+                this.button.addEventListener('click', () => this.spin());
+            }
+            
+            static randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+        }
+        
+        // Variables globales
+        let spinWheel = null;
+        let selectedHistory = [];
+        let currentParticipants = [];
+        
+        // Colores para la ruleta
+        const wheelColors = [
+            { bg: '#3b82f6', text: '#ffffff' },
+            { bg: '#60a5fa', text: '#ffffff' },
+            { bg: '#93c5fd', text: '#1f2937' },
+            { bg: '#2563eb', text: '#ffffff' },
+            { bg: '#1d4ed8', text: '#ffffff' },
+            { bg: '#7dd3fc', text: '#1f2937' }
+        ];
+        
+        // Hacer canvas responsive
+        function setupResponsiveCanvas() {
+            const canvas = document.querySelector('#wheel');
+            const container = document.querySelector('#spinWheel');
+            const size = container.offsetWidth;
+            
+            canvas.width = size;
+            canvas.height = size;
+            
+            return size;
+        }
+        
+        // Cargar parámetros de URL
+        window.addEventListener('DOMContentLoaded', () => {
+            // Configurar tamaño responsive del canvas
+            setupResponsiveCanvas();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Cargar lista de participantes
+            const list = urlParams.get('list');
+            if (list) {
+                const names = list.split(',').map(n => n.trim()).filter(n => n);
+                document.getElementById('participantsInput').value = names.join('\n');
+            }
+            
+            // Cargar configuración
+            const remove = urlParams.get('remove');
+            if (remove === '1' || remove === 'true') {
+                document.getElementById('removeSelected').checked = true;
+            }
+            
+            // Cargar colores personalizados
+            const c1 = urlParams.get('c1');
+            const c2 = urlParams.get('c2');
+            const c3 = urlParams.get('c3');
+            
+            if (c1) {
+                document.documentElement.style.setProperty('--color-primary', c1);
+                wheelColors[0].bg = c1;
+                wheelColors[3].bg = c1;
+            }
+            if (c2) {
+                document.documentElement.style.setProperty('--color-secondary', c2);
+                wheelColors[1].bg = c2;
+                wheelColors[4].bg = c2;
+            }
+            if (c3) {
+                document.documentElement.style.setProperty('--color-accent', c3);
+                wheelColors[2].bg = c3;
+                wheelColors[5].bg = c3;
+            }
+            
+            // Cargar textos personalizados
+            const title = urlParams.get('title') || '🎯 Selector de Estudiante';
+            const subtitle = urlParams.get('subtitle') || 'Presiona el centro de la ruleta para seleccionar';
+            
+            document.getElementById('mainTitle').textContent = title;
+            document.getElementById('mainSubtitle').textContent = subtitle;
+            
+            updateParticipantCount();
+            rebuildWheel();
+            
+            // Reconstruir al cambiar tamaño de ventana
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    setupResponsiveCanvas();
+                    rebuildWheel();
+                }, 250);
+            });
+        });
+        
+        // Actualizar contador de participantes
+        document.getElementById('participantsInput').addEventListener('input', () => {
+            updateParticipantCount();
+            rebuildWheel();
+        });
+        
+        function updateParticipantCount() {
+            const text = document.getElementById('participantsInput').value;
+            const count = text.split('\n').filter(line => line.trim()).length;
+            document.getElementById('totalCount').textContent = count;
+        }
+        
+        // Reconstruir la ruleta
+        function rebuildWheel() {
+            const text = document.getElementById('participantsInput').value;
+            currentParticipants = text.split('\n').filter(line => line.trim());
+            
+            if (currentParticipants.length === 0) {
+                currentParticipants = ['Participante 1', 'Participante 2', 'Participante 3'];
+            }
+            
+            // Crear sectores para la ruleta
+            const sectors = currentParticipants.map((name, index) => ({
+                color: wheelColors[index % wheelColors.length].bg,
+                textColor: wheelColors[index % wheelColors.length].text,
+                label: name.length > 15 ? name.substring(0, 13) + '...' : name,
+                fullName: name
+            }));
+            
+            // Crear nueva instancia de la ruleta
+            if (spinWheel) {
+                // Limpiar canvas
+                const canvas = document.querySelector('#wheel');
+                const context = canvas.getContext('2d');
+                context.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            spinWheel = new SpinWheel({
+                canvasSelector: '#wheel',
+                buttonSelector: '#spin',
+                sectors: sectors,
+                friction: 0.991
+            });
+            
+            // Escuchar cuando termine de girar
+            spinWheel.events.on('finishSpinning', (sector) => {
+                showWinner(sector.fullName);
+            });
+        }
+        
+        // Girar manualmente desde el botón
+        function manualSpin() {
+            if (currentParticipants.length === 0) {
+                alert('¡Agrega al menos un participante!');
+                return;
+            }
+            
+            // Deshabilitar controles
+            disableControls();
+            
+            // Girar
+            spinWheel.spin();
+            
+            // Reproducir sonido
+            playSound(400);
+        }
+        
+        // Deshabilitar controles durante el giro
+        function disableControls() {
+            document.getElementById('spin').classList.add('disabled');
+            document.getElementById('selectBtn').disabled = true;
+            document.getElementById('selectBtn').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('resetBtn').disabled = true;
+            document.getElementById('resetBtn').classList.add('opacity-50', 'cursor-not-allowed');
+            document.getElementById('configSection').classList.add('opacity-50', 'pointer-events-none');
+            
+            document.getElementById('nameDisplay').innerHTML = '<span class="opacity-50 text-2xl animate-pulse">🎲 Girando...</span>';
+        }
+        
+        // Habilitar controles
+        function enableControls() {
+            document.getElementById('spin').classList.remove('disabled');
+            document.getElementById('selectBtn').disabled = false;
+            document.getElementById('selectBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('resetBtn').disabled = false;
+            document.getElementById('resetBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('configSection').classList.remove('opacity-50', 'pointer-events-none');
+        }
+        
+        // Mostrar ganador
+        function showWinner(winner) {
+            const nameDisplay = document.getElementById('nameDisplay');
+            nameDisplay.innerHTML = `<span class="winner-bounce">${winner}</span>`;
+            
+            // Agregar a historial
+            if (!selectedHistory.includes(winner)) {
+                selectedHistory.push(winner);
+                updateHistory();
+            }
+            
+            // Eliminar de la lista si está marcado
+            const removeSelected = document.getElementById('removeSelected').checked;
+            if (removeSelected) {
+                const textarea = document.getElementById('participantsInput');
+                const lines = textarea.value.split('\n').filter(line => line.trim() !== winner);
+                textarea.value = lines.join('\n');
+                updateParticipantCount();
+                
+                // Reconstruir ruleta sin el seleccionado
+                setTimeout(() => rebuildWheel(), 1000);
+            }
+            
+            // Confetti
+            createConfetti();
+            
+            // Sonidos de victoria
+            playSound(800);
+            setTimeout(() => playSound(1000), 100);
+            setTimeout(() => playSound(1200), 200);
+            
+            // Habilitar controles
+            setTimeout(() => enableControls(), 500);
+        }
+        
+        // Actualizar historial
+        function updateHistory() {
+            const historySection = document.getElementById('historySection');
+            const historyList = document.getElementById('historyList');
+            
+            if (selectedHistory.length > 0) {
+                historySection.classList.remove('hidden');
+                historyList.innerHTML = selectedHistory.map(name => 
+                    `<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">${name}</span>`
+                ).join('');
+            }
+        }
+        
+        // Resetear selección
+        function resetSelection() {
+            selectedHistory = [];
+            document.getElementById('historySection').classList.add('hidden');
+            document.getElementById('nameDisplay').innerHTML = '<span class="opacity-30">Esperando...</span>';
+            
+            // Recargar participantes originales si es necesario
+            const urlParams = new URLSearchParams(window.location.search);
+            const list = urlParams.get('list');
+            if (list) {
+                const names = list.split(',').map(n => n.trim()).filter(n => n);
+                document.getElementById('participantsInput').value = names.join('\n');
+                updateParticipantCount();
+                rebuildWheel();
+            }
+        }
+        
+        // Crear confetti
+        function createConfetti() {
+            const colors = ['#3b82f6', '#60a5fa', '#93c5fd', '#fbbf24', '#f59e0b', '#ef4444'];
+            const confettiCount = 60;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti-particle';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 15);
+            }
+        }
+        
+        // Reproducir sonido
+        function playSound(frequency) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.15);
+            } catch (e) {
+                // Silenciar errores de audio
+            }
+        }
+    </script>
+</body>
+</html>

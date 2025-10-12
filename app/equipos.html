@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Equipos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --color-primary: #10b981;
+            --color-secondary: #34d399;
+            --color-accent: #6ee7b7;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .team-card {
+            animation: fadeInScale 0.4s ease-out;
+        }
+        
+        .member-item {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .dragging {
+            opacity: 0.5;
+            cursor: move;
+        }
+        
+        .drag-over {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6 !important;
+        }
+        
+        .confetti-particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            animation: confetti-fall 3s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-2 sm:p-4 md:p-6" id="mainBody" style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary), var(--color-accent));">
+    <div class="w-full max-w-6xl mx-auto">
+        <!-- Contenedor Principal -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-4 sm:p-6 md:p-8" id="mainContainer">
+            <div class="text-center mb-6">
+                <h1 id="mainTitle" class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">🎲 Generador de Equipos</h1>
+                <p id="mainSubtitle" class="text-sm sm:text-base text-gray-600">Divide participantes en equipos aleatorios</p>
+            </div>
+            
+            <!-- Sección de Configuración -->
+            <div id="setupSection" class="space-y-6">
+                <!-- Participantes -->
+                <div class="bg-gray-50 rounded-2xl p-6">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4">👥 Lista de Participantes</h2>
+                    <textarea id="participantsInput" 
+                              rows="8" 
+                              class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-green-500 focus:border-transparent text-sm resize-none"
+                              placeholder="Escribe un nombre por línea...&#10;Benja&#10;María&#10;Tomás&#10;Ana&#10;Pedro&#10;Luis&#10;Carmen&#10;Diego"></textarea>
+                    <p class="text-xs text-gray-500 mt-2">Total: <span id="totalCount" class="font-bold">0</span> participantes</p>
+                </div>
+                
+                <!-- Configuración de Equipos -->
+                <div class="bg-gray-50 rounded-2xl p-6">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4">⚙️ Configuración</h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Número de Equipos</label>
+                            <input type="number" id="teamCount" value="2" min="2" max="10"
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-green-500 focus:border-transparent text-lg font-bold text-center">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Cuenta Regresiva (segundos)</label>
+                            <input type="number" id="countdownTime" value="3" min="0" max="10"
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-green-500 focus:border-transparent text-lg font-bold text-center">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botón Generar -->
+                <button onclick="startCountdown()" 
+                        class="w-full px-8 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white font-bold rounded-xl hover:from-green-700 hover:to-green-800 transition transform hover:scale-105 text-xl shadow-lg">
+                    🎲 Generar Equipos
+                </button>
+            </div>
+            
+            <!-- Cuenta Regresiva -->
+            <div id="countdownSection" class="hidden">
+                <div class="text-center py-12">
+                    <p class="text-lg text-gray-600 mb-4">Generando equipos en...</p>
+                    <div id="countdownDisplay" class="text-8xl font-black text-green-600 mb-4">3</div>
+                    <p class="text-sm text-gray-500">Preparando la asignación...</p>
+                </div>
+            </div>
+            
+            <!-- Sección de Equipos -->
+            <div id="teamsSection" class="hidden space-y-6">
+                <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">🎯 Equipos Generados</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="showAddPersonModal()" 
+                                class="px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition">
+                            ➕ Persona
+                        </button>
+                        <button onclick="createNewTeam()" 
+                                class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition">
+                            ➕ Equipo
+                        </button>
+                        <button onclick="exportTeams()" 
+                                class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
+                            📥 Exportar
+                        </button>
+                        <button onclick="resetTeams()" 
+                                class="px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition">
+                            🔄 Nuevo
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 mb-4">
+                    <p class="text-sm text-blue-800">
+                        <strong>💡 Tips:</strong> Arrastra miembros entre equipos · Click en nombre para editar · Click en color para cambiar
+                    </p>
+                </div>
+                
+                <div id="teamsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Los equipos se generan aquí -->
+                </div>
+            </div>
+            
+            <!-- Modal para agregar persona -->
+            <div id="addPersonModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick="if(event.target === this) closeAddPersonModal()">
+                <div class="bg-white rounded-2xl p-6 max-w-md w-full" onclick="event.stopPropagation()">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">➕ Agregar Persona</h3>
+                    <input type="text" id="newPersonName" 
+                           placeholder="Nombre de la persona"
+                           class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-purple-500 focus:border-transparent mb-4"
+                           onkeypress="if(event.key === 'Enter') addPerson()">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Asignar a equipo:</label>
+                    <select id="assignToTeam" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-4 focus:ring-purple-500 mb-4">
+                        <!-- Opciones de equipos -->
+                    </select>
+                    <div class="flex gap-3">
+                        <button onclick="addPerson()" 
+                                class="flex-1 px-4 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition">
+                            Agregar
+                        </button>
+                        <button onclick="closeAddPersonModal()" 
+                                class="px-4 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal para cambiar color -->
+            <div id="colorModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onclick="if(event.target === this) closeColorModal()">
+                <div class="bg-white rounded-2xl p-6 max-w-sm w-full" onclick="event.stopPropagation()">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">🎨 Cambiar Color</h3>
+                    <p class="text-sm text-gray-600 mb-4">Selecciona un nuevo color para <strong id="colorTeamName"></strong>:</p>
+                    <div id="colorOptions" class="grid grid-cols-5 gap-3 mb-4">
+                        <!-- Colores generados dinámicamente -->
+                    </div>
+                    <button onclick="closeColorModal()" 
+                            class="w-full px-4 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-center mt-6">
+                <a href="https://widkit.lol/" target="_blank" class="text-xs text-gray-400 hover:text-gray-600 transition">
+                    Powered by WidKit 🦉
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let teams = [];
+        let teamNames = [];
+        let teamColorIndices = [];
+        let currentColorTeamIndex = null;
+        
+        const teamColors = [
+            { name: 'Rojo', bg: 'bg-red-50', border: 'border-red-300', text: 'text-red-700', badge: 'bg-red-500' },
+            { name: 'Azul', bg: 'bg-blue-50', border: 'border-blue-300', text: 'text-blue-700', badge: 'bg-blue-500' },
+            { name: 'Verde', bg: 'bg-green-50', border: 'border-green-300', text: 'text-green-700', badge: 'bg-green-500' },
+            { name: 'Amarillo', bg: 'bg-yellow-50', border: 'border-yellow-300', text: 'text-yellow-700', badge: 'bg-yellow-500' },
+            { name: 'Morado', bg: 'bg-purple-50', border: 'border-purple-300', text: 'text-purple-700', badge: 'bg-purple-500' },
+            { name: 'Rosa', bg: 'bg-pink-50', border: 'border-pink-300', text: 'text-pink-700', badge: 'bg-pink-500' },
+            { name: 'Índigo', bg: 'bg-indigo-50', border: 'border-indigo-300', text: 'text-indigo-700', badge: 'bg-indigo-500' },
+            { name: 'Naranja', bg: 'bg-orange-50', border: 'border-orange-300', text: 'text-orange-700', badge: 'bg-orange-500' },
+            { name: 'Teal', bg: 'bg-teal-50', border: 'border-teal-300', text: 'text-teal-700', badge: 'bg-teal-500' },
+            { name: 'Cyan', bg: 'bg-cyan-50', border: 'border-cyan-300', text: 'text-cyan-700', badge: 'bg-cyan-500' }
+        ];
+        
+        // Cargar parámetros de URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Cargar participantes
+            const list = urlParams.get('list');
+            if (list) {
+                const names = list.split(',').map(n => n.trim()).filter(n => n);
+                document.getElementById('participantsInput').value = names.join('\n');
+            }
+            
+            // Cargar configuración
+            const numTeams = urlParams.get('equipos') || urlParams.get('teams');
+            if (numTeams) {
+                document.getElementById('teamCount').value = numTeams;
+            }
+            
+            const countdown = urlParams.get('countdown') || urlParams.get('time');
+            if (countdown) {
+                document.getElementById('countdownTime').value = countdown;
+            }
+            
+            // Cargar colores
+            const c1 = urlParams.get('c1') || '#10b981';
+            const c2 = urlParams.get('c2') || '#34d399';
+            const c3 = urlParams.get('c3') || '#6ee7b7';
+            
+            document.documentElement.style.setProperty('--color-primary', c1);
+            document.documentElement.style.setProperty('--color-secondary', c2);
+            document.documentElement.style.setProperty('--color-accent', c3);
+            
+            // Textos
+            const title = urlParams.get('title') || '🎲 Generador de Equipos';
+            const subtitle = urlParams.get('subtitle') || 'Divide participantes en equipos aleatorios';
+            
+            document.getElementById('mainTitle').textContent = title;
+            document.getElementById('mainSubtitle').textContent = subtitle;
+            
+            updateParticipantCount();
+        });
+        
+        // Actualizar contador
+        document.getElementById('participantsInput').addEventListener('input', updateParticipantCount);
+        
+        function updateParticipantCount() {
+            const text = document.getElementById('participantsInput').value;
+            const count = text.split('\n').filter(line => line.trim()).length;
+            document.getElementById('totalCount').textContent = count;
+        }
+        
+        // Iniciar cuenta regresiva
+        function startCountdown() {
+            const text = document.getElementById('participantsInput').value;
+            const participants = text.split('\n').filter(line => line.trim());
+            
+            if (participants.length < 2) {
+                alert('Necesitas al menos 2 participantes!');
+                return;
+            }
+            
+            const numTeams = parseInt(document.getElementById('teamCount').value);
+            
+            if (numTeams < 2 || numTeams > participants.length) {
+                alert(`Número de equipos debe estar entre 2 y ${participants.length}`);
+                return;
+            }
+            
+            // Ocultar setup, mostrar countdown
+            document.getElementById('setupSection').classList.add('hidden');
+            document.getElementById('countdownSection').classList.remove('hidden');
+            
+            let timeLeft = parseInt(document.getElementById('countdownTime').value);
+            const countdownDisplay = document.getElementById('countdownDisplay');
+            
+            if (timeLeft === 0) {
+                // Sin cuenta regresiva, generar inmediatamente
+                generateTeams(participants, numTeams);
+                return;
+            }
+            
+            // Sonido inicial
+            playSound(600);
+            
+            const interval = setInterval(() => {
+                timeLeft--;
+                countdownDisplay.textContent = timeLeft;
+                playSound(700 + (timeLeft * 100));
+                
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    playSound(1000);
+                    setTimeout(() => {
+                        generateTeams(participants, numTeams);
+                    }, 300);
+                }
+            }, 1000);
+        }
+        
+        // Generar equipos
+        function generateTeams(participants, numTeams) {
+            document.getElementById('countdownSection').classList.add('hidden');
+            document.getElementById('teamsSection').classList.remove('hidden');
+            
+            // Mezclar participantes
+            const shuffled = [...participants].sort(() => Math.random() - 0.5);
+            
+            // Crear equipos vacíos
+            teams = Array.from({ length: numTeams }, () => []);
+            teamNames = Array.from({ length: numTeams }, (_, i) => `Equipo ${i + 1}`);
+            teamColorIndices = Array.from({ length: numTeams }, (_, i) => i % teamColors.length);
+            
+            // Distribuir balanceadamente
+            shuffled.forEach((participant, index) => {
+                const teamIndex = index % numTeams;
+                teams[teamIndex].push(participant);
+            });
+            
+            // Renderizar equipos
+            renderTeams();
+            
+            // Confetti
+            createConfetti();
+            playSound(1200);
+        }
+        
+        // Renderizar equipos
+        function renderTeams() {
+            const container = document.getElementById('teamsContainer');
+            container.innerHTML = '';
+            
+            teams.forEach((team, teamIndex) => {
+                const colorIndex = teamColorIndices[teamIndex] || teamIndex % teamColors.length;
+                const color = teamColors[colorIndex];
+                const teamName = teamNames[teamIndex] || `Equipo ${teamIndex + 1}`;
+                
+                const teamDiv = document.createElement('div');
+                teamDiv.className = `${color.bg} border-2 ${color.border} rounded-xl p-4 team-card relative`;
+                teamDiv.setAttribute('data-team-index', teamIndex);
+                teamDiv.addEventListener('dragover', handleDragOver);
+                teamDiv.addEventListener('drop', handleDrop);
+                teamDiv.addEventListener('dragleave', handleDragLeave);
+                
+                teamDiv.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2 flex-1">
+                            <div class="w-6 h-6 ${color.badge} rounded cursor-pointer hover:scale-110 transition" 
+                                 onclick="openColorModal(${teamIndex})"
+                                 title="Cambiar color"></div>
+                            <h3 class="text-xl font-bold ${color.text} cursor-pointer hover:underline" 
+                                onclick="editTeamName(${teamIndex})"
+                                title="Click para editar">${teamName}</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="${color.badge} text-white px-3 py-1 rounded-full text-sm font-bold">${team.length}</span>
+                            ${teams.length > 1 ? `
+                                <button onclick="deleteTeam(${teamIndex})" 
+                                        class="text-red-500 hover:text-red-700 transition p-1"
+                                        title="Eliminar equipo">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div class="space-y-2" id="team-${teamIndex}-members">
+                        ${team.map((member, memberIndex) => `
+                            <div class="bg-white border-2 border-gray-200 rounded-lg p-3 cursor-move hover:border-gray-400 transition member-item group"
+                                 draggable="true"
+                                 data-team-index="${teamIndex}"
+                                 data-member-index="${memberIndex}"
+                                 data-member-name="${member}"
+                                 ondragstart="handleDragStart(event)">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 ${color.badge} text-white rounded-full flex items-center justify-center font-bold text-sm">
+                                        ${memberIndex + 1}
+                                    </div>
+                                    <span class="font-medium text-gray-800 flex-1">${member}</span>
+                                    <button onclick="removeMember(${teamIndex}, ${memberIndex})" 
+                                            class="opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-700 transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="text-gray-400">⋮⋮</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                container.appendChild(teamDiv);
+            });
+        }
+        
+        // Drag & Drop handlers
+        let draggedElement = null;
+        let sourceTeamIndex = null;
+        let sourceMemberIndex = null;
+        
+        function handleDragStart(event) {
+            draggedElement = event.target;
+            sourceTeamIndex = parseInt(event.target.getAttribute('data-team-index'));
+            sourceMemberIndex = parseInt(event.target.getAttribute('data-member-index'));
+            
+            event.target.classList.add('dragging');
+            event.dataTransfer.effectAllowed = 'move';
+        }
+        
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+            
+            const teamCard = event.currentTarget;
+            teamCard.classList.add('drag-over');
+        }
+        
+        function handleDragLeave(event) {
+            const teamCard = event.currentTarget;
+            teamCard.classList.remove('drag-over');
+        }
+        
+        function handleDrop(event) {
+            event.preventDefault();
+            
+            const teamCard = event.currentTarget;
+            teamCard.classList.remove('drag-over');
+            
+            const targetTeamIndex = parseInt(teamCard.getAttribute('data-team-index'));
+            
+            if (sourceTeamIndex === targetTeamIndex) {
+                draggedElement.classList.remove('dragging');
+                return; // Mismo equipo, no hacer nada
+            }
+            
+            // Mover miembro de un equipo a otro
+            const memberName = draggedElement.getAttribute('data-member-name');
+            
+            teams[sourceTeamIndex].splice(sourceMemberIndex, 1);
+            teams[targetTeamIndex].push(memberName);
+            
+            // Re-renderizar
+            renderTeams();
+            playSound(800);
+        }
+        
+        // Crear nuevo equipo vacío
+        function createNewTeam() {
+            teams.push([]);
+            teamNames.push(`Equipo ${teams.length}`);
+            teamColorIndices.push(teams.length % teamColors.length);
+            renderTeams();
+            playSound(800);
+        }
+        
+        // Eliminar equipo
+        function deleteTeam(teamIndex) {
+            if (teams.length <= 1) {
+                alert('Debe haber al menos 1 equipo');
+                return;
+            }
+            
+            if (!confirm(`¿Eliminar ${teamNames[teamIndex]}?`)) return;
+            
+            teams.splice(teamIndex, 1);
+            teamNames.splice(teamIndex, 1);
+            teamColorIndices.splice(teamIndex, 1);
+            renderTeams();
+            playSound(600);
+        }
+        
+        // Editar nombre de equipo
+        function editTeamName(teamIndex) {
+            const newName = prompt('Nuevo nombre del equipo:', teamNames[teamIndex]);
+            if (newName && newName.trim()) {
+                teamNames[teamIndex] = newName.trim();
+                renderTeams();
+            }
+        }
+        
+        // Abrir modal de color
+        function openColorModal(teamIndex) {
+            currentColorTeamIndex = teamIndex;
+            document.getElementById('colorTeamName').textContent = teamNames[teamIndex];
+            
+            const colorOptions = document.getElementById('colorOptions');
+            colorOptions.innerHTML = teamColors.map((color, index) => `
+                <button onclick="changeTeamColor(${index})" 
+                        class="${color.badge} w-12 h-12 rounded-lg hover:scale-110 transition shadow-md"
+                        title="${color.name}"></button>
+            `).join('');
+            
+            document.getElementById('colorModal').classList.remove('hidden');
+        }
+        
+        // Cambiar color de equipo
+        function changeTeamColor(colorIndex) {
+            teamColorIndices[currentColorTeamIndex] = colorIndex;
+            renderTeams();
+            closeColorModal();
+            playSound(900);
+        }
+        
+        // Cerrar modal de color
+        function closeColorModal() {
+            document.getElementById('colorModal').classList.add('hidden');
+            currentColorTeamIndex = null;
+        }
+        
+        // Mostrar modal para agregar persona
+        function showAddPersonModal() {
+            const select = document.getElementById('assignToTeam');
+            select.innerHTML = teams.map((team, index) => 
+                `<option value="${index}">${teamNames[index]} (${team.length} ${team.length === 1 ? 'persona' : 'personas'})</option>`
+            ).join('');
+            
+            document.getElementById('newPersonName').value = '';
+            document.getElementById('addPersonModal').classList.remove('hidden');
+            document.getElementById('newPersonName').focus();
+        }
+        
+        // Agregar persona
+        function addPerson() {
+            const name = document.getElementById('newPersonName').value.trim();
+            const teamIndex = parseInt(document.getElementById('assignToTeam').value);
+            
+            if (!name) {
+                alert('Ingresa un nombre');
+                return;
+            }
+            
+            teams[teamIndex].push(name);
+            renderTeams();
+            closeAddPersonModal();
+            playSound(1000);
+        }
+        
+        // Cerrar modal de agregar persona
+        function closeAddPersonModal() {
+            document.getElementById('addPersonModal').classList.add('hidden');
+        }
+        
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAddPersonModal();
+                closeColorModal();
+            }
+        });
+        
+        // Eliminar miembro de un equipo
+        function removeMember(teamIndex, memberIndex) {
+            if (!confirm(`¿Eliminar a ${teams[teamIndex][memberIndex]} del equipo?`)) return;
+            
+            teams[teamIndex].splice(memberIndex, 1);
+            renderTeams();
+            playSound(600);
+        }
+        
+        // Resetear equipos
+        function resetTeams() {
+            if (!confirm('¿Generar nuevos equipos? Se perderán los cambios actuales.')) return;
+            
+            teams = [];
+            teamNames = [];
+            teamColorIndices = [];
+            document.getElementById('teamsSection').classList.add('hidden');
+            document.getElementById('setupSection').classList.remove('hidden');
+        }
+        
+        // Exportar equipos
+        function exportTeams() {
+            let text = '📋 EQUIPOS GENERADOS\n\n';
+            
+            teams.forEach((team, index) => {
+                const teamName = teamNames[index] || `Equipo ${index + 1}`;
+                text += `🔹 ${teamName.toUpperCase()} (${team.length} ${team.length === 1 ? 'persona' : 'personas'}):\n`;
+                team.forEach((member, i) => {
+                    text += `  ${i + 1}. ${member}\n`;
+                });
+                text += '\n';
+            });
+            
+            text += `Total de participantes: ${teams.reduce((sum, team) => sum + team.length, 0)}\n`;
+            text += `Total de equipos: ${teams.length}\n\n`;
+            text += `Generado con WidKit - https://widkit.lol/`;
+            
+            // Copiar al portapapeles
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copiado';
+                btn.classList.add('bg-green-600');
+                btn.classList.remove('bg-blue-600');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('bg-green-600');
+                    btn.classList.add('bg-blue-600');
+                }, 2000);
+            });
+        }
+        
+        // Crear confetti
+        function createConfetti() {
+            const colors = ['#10b981', '#34d399', '#6ee7b7', '#fbbf24', '#f59e0b'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti-particle';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 20);
+            }
+        }
+        
+        // Reproducir sonido
+        function playSound(frequency) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                // Silenciar errores
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Equipos - WidKit Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl">
+                        🦉
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900">Generador de Equipos</h1>
+                        <p class="text-xs text-slate-500">Configura tu generador - WidKit</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="../index.html" 
+                       class="inline-flex items-center gap-2 px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Navegación entre widgets -->
+    <div class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex gap-2 py-3 overflow-x-auto" aria-label="Widgets">
+                <a href="temporizador.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    ⏱️ Cuenta Regresiva
+                </a>
+                <a href="cronometro.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🥇 Cronómetro
+                </a>
+                <a href="semana.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    📅 Calculador de Semanas
+                </a>
+                <a href="sorteo.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🎲 Sorteo Interactivo
+                </a>
+                <a href="qr.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    📱 Generador QR
+                </a>
+                <a href="ruleta.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🎯 Selector Estudiante
+                </a>
+                <a href="notas.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🔢 Calculadora Notas
+                </a>
+                <a href="equipos.html" 
+                   class="px-4 py-2 bg-blue-100 text-blue-700 text-sm font-medium rounded-lg whitespace-nowrap">
+                    👥 Generador Equipos
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Configuración (2/3) -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Textos -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">Textos Personalizados</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Título Principal</label>
+                            <input type="text" id="equipos-title" value="🎲 Generador de Equipos"
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 text-sm"
+                                   onchange="generateEquiposURL()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Subtítulo</label>
+                            <input type="text" id="equipos-subtitle" value="Divide participantes en equipos aleatorios"
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 text-sm"
+                                   onchange="generateEquiposURL()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Participantes y Config -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">Configuración</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
+                                Participantes (uno por línea o separados por comas)
+                            </label>
+                            <textarea id="equipos-participantes" rows="8"
+                                      class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 text-sm"
+                                      placeholder="Benja&#10;María&#10;Tomás&#10;Ana&#10;Pedro&#10;Luis&#10;Carmen&#10;Diego"
+                                      onchange="generateEquiposURL()">Benja
+María
+Tomás
+Ana
+Pedro
+Luis
+Carmen
+Diego</textarea>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Número de Equipos</label>
+                                <input type="number" id="equipos-teams" value="2" min="2" max="10"
+                                       class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 text-sm"
+                                       onchange="generateEquiposURL()">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Cuenta Regresiva (seg)</label>
+                                <input type="number" id="equipos-countdown" value="3" min="0" max="10"
+                                       class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 text-sm"
+                                       onchange="generateEquiposURL()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colores -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">Colores del Fondo</h3>
+                    
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Color 1</label>
+                            <input type="color" id="equipos-color1" value="#10b981"
+                                   class="w-full h-10 rounded-lg cursor-pointer border border-slate-300"
+                                   onchange="generateEquiposURL()">
+                            <p class="text-xs text-slate-500 text-center mt-1 font-mono" id="equipos-c1-hex">#10B981</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Color 2</label>
+                            <input type="color" id="equipos-color2" value="#34d399"
+                                   class="w-full h-10 rounded-lg cursor-pointer border border-slate-300"
+                                   onchange="generateEquiposURL()">
+                            <p class="text-xs text-slate-500 text-center mt-1 font-mono" id="equipos-c2-hex">#34D399</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Color 3</label>
+                            <input type="color" id="equipos-color3" value="#6ee7b7"
+                                   class="w-full h-10 rounded-lg cursor-pointer border border-slate-300"
+                                   onchange="generateEquiposURL()">
+                            <p class="text-xs text-slate-500 text-center mt-1 font-mono" id="equipos-c3-hex">#6EE7B7</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- URL Generada -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">Compartir e Integrar</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">🔗 Link Directo</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="equipos-url" readonly 
+                                       class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono text-slate-600">
+                                <button onclick="copyText('equipos-url')" 
+                                        class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition">
+                                    Copiar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">📦 Código Embebido</label>
+                            <div class="flex gap-2">
+                                <textarea id="equipos-embed" readonly rows="3"
+                                          class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono text-slate-600 resize-none"></textarea>
+                                <button onclick="copyText('equipos-embed')" 
+                                        class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition">
+                                    Copiar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="openEquipos()" 
+                                    class="flex-1 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition">
+                                Abrir en Nueva Pestaña
+                            </button>
+                            <button onclick="refreshPreview()" 
+                                    class="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition">
+                                Actualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista Previa -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg border border-slate-200 p-4 sticky top-24">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-slate-900">Vista Previa</h3>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">En vivo</span>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg overflow-hidden" style="height: 700px;">
+                        <iframe id="preview-equipos" class="w-full h-full" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/equipos.js"></script>
+    <script>
+        function copyText(inputId) {
+            const element = document.getElementById(inputId);
+            element.select();
+            document.execCommand('copy');
+            
+            const button = event.target.closest('button');
+            const originalHTML = button.innerHTML;
+            button.innerHTML = '✓ Copiado';
+            button.classList.add('bg-green-600');
+            button.classList.remove('bg-slate-900');
+            
+            setTimeout(() => {
+                button.innerHTML = originalHTML;
+                button.classList.remove('bg-green-600');
+                button.classList.add('bg-slate-900');
+            }, 2000);
+        }
+
+        function refreshPreview() {
+            document.getElementById('preview-equipos').src = document.getElementById('equipos-url').value.replace(window.location.origin + window.location.pathname.replace('admin/equipos.html', ''), '../');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            generateEquiposURL();
+        });
+    </script>
+</body>
+</html>
+

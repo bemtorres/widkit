@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Notas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --color-primary: #8b5cf6;
+            --color-secondary: #a78bfa;
+            --color-accent: #c4b5fd;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .grade-item {
+            animation: slideIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4 md:p-6" id="mainBody" style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary), var(--color-accent));">
+    <div class="w-full max-w-3xl">
+        <!-- Contenedor Principal -->
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-4 sm:p-6 md:p-8" id="mainContainer">
+            <div class="text-center mb-6">
+                <h1 id="mainTitle" class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">🔢 Calculadora de Notas</h1>
+                <p id="mainSubtitle" class="text-sm sm:text-base text-gray-600">Calcula tu promedio ponderado</p>
+            </div>
+            
+            <!-- Resultado Principal -->
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl p-6 mb-6 text-white">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm opacity-90">Promedio Actual:</span>
+                    <span id="minApproval" class="text-xs opacity-75">Mínimo: <span id="minScore">4.0</span></span>
+                </div>
+                <div class="text-5xl md:text-6xl font-black text-center mb-2">
+                    <span id="average">-</span>
+                </div>
+                <div class="flex justify-center gap-2 text-xs">
+                    <span id="statusBadge" class="px-3 py-1 rounded-full bg-white/20"></span>
+                </div>
+                
+                <!-- Barra de progreso -->
+                <div class="mt-4 bg-white/20 rounded-full h-3 overflow-hidden">
+                    <div id="progressBar" class="h-full bg-white transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <!-- Lista de Evaluaciones -->
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-gray-800">📝 Evaluaciones</h2>
+                    <button onclick="addGrade()" class="px-3 py-1.5 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition">
+                        + Agregar
+                    </button>
+                </div>
+                <div id="gradesContainer" class="space-y-3 max-h-96 overflow-y-auto">
+                    <!-- Las evaluaciones se agregan aquí -->
+                </div>
+            </div>
+            
+            <!-- Calculadora "¿Qué nota necesito?" -->
+            <div id="needCalculator" class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 sm:p-6 hidden">
+                <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                    <span>💡</span>
+                    <span>¿Qué nota necesito?</span>
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Para alcanzar un <strong><span id="targetScoreDisplay">4.0</span></strong>, necesitas sacar:
+                </p>
+                <div id="needResults" class="space-y-2">
+                    <!-- Resultados dinámicos -->
+                </div>
+            </div>
+            
+            <div class="text-center mt-6">
+                <a href="https://widkit.lol/" target="_blank" class="text-xs text-gray-400 hover:text-gray-600 transition">
+                    Powered by WidKit 🦉
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let grades = [];
+        let gradeCounter = 0;
+        let minApprovalScore = 4.0;
+        let maxScore = 7.0;
+        
+        // Cargar parámetros de URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Cargar porcentajes predefinidos
+            const percentages = urlParams.get('porcentaje') || urlParams.get('percentages');
+            if (percentages) {
+                const percs = percentages.split(',').map(p => parseInt(p.trim())).filter(p => !isNaN(p) && p > 0);
+                percs.forEach(perc => {
+                    addGrade('', perc);
+                });
+            } else {
+                // Agregar 3 evaluaciones por defecto
+                addGrade('Evaluación 1', 30);
+                addGrade('Evaluación 2', 30);
+                addGrade('Evaluación 3', 40);
+            }
+            
+            // Cargar nombres de evaluaciones
+            const names = urlParams.get('nombres') || urlParams.get('names');
+            if (names) {
+                const nameList = names.split(',').map(n => n.trim());
+                const gradeInputs = document.querySelectorAll('[id^="grade-"][id$="-name"]');
+                nameList.forEach((name, index) => {
+                    if (gradeInputs[index]) {
+                        gradeInputs[index].value = name;
+                    }
+                });
+            }
+            
+            // Cargar colores personalizados
+            const c1 = urlParams.get('c1') || '#8b5cf6';
+            const c2 = urlParams.get('c2') || '#a78bfa';
+            const c3 = urlParams.get('c3') || '#c4b5fd';
+            
+            document.documentElement.style.setProperty('--color-primary', c1);
+            document.documentElement.style.setProperty('--color-secondary', c2);
+            document.documentElement.style.setProperty('--color-accent', c3);
+            
+            // Cargar textos personalizados
+            const title = urlParams.get('title') || '🔢 Calculadora de Notas';
+            const subtitle = urlParams.get('subtitle') || 'Calcula tu promedio ponderado';
+            
+            document.getElementById('mainTitle').textContent = title;
+            document.getElementById('mainSubtitle').textContent = subtitle;
+            
+            // Configuración de notas
+            const min = parseFloat(urlParams.get('min')) || 4.0;
+            const max = parseFloat(urlParams.get('max')) || 7.0;
+            
+            minApprovalScore = min;
+            maxScore = max;
+            
+            document.getElementById('minScore').textContent = min.toFixed(1);
+            document.getElementById('targetScoreDisplay').textContent = min.toFixed(1);
+            
+            calculateAverage();
+        });
+        
+        // Agregar evaluación
+        function addGrade(defaultName = '', defaultPercentage = 0) {
+            gradeCounter++;
+            const gradeId = gradeCounter;
+            grades.push(gradeId);
+            
+            const container = document.getElementById('gradesContainer');
+            const gradeDiv = document.createElement('div');
+            gradeDiv.id = `grade-${gradeId}`;
+            gradeDiv.className = 'bg-slate-50 border-2 border-slate-200 rounded-xl p-4 grade-item';
+            gradeDiv.innerHTML = `
+                <div class="flex items-center gap-3 mb-3">
+                    <input type="text" 
+                           id="grade-${gradeId}-name" 
+                           value="${defaultName || `Evaluación ${gradeId}`}"
+                           placeholder="Nombre de la evaluación"
+                           class="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                           onchange="calculateAverage()">
+                    <button onclick="removeGrade(${gradeId})" class="text-slate-400 hover:text-red-600 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Nota (1-${maxScore})</label>
+                        <input type="number" 
+                               id="grade-${gradeId}-score" 
+                               min="1" 
+                               max="${maxScore}" 
+                               step="0.1"
+                               placeholder="Ej: 6.5"
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                               onchange="calculateAverage()">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-700 mb-1">Porcentaje (%)</label>
+                        <input type="number" 
+                               id="grade-${gradeId}-percentage" 
+                               value="${defaultPercentage || ''}"
+                               min="1" 
+                               max="100"
+                               placeholder="Ej: 30"
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                               onchange="calculateAverage()">
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="flex justify-between text-xs text-slate-600 mb-1">
+                        <span id="grade-${gradeId}-label">Pendiente</span>
+                        <span id="grade-${gradeId}-contribution">-</span>
+                    </div>
+                    <div class="bg-slate-200 rounded-full h-2 overflow-hidden">
+                        <div id="grade-${gradeId}-bar" class="h-full bg-purple-500 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(gradeDiv);
+            calculateAverage();
+        }
+        
+        // Eliminar evaluación
+        function removeGrade(gradeId) {
+            grades = grades.filter(id => id !== gradeId);
+            document.getElementById(`grade-${gradeId}`).remove();
+            calculateAverage();
+        }
+        
+        // Calcular promedio
+        function calculateAverage() {
+            let totalScore = 0;
+            let totalPercentage = 0;
+            let completedGrades = [];
+            let pendingGrades = [];
+            
+            grades.forEach(gradeId => {
+                const scoreInput = document.getElementById(`grade-${gradeId}-score`);
+                const percentageInput = document.getElementById(`grade-${gradeId}-percentage`);
+                const label = document.getElementById(`grade-${gradeId}-label`);
+                const contribution = document.getElementById(`grade-${gradeId}-contribution`);
+                const bar = document.getElementById(`grade-${gradeId}-bar`);
+                
+                const score = parseFloat(scoreInput.value);
+                const percentage = parseFloat(percentageInput.value);
+                
+                if (!isNaN(percentage) && percentage > 0) {
+                    totalPercentage += percentage;
+                    
+                    if (!isNaN(score) && score > 0) {
+                        // Nota completada
+                        const weightedScore = (score * percentage) / 100;
+                        totalScore += weightedScore;
+                        completedGrades.push({ gradeId, score, percentage, weightedScore });
+                        
+                        label.textContent = `${score.toFixed(1)} × ${percentage}%`;
+                        contribution.textContent = `+${weightedScore.toFixed(2)}`;
+                        bar.style.width = `${(score / maxScore) * 100}%`;
+                        
+                        // Color según nota
+                        if (score >= minApprovalScore) {
+                            bar.classList.remove('bg-red-500', 'bg-yellow-500');
+                            bar.classList.add('bg-green-500');
+                        } else if (score >= minApprovalScore * 0.8) {
+                            bar.classList.remove('bg-red-500', 'bg-green-500');
+                            bar.classList.add('bg-yellow-500');
+                        } else {
+                            bar.classList.remove('bg-green-500', 'bg-yellow-500');
+                            bar.classList.add('bg-red-500');
+                        }
+                    } else {
+                        // Nota pendiente
+                        pendingGrades.push({ gradeId, percentage });
+                        label.textContent = 'Pendiente';
+                        contribution.textContent = `${percentage}%`;
+                        bar.style.width = '0%';
+                    }
+                }
+            });
+            
+            // Mostrar promedio
+            const averageDisplay = document.getElementById('average');
+            const progressBar = document.getElementById('progressBar');
+            const statusBadge = document.getElementById('statusBadge');
+            
+            if (totalPercentage === 0) {
+                averageDisplay.textContent = '-';
+                statusBadge.textContent = '';
+                progressBar.style.width = '0%';
+            } else {
+                const currentAverage = totalScore / (totalPercentage / 100);
+                averageDisplay.textContent = currentAverage.toFixed(2);
+                
+                // Barra de progreso
+                const progress = (currentAverage / maxScore) * 100;
+                progressBar.style.width = `${Math.min(progress, 100)}%`;
+                
+                // Status
+                if (currentAverage >= minApprovalScore) {
+                    statusBadge.textContent = '✅ Aprobado';
+                    statusBadge.className = 'px-3 py-1 rounded-full bg-green-500/80 text-white';
+                } else {
+                    statusBadge.textContent = '⚠️ Reprobado';
+                    statusBadge.className = 'px-3 py-1 rounded-full bg-red-500/80 text-white';
+                }
+                
+                // Calcular "¿Qué nota necesito?"
+                if (pendingGrades.length > 0 && totalPercentage === 100) {
+                    calculateNeedScore(currentAverage, totalPercentage, pendingGrades);
+                } else {
+                    document.getElementById('needCalculator').classList.add('hidden');
+                }
+            }
+            
+            // Validar suma de porcentajes
+            updatePercentageWarning(totalPercentage);
+        }
+        
+        // Calcular qué nota necesito
+        function calculateNeedScore(currentAverage, completedPercentage, pendingGrades) {
+            const needCalculator = document.getElementById('needCalculator');
+            const needResults = document.getElementById('needResults');
+            
+            needCalculator.classList.remove('hidden');
+            needResults.innerHTML = '';
+            
+            pendingGrades.forEach(({ gradeId, percentage }) => {
+                const nameInput = document.getElementById(`grade-${gradeId}-name`);
+                const name = nameInput.value || 'Evaluación';
+                
+                // Calcular nota necesaria para aprobar
+                const currentContribution = currentAverage * (completedPercentage / 100);
+                const neededTotal = minApprovalScore * (completedPercentage / 100 + percentage / 100);
+                const neededScore = ((neededTotal - currentContribution) / (percentage / 100));
+                
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'bg-white rounded-lg p-3 border-2 border-amber-200';
+                
+                let message = '';
+                let color = '';
+                
+                if (neededScore > maxScore) {
+                    message = `❌ Imposible aprobar (necesitas ${neededScore.toFixed(2)})`;
+                    color = 'text-red-600';
+                } else if (neededScore < 1) {
+                    message = `🎉 Ya aprobaste! Puedes sacar cualquier nota`;
+                    color = 'text-green-600';
+                } else {
+                    message = `📌 Necesitas <strong class="text-2xl text-purple-600">${neededScore.toFixed(2)}</strong>`;
+                    color = 'text-gray-800';
+                }
+                
+                resultDiv.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-semibold text-sm">${name}</span>
+                        <span class="text-xs text-gray-500">${percentage}%</span>
+                    </div>
+                    <div class="${color} text-sm">${message}</div>
+                `;
+                
+                needResults.appendChild(resultDiv);
+            });
+        }
+        
+        // Validar suma de porcentajes
+        function updatePercentageWarning(totalPercentage) {
+            const existing = document.getElementById('percentageWarning');
+            if (existing) existing.remove();
+            
+            if (totalPercentage !== 100 && totalPercentage > 0) {
+                const warning = document.createElement('div');
+                warning.id = 'percentageWarning';
+                warning.className = `p-3 rounded-lg mb-4 text-sm ${totalPercentage > 100 ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}`;
+                warning.innerHTML = `
+                    <strong>⚠️ Suma de porcentajes: ${totalPercentage}%</strong><br>
+                    ${totalPercentage > 100 ? 'La suma excede el 100%' : `Faltan ${100 - totalPercentage}% por asignar`}
+                `;
+                document.getElementById('gradesContainer').before(warning);
+            }
+        }
+        
+        // Resetear notas
+        function resetGrades() {
+            grades.forEach(id => {
+                document.getElementById(`grade-${id}`)?.remove();
+            });
+            grades = [];
+            gradeCounter = 0;
+            addGrade('Evaluación 1', 30);
+            addGrade('Evaluación 2', 30);
+            addGrade('Evaluación 3', 40);
+        }
+    </script>
+</body>
+</html>
+

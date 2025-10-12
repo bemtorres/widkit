@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Código QR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4" id="mainBody">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center" id="mainContainer">
+        <h1 id="qrTitle" class="text-2xl font-bold text-gray-800 mb-2">Código QR</h1>
+        <p id="qrSubtitle" class="text-sm text-gray-600 mb-6">Escanea con tu cámara</p>
+        
+        <!-- Contenedor del QR -->
+        <div class="flex justify-center mb-6">
+            <div id="qrcode" class="inline-block p-4 rounded-xl" style="background: white;"></div>
+        </div>
+        
+        <!-- Información del código -->
+        <div id="codeInfo" class="bg-gray-50 rounded-lg p-4 mb-4">
+            <p class="text-xs text-gray-500 mb-1">Contenido:</p>
+            <p id="codeContent" class="text-sm font-mono text-gray-700 break-all"></p>
+        </div>
+
+        <!-- Botón de descarga -->
+        <button onclick="downloadQR()" 
+                class="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-lg hover:from-blue-600 hover:to-blue-700 transition shadow-lg">
+            📥 Descargar QR
+        </button>
+
+        <div class="text-center mt-4">
+            <a href="https://widkit.lol/" target="_blank" class="text-xs text-gray-400 hover:text-gray-600 transition">
+                Powered by WidKit 🦉
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Obtener parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code') || 'https://widkit.com';
+        const size = parseInt(urlParams.get('size')) || 256;
+        const bgColor = urlParams.get('bg') || '#f3f4f6';
+        const qrBg = urlParams.get('qrbg') || '#ffffff';
+        const qrColor = urlParams.get('qrcolor') || '#000000';
+        const title = urlParams.get('title') || 'Código QR';
+        const subtitle = urlParams.get('subtitle') || 'Escanea con tu cámara';
+        const minimal = urlParams.get('minimal') === '1' || urlParams.get('minimal') === 'true';
+        
+        // Aplicar fondo del body
+        document.getElementById('mainBody').style.background = bgColor;
+        
+        // Si es modo minimal, ocultar todo excepto el QR
+        if (minimal) {
+            document.getElementById('mainContainer').style.background = 'transparent';
+            document.getElementById('mainContainer').style.boxShadow = 'none';
+            document.getElementById('mainContainer').style.padding = '0';
+            document.getElementById('qrTitle').style.display = 'none';
+            document.getElementById('qrSubtitle').style.display = 'none';
+            document.getElementById('codeInfo').style.display = 'none';
+            document.querySelector('button').style.display = 'none';
+            document.querySelector('.text-center.mt-4').style.display = 'none';
+            document.getElementById('qrcode').style.padding = '0';
+            document.getElementById('qrcode').style.background = 'transparent';
+        } else {
+            // Aplicar textos personalizados (solo en modo normal)
+            document.getElementById('qrTitle').textContent = title;
+            document.getElementById('qrSubtitle').textContent = subtitle;
+            document.getElementById('codeContent').textContent = code;
+        }
+        
+        // Generar el código QR
+        const qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: code,
+            width: size,
+            height: size,
+            colorDark: qrColor,
+            colorLight: qrBg,
+            correctLevel: QRCode.CorrectLevel.H
+        });
+        
+        // Función para descargar el QR
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (canvas) {
+                // Convertir a blob y descargar
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `qr-code-${Date.now()}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            } else {
+                // Fallback: usar la imagen
+                const img = document.querySelector('#qrcode img');
+                if (img) {
+                    const a = document.createElement('a');
+                    a.href = img.src;
+                    a.download = `qr-code-${Date.now()}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            }
+        }
+        
+        // Si el código es muy largo, ocultar el contenedor de info (solo en modo normal)
+        if (!minimal && code.length > 100) {
+            document.getElementById('codeInfo').innerHTML = `
+                <p class="text-xs text-gray-500 mb-1">Contenido:</p>
+                <p class="text-sm text-gray-700">Contenido muy largo (${code.length} caracteres)</p>
+            `;
+        }
+    </script>
+</body>
+</html>
+

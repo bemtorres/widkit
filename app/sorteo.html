@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorteo Interactivo</title>
@@ -219,6 +229,12 @@
                 </div>
             </div>
         </div>
+        
+        <div class="text-center mt-8">
+            <a href="https://widkit.lol/" target="_blank" class="text-sm text-white/60 hover:text-white/90 transition">
+                Powered by WidKit 🦉
+            </a>
+        </div>
     </div>
 
     <script>
@@ -276,11 +292,6 @@
             document.getElementById('mainSubtitle').textContent = subtitle;
             
             updateParticipantCount();
-            
-            // Auto-start if URL has parameters
-            if (list) {
-                setTimeout(() => startSorteo(), 500);
-            }
         });
 
         // Update participant count

@@ -1,18 +1,352 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WidKit - Widgets que Funcionan para Todo</title>
+    <title>WidKit - Widgets Educativos para Moodle, Blackboard y más</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse-slow {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.6s ease-out;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.6s ease-out;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse-slow 3s ease-in-out infinite;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .gradient-animated {
+            background-size: 200% 200%;
+            animation: gradient-shift 8s ease infinite;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        /* Animaciones al scroll */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Modo Pro - Efectos Premium */
+        .pro-mode {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1810 50%, #1a1a1a 100%) !important;
+            background-size: 400% 400%;
+            animation: gradient-shift 8s ease infinite !important;
+        }
+        
+        .pro-mode .widget-card {
+            border: 2px solid #fbbf24 !important;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3), 0 0 40px rgba(251, 191, 36, 0.1) !important;
+            background: linear-gradient(135deg, #1f1f1f 0%, #2d2d2d 100%) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pro-mode .widget-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(251, 191, 36, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s linear infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .pro-mode .widget-card h3,
+        .pro-mode .widget-card p {
+            color: #fbbf24 !important;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+        
+        .pro-mode .widget-card .gradient-icon {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #dc2626 100%) !important;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(251, 191, 36, 0.9), 0 0 60px rgba(220, 38, 38, 0.5);
+                transform: scale(1.05);
+            }
+        }
+        
+        .pro-mode nav {
+            background: linear-gradient(to right, #1a1a1a, #2d1810) !important;
+            border-color: #fbbf24 !important;
+        }
+        
+        .pro-mode h1, .pro-mode h2, .pro-mode h3 {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 4s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        .pro-mode footer {
+            background: linear-gradient(to top, #1a1a1a, #2d1810) !important;
+        }
+        
+        .pro-mode section {
+            background: linear-gradient(135deg, #2d1810 0%, #1a1a1a 50%, #2d1810 100%) !important;
+            border-color: #fbbf24 !important;
+        }
+        
+        .pro-mode .text-slate-600,
+        .pro-mode .text-slate-700,
+        .pro-mode .text-slate-900 {
+            color: #d4d4d8 !important;
+        }
+        
+        .pro-mode .bg-white {
+            background: rgba(45, 24, 16, 0.3) !important;
+        }
+        
+        .pro-mode .bg-slate-50 {
+            background: rgba(26, 26, 26, 0.5) !important;
+        }
+        
+        .pro-mode svg path {
+            fill: #fbbf24;
+        }
+        
+        .pro-mode .bg-green-100,
+        .pro-mode .bg-blue-100,
+        .pro-mode .bg-purple-100 {
+            background: rgba(251, 191, 36, 0.2) !important;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        
+        .pro-mode .text-green-700,
+        .pro-mode .text-blue-700,
+        .pro-mode .text-purple-700,
+        .pro-mode .text-green-500 {
+            color: #fbbf24 !important;
+        }
+        
+        /* Botón flotante */
+        .pro-toggle {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 9999;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #dc2626 100%);
+            border: 3px solid #fbbf24;
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .pro-toggle:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 30px rgba(251, 191, 36, 0.6), 0 0 50px rgba(220, 38, 38, 0.3);
+        }
+        
+        .pro-toggle.active {
+            background: linear-gradient(135deg, #dc2626 0%, #f59e0b 50%, #fbbf24 100%);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .flame-icon {
+            font-size: 24px;
+            animation: flicker 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { transform: scale(1) rotate(-5deg); opacity: 1; }
+            25% { transform: scale(1.1) rotate(5deg); opacity: 0.9; }
+            50% { transform: scale(0.95) rotate(-3deg); opacity: 1; }
+            75% { transform: scale(1.05) rotate(3deg); opacity: 0.95; }
+        }
+        
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            .pro-toggle {
+                right: 10px;
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+            .flame-icon {
+                font-size: 20px;
+            }
+        }
+        
+        /* Botones en modo pro */
+        .pro-mode a[href*="admin/"],
+        .pro-mode button {
+            border-color: #fbbf24 !important;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.3) !important;
+        }
+        
+        .pro-mode a[href*="admin/"]:hover,
+        .pro-mode button:hover {
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6) !important;
+        }
+        
+        /* Partículas de fuego */
+        .fire-particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #fbbf24 0%, #dc2626 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float-up 3s ease-in-out infinite;
+            opacity: 0;
+            z-index: 9998;
+        }
+        
+        @keyframes float-up {
+            0% {
+                opacity: 1;
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) translateX(var(--drift));
+            }
+        }
+    </style>
 </head>
-<body class="bg-slate-50 min-h-screen">
+<body class="bg-slate-50 min-h-screen" id="mainBody">
+    <!-- Botón Modo Pro Flotante -->
+    <button class="pro-toggle" id="proToggle" onclick="toggleProMode()">
+        <span class="flame-icon">🔥</span>
+        <span>Modo Pro</span>
+    </button>
+
     <!-- Navbar -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 animate-fadeIn">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl">
+                    <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl animate-float">
                         🦉
                     </div>
                     <div>
@@ -21,276 +355,728 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="admin.html" 
-                       class="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                        Configuración
+                    <a href="https://github.com/bemtorres/widkit" 
+                       target="_blank"
+                       class="inline-flex items-center gap-2 px-4 py-2 text-slate-700 hover:text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-100 transition group">
+                        <img src="assets/img/github-mark.svg" alt="GitHub" class="w-5 h-5 group-hover:scale-110 transition-transform">
+                        <span class="hidden sm:inline">GitHub</span>
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Header Section -->
-        <div class="mb-8">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="text-5xl">🦉</div>
-                <div>
-                    <h2 class="text-3xl font-bold text-slate-900">Widgets que Funcionan para Todo</h2>
-                    <p class="text-slate-600">Crea, configura e inserta en cualquier página, sin base de datos</p>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-amber-50 via-orange-50 to-slate-50 border-b border-slate-200 gradient-animated">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center mb-8">
+                <div class="inline-block mb-4 animate-fadeInUp">
+                    <span id="heroBadge" class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full animate-pulse-slow">✨ Gratis y fácil de usar</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4 animate-fadeInUp delay-100">
+                    Widgets Educativos<br>
+                    <span id="heroSubtitle" class="text-amber-600 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Listos en 30 Segundos</span>
+                </h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto mb-8 animate-fadeInUp delay-200">
+                    Integra cuenta regresiva, calculador de semanas y sorteos en Moodle, Blackboard, Canvas o cualquier sitio web. 
+                    <strong>¡Sin programación!</strong>
+                </p>
+            </div>
+
+            <!-- Quick Example -->
+            <div class="max-w-3xl mx-auto animate-fadeInUp delay-300">
+                <div class="bg-white rounded-xl shadow-lg border-2 border-amber-300 overflow-hidden transform transition hover:scale-105 hover:shadow-2xl">
+                    <div class="bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-3">
+                        <h3 class="text-white font-bold flex items-center gap-2">
+                            <span class="text-xl">⚡</span>
+                            Ejemplo Súper Fácil: Copia y Pega en tu LMS
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-slate-600 mb-3">
+                            <strong>Paso 1:</strong> Copia este código y pégalo en Moodle, Blackboard o tu sitio web:
+                        </p>
+                        <div class="relative">
+                            <pre id="quickCode" class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto font-mono"><code>&lt;iframe src="https://tu-dominio.com/app/cuentaregresiva.html?title=Examen Final&y=2025&m=12&d=15&h=14" width="100%" height="450" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <button onclick="copiarCodigo('quickCode')" 
+                                    class="absolute top-2 right-2 px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded transition">
+                                📋 Copiar
+                            </button>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-3">
+                            <strong>Paso 2:</strong> ¡Listo! Ya tienes una cuenta regresiva funcionando. 
+                            <a href="#widgets" class="text-amber-600 hover:underline font-semibold">Ver más widgets →</a>
+                        </p>
+                    </div>
                 </div>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-slate-600">
-                <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
-                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span>3 widgets listos para usar</span>
+
+            <!-- LMS Logos -->
+            <div class="mt-10 text-center animate-fadeIn delay-400">
+                <p class="text-sm text-slate-500 mb-4 font-semibold">Compatible con:</p>
+                <div class="flex flex-wrap justify-center items-center gap-4 md:gap-6">
+                    <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm hover:shadow-md transition">
+                        <img src="assets/img/Moodle-logo.png" alt="Moodle" class="h-8 w-auto object-contain">
+                        <!-- <span class="font-semibold text-slate-700">Moodle</span> -->
+                    </div>
+                    <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm hover:shadow-md transition">
+                        <img src="assets/img/Blackboard-Original.png" alt="Blackboard" class="h-16 w-auto object-contain">
+                        <!-- <span class="font-semibold text-slate-700">Blackboard</span> -->
+                    </div>
+                    <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm hover:shadow-md transition">
+                        <img src="assets/img/canvas-lms-logo.png" alt="Canvas" class="h-8 w-auto object-contain">
+                        <!-- <span class="font-semibold text-slate-700">Canvas</span> -->
+                    </div>
+                    <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm hover:shadow-md transition">
+                        <span class="text-2xl">🌐</span>
+                        <span class="font-semibold text-slate-700">Cualquier Web</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span>Totalmente personalizable</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Widgets Grid -->
+        <div id="widgets" class="mb-16 scroll-reveal">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-3">8 Widgets Listos para Usar</h2>
+                <p class="text-slate-600">Selecciona, configura y obtén el código embebido en segundos</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Cuenta Regresiva -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <span class="text-3xl">⏱️</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Cuenta Regresiva</h3>
+                        <p class="text-sm text-slate-600">
+                            Temporizador para exámenes, entregas y eventos importantes
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Actualización en tiempo real</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Colores personalizables</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Responsive</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/temporizador.html" 
+                           class="px-4 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/cuentaregresiva.html?title=Año Nuevo 2026&y=2026&m=1&d=1" 
+                           target="_blank"
+                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span>Embebible con iframes</span>
+
+                <!-- Cronómetro Ascendente -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <span class="text-3xl">🥇</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Cronómetro Ascendente</h3>
+                        <p class="text-sm text-slate-600">
+                            Tiempo transcurrido desde un evento o fecha de inicio
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Cuenta hacia adelante</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Tiempo de funcionamiento</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Personalizable</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/cronometro.html" 
+                           class="px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/cronometro.html?title=Tiempo en línea&y=2025&m=1&d=1" 
+                           target="_blank"
+                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span>Sin backend requerido</span>
+
+                <!-- Calculador de Semanas -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <span class="text-3xl">📅</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Calculador de Semanas</h3>
+                        <p class="text-sm text-slate-600">
+                            Organiza tu curso por semanas con actividades programadas
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Semana actual destacada</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Actividades por semana</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Ideal para cursos</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/semana.html" 
+                           class="px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="#" onclick="openSemanaDemo(); return false;" 
+                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Sorteo Interactivo -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-purple-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <span class="text-3xl">🎲</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Sorteo Interactivo</h3>
+                        <p class="text-sm text-slate-600">
+                            Sorteos animados para seleccionar ganadores o participaciones
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Animación de ruleta</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Efectos visuales y confetti</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Múltiples ganadores</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/sorteo.html" 
+                           class="px-4 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/sorteo.html?list=Benja,María,Tomás,Ana,Pedro&time=3&win=3" 
+                           target="_blank"
+                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Generador de QR -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-orange-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <span class="text-3xl">📱</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Generador de QR</h3>
+                        <p class="text-sm text-slate-600">
+                            Crea códigos QR personalizados para URLs, textos y más
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>URLs, texto, WiFi, email</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Colores personalizables</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Descarga directa PNG</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/qr.html" 
+                           class="px-4 py-2.5 bg-orange-600 text-white text-sm font-semibold rounded-lg hover:bg-orange-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/qr.html?code=https://widkit.com&size=256" 
+                           target="_blank"
+                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Selector de Estudiante -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-cyan-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <span class="text-3xl">🎯</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Selector de Estudiante</h3>
+                        <p class="text-sm text-slate-600">
+                            Selección rápida y aleatoria de participantes
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Animación de ruleta rápida</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Elimina ya seleccionados</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Ideal para participaciones</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/ruleta.html" 
+                           class="px-4 py-2.5 bg-cyan-600 text-white text-sm font-semibold rounded-lg hover:bg-cyan-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/ruleta.html?list=Benja,María,Tomás,Ana,Pedro" 
+                           target="_blank"
+                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Calculadora de Notas -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-purple-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <span class="text-3xl">🔢</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Calculadora de Notas</h3>
+                        <p class="text-sm text-slate-600">
+                            Promedio ponderado y "¿Qué nota necesito?"
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Cálculo automático ponderado</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>¿Qué nota necesito para aprobar?</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Barras de progreso visuales</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/notas.html" 
+                           class="px-4 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/notas.html?porcentaje=30,30,40" 
+                           target="_blank"
+                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Generador de Equipos -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <span class="text-3xl">👥</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Generador de Equipos</h3>
+                        <p class="text-sm text-slate-600">
+                            Divide participantes en equipos balanceados
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Asignación aleatoria balanceada</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Edición drag & drop en vivo</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Exportar lista de equipos</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/equipos.html" 
+                           class="px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/equipos.html?list=Benja,María,Tomás,Ana,Pedro,Luis,Carmen,Diego&equipos=2&countdown=3" 
+                           target="_blank"
+                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tools Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-            <!-- Cuenta Regresiva Card -->
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition overflow-hidden">
-                <div class="p-6">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-2xl">
-                                ⏳
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-slate-900">Cuenta Regresiva</h3>
-                                <p class="text-sm text-slate-500">Temporizador personalizable</p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">Activo</span>
-                    </div>
-
-                    <p class="text-sm text-slate-600 mb-4">
-                        Crea contadores regresivos elegantes para eventos importantes. Configurable por URL con colores personalizables.
-                    </p>
-
-                    <!-- Features -->
-                    <div class="space-y-2 mb-4">
-                        <div class="flex items-center gap-2 text-xs text-slate-600">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Tiempo real (días, horas, minutos, segundos)</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-xs text-slate-600">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>3 colores personalizables</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-xs text-slate-600">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Responsive y embebible (iframes)</span>
-                        </div>
-                    </div>
-
-                    <!-- Actions -->
-                    <div class="grid grid-cols-2 gap-2">
-                        <a href="admin.html#cuenta-regresiva" 
-                           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                            </svg>
-                            Crear
-                        </a>
-                        <a href="cuentaregresiva.html?title=Año Nuevo 2026&y=2026&m=1&d=1" 
-                           target="_blank"
-                           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            Probar
-                        </a>
-                    </div>
-                </div>
+        <!-- Integration Guide -->
+        <div class="mb-16 scroll-reveal">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-3">Cómo Integrarlo en tu LMS</h2>
+                <p class="text-slate-600">3 pasos simples para tener widgets funcionando en minutos</p>
             </div>
 
-            <!-- Calculador de Semanas Card -->
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition overflow-hidden">
-                <div class="p-6">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl">
-                                📅
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-slate-900">Calculador de Semanas</h3>
-                                <p class="text-sm text-slate-500">Planificación por semanas</p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">Activo</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200 transform transition hover:scale-105 hover:shadow-lg">
+                    <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 animate-pulse-slow">
+                        1
                     </div>
-
-                    <p class="text-sm text-slate-600 mb-4">
-                        Calcula en qué semana estamos desde una fecha inicial y programa actividades por semana.
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Configura tu Widget</h3>
+                    <p class="text-sm text-slate-700">
+                        Elige el widget que necesitas, personaliza colores, textos y fechas desde nuestra interfaz visual. 
+                        No se requiere programación.
                     </p>
+                </div>
 
-                    <!-- Features -->
-                    <div class="space-y-2 mb-4">
-                        <div class="flex items-center gap-2 text-xs text-slate-600">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Cálculo automático de semana actual</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-xs text-slate-600">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Actividades programadas por JSON</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-xs text-slate-600">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Destacado visual de semana actual</span>
-                        </div>
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200 transform transition hover:scale-105 hover:shadow-lg">
+                    <div class="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 animate-pulse-slow">
+                        2
                     </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Copia el Código</h3>
+                    <p class="text-sm text-slate-700">
+                        Obtén el código iframe generado automáticamente. Es un simple copiar y pegar. 
+                        También puedes usar el enlace directo.
+                    </p>
+                </div>
 
-                    <!-- Actions -->
-                    <div class="grid grid-cols-2 gap-2">
-                        <a href="admin.html#semanas" 
-                           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                            </svg>
-                            Crear
-                        </a>
-                        <a href="#" onclick="openSemanaDemo(); return false;" 
-                           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            Probar
-                        </a>
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200 transform transition hover:scale-105 hover:shadow-lg">
+                    <div class="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 animate-pulse-slow">
+                        3
                     </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Pégalo en tu LMS</h3>
+                    <p class="text-sm text-slate-700">
+                        En Moodle, Blackboard, Canvas o tu web, activa el editor HTML y pega el código. 
+                        ¡Funciona al instante!
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <!-- Sorteo Interactivo Card -->
-            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition overflow-hidden">
-                <div class="p-6">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-2xl">
-                                🎲
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-slate-900">Sorteo Interactivo</h3>
-                                <p class="text-sm text-slate-500">Ruleta de participantes</p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">Activo</span>
-                    </div>
+        <!-- Platform Specific Instructions -->
+        <div class="bg-white rounded-xl border-2 border-slate-200 p-8 mb-16 scroll-reveal">
+            <h3 class="text-2xl font-bold text-slate-900 mb-6 text-center">Instrucciones Específicas por Plataforma</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Moodle -->
+                <div class="border-l-4 border-amber-500 pl-4">
+                    <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <span class="text-xl">📚</span>
+                        Moodle
+                    </h4>
+                    <ol class="text-sm text-slate-700 space-y-1 list-decimal list-inside">
+                        <li>Activa el modo edición en tu curso</li>
+                        <li>Añade una "Etiqueta" o "Página"</li>
+                        <li>Haz clic en el botón HTML (<strong>&lt;/&gt;</strong>)</li>
+                        <li>Pega el código iframe</li>
+                        <li>Guarda ¡y listo!</li>
+                    </ol>
+                </div>
 
-                    <p class="text-sm text-slate-600 mb-4">
-                        Sorteo animado con ruleta, cuenta regresiva y medallones visuales. Perfecto para seleccionar ganadores.
-                    </p>
+                <!-- Blackboard -->
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <span class="text-xl">🎓</span>
+                        Blackboard
+                    </h4>
+                    <ol class="text-sm text-slate-700 space-y-1 list-decimal list-inside">
+                        <li>Ve al área de contenido</li>
+                        <li>Selecciona "Crear contenido" → "Elemento"</li>
+                        <li>En el editor, cambia a vista HTML</li>
+                        <li>Pega el código iframe</li>
+                        <li>Envía ¡y funciona!</li>
+                    </ol>
+                </div>
 
-                    <!-- Features -->
-                    <div class="space-y-2 mb-4">
-                        <div class="flex items-center gap-2 text-xs text-slate-600">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Animación de ruleta con efectos visuales</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-xs text-slate-600">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Medallones, trofeos o estrellas</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-xs text-slate-600">
-                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>Confetti y efectos de sonido</span>
-                        </div>
-                    </div>
+                <!-- Canvas -->
+                <div class="border-l-4 border-green-500 pl-4">
+                    <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <span class="text-xl">🖼️</span>
+                        Canvas
+                    </h4>
+                    <ol class="text-sm text-slate-700 space-y-1 list-decimal list-inside">
+                        <li>Edita una página o módulo</li>
+                        <li>Haz clic en "Editor HTML" (icono &lt;/&gt;)</li>
+                        <li>Pega el código iframe</li>
+                        <li>Guarda cambios</li>
+                        <li>¡Listo para usar!</li>
+                    </ol>
+                </div>
 
-                    <!-- Actions -->
-                    <div class="grid grid-cols-2 gap-2">
-                        <a href="admin.html#sorteo" 
-                           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                            </svg>
-                            Crear
-                        </a>
-                        <a href="sorteo.html?list=Benja,María,Tomás,Ana,Pedro&time=3&win=3" 
-                           target="_blank"
-                           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            Probar
-                        </a>
-                    </div>
+                <!-- Web / WordPress -->
+                <div class="border-l-4 border-purple-500 pl-4">
+                    <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
+                        <span class="text-xl">🌐</span>
+                        Sitio Web / WordPress
+                    </h4>
+                    <ol class="text-sm text-slate-700 space-y-1 list-decimal list-inside">
+                        <li>Edita tu página o entrada</li>
+                        <li>Agrega un bloque "HTML personalizado"</li>
+                        <li>Pega el código iframe</li>
+                        <li>Publica</li>
+                        <li>¡Visible al instante!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl p-8 text-white mb-16 scroll-reveal gradient-animated">
+            <h3 class="text-2xl font-bold mb-6 text-center">¿Por Qué Usar WidKit?</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center transform transition hover:scale-110">
+                    <div class="text-4xl mb-2 animate-float">⚡</div>
+                    <h4 class="font-bold mb-1">Rápido</h4>
+                    <p class="text-sm opacity-90">Configura en 30 segundos, sin instalaciones</p>
+                </div>
+                <div class="text-center transform transition hover:scale-110">
+                    <div class="text-4xl mb-2 animate-float delay-100">🎨</div>
+                    <h4 class="font-bold mb-1">Personalizable</h4>
+                    <p class="text-sm opacity-90">Colores, textos y estilos a tu gusto</p>
+                </div>
+                <div class="text-center transform transition hover:scale-110">
+                    <div class="text-4xl mb-2 animate-float delay-200">💾</div>
+                    <h4 class="font-bold mb-1">Sin Base de Datos</h4>
+                    <p class="text-sm opacity-90">Todo funciona por URL, sin backend</p>
+                </div>
+                <div class="text-center transform transition hover:scale-110">
+                    <div class="text-4xl mb-2 animate-float delay-300">📱</div>
+                    <h4 class="font-bold mb-1">Responsive</h4>
+                    <p class="text-sm opacity-90">Se adapta a móvil, tablet y desktop</p>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-200 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl">🦉</span>
-                    <div>
-                        <p class="text-sm text-slate-900 font-semibold">WidKit - Widgets Educativos</p>
-                        <p class="text-xs text-slate-500">Como el búho sabio, conoce todo sobre tu tiempo</p>
+    <footer class="border-t border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- Marca -->
+                <div class="text-center md:text-left">
+                    <div class="flex items-center gap-3 justify-center md:justify-start mb-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center text-2xl animate-float">
+                            🦉
+                        </div>
+                        <div>
+                            <a href="https://widkit.lol/" target="_blank" class="text-lg font-bold text-slate-900 hover:text-amber-600 transition">
+                                WidKit
+                            </a>
+                            <p class="text-xs text-slate-500">Widgets Educativos</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-3">
+                        Como el búho sabio, gestiona tu tiempo y eventos. Widgets embebibles para educación.
+                    </p>
+                    <div class="flex gap-2 justify-center md:justify-start">
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">Gratis</span>
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded">Sin Registro</span>
+                        <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded">Open Source</span>
                     </div>
                 </div>
-                <div class="flex items-center gap-4">
-                    <a href="https://github.com" target="_blank" class="text-sm text-slate-500 hover:text-amber-600 transition">GitHub</a>
-                    <a href="README.md" class="text-sm text-slate-500 hover:text-amber-600 transition">Documentación</a>
+                
+                <!-- Enlaces Rápidos -->
+                <div class="text-center">
+                    <h3 class="font-bold text-slate-900 mb-3">Widgets</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="admin/temporizador.html" class="text-slate-600 hover:text-amber-600 transition">⏱️ Cuenta Regresiva</a></li>
+                        <li><a href="admin/cronometro.html" class="text-slate-600 hover:text-amber-600 transition">🥇 Cronómetro</a></li>
+                        <li><a href="admin/semana.html" class="text-slate-600 hover:text-amber-600 transition">📅 Calculador de Semanas</a></li>
+                        <li><a href="admin/sorteo.html" class="text-slate-600 hover:text-amber-600 transition">🎲 Sorteo Interactivo</a></li>
+                        <li><a href="admin/qr.html" class="text-slate-600 hover:text-amber-600 transition">📱 Generador QR</a></li>
+                        <li><a href="admin/ruleta.html" class="text-slate-600 hover:text-amber-600 transition">🎯 Selector Estudiante</a></li>
+                        <li><a href="admin/notas.html" class="text-slate-600 hover:text-amber-600 transition">🔢 Calculadora Notas</a></li>
+                        <li><a href="admin/equipos.html" class="text-slate-600 hover:text-amber-600 transition">👥 Generador Equipos</a></li>
+                    </ul>
                 </div>
+                
+                <!-- Enlaces y Redes -->
+                <div class="text-center md:text-right">
+                    <h3 class="font-bold text-slate-900 mb-3">Comunidad</h3>
+                    <div class="space-y-3">
+                        <a href="https://widkit.lol/" target="_blank" 
+                           class="flex items-center justify-center md:justify-end gap-2 text-slate-600 hover:text-amber-600 transition group">
+                            <span class="text-xl">🌐</span>
+                            <span class="text-sm font-medium">widkit.lol</span>
+                            <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                        <a href="https://github.com/bemtorres/widkit" target="_blank" 
+                           class="flex items-center justify-center md:justify-end gap-2 text-slate-600 hover:text-amber-600 transition group">
+                            <img src="assets/img/github-mark.svg" alt="GitHub" class="w-5 h-5 group-hover:scale-110 transition-transform">
+                            <span class="text-sm font-medium">GitHub</span>
+                            <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                        <div class="pt-2 border-t border-slate-200 mt-2">
+                            <p class="text-xs text-slate-500 mb-1">Desarrollado con ❤️ por</p>
+                            <a href="https://github.com/bemtorres" target="_blank" class="text-sm font-semibold text-amber-600 hover:text-amber-700 transition">
+                                @bemtorres
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="pt-8 mt-8 border-t border-slate-200 text-center">
+                <p class="text-xs text-slate-500">
+                    © 2025 WidKit. Todos los derechos reservados. 
+                    <span class="mx-2">·</span>
+                    <a href="#" class="hover:text-amber-600 transition">Términos de Uso</a>
+                    <span class="mx-2">·</span>
+                    <a href="#" class="hover:text-amber-600 transition">Privacidad</a>
+                </p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Crear URL para semana con actividades de ejemplo
+        // Animaciones al scroll
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.scroll-reveal');
+            
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('DOMContentLoaded', revealOnScroll);
+
+        // Copiar código de ejemplo
+        function copiarCodigo(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✓ ¡Copiado!';
+                button.classList.add('bg-green-500');
+                button.classList.remove('bg-amber-500');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('bg-green-500');
+                    button.classList.add('bg-amber-500');
+                }, 2000);
+            });
+        }
+
+        // Demo de semana
         function openSemanaDemo() {
             const activities = {
                 "1": ["Entrega de documentos", "Análisis de sistema"],
@@ -299,25 +1085,105 @@
                 "4": ["Presentación final", "Entrega de proyecto"]
             };
             const activitiesJSON = encodeURIComponent(JSON.stringify(activities));
-            const url = `semana.html?y=2025&m=1&d=1&activities=${activitiesJSON}`;
+            const url = `app/semana.html?y=2025&m=1&d=1&activities=${activitiesJSON}`;
             window.open(url, '_blank');
         }
 
-        // Copiar URL al portapapeles
-        function copyToClipboard(filename) {
-            const url = window.location.origin + window.location.pathname.replace('index.html', '') + filename;
-            navigator.clipboard.writeText(url).then(() => {
-                // Mostrar notificación
-                const btn = event.target.closest('button');
-                const originalHTML = btn.innerHTML;
-                btn.innerHTML = '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>';
-                btn.classList.add('bg-green-50', 'border-green-300', 'text-green-700');
+        // Modo Pro Toggle
+        let proModeActive = false;
+        let particleInterval = null;
+
+        function toggleProMode() {
+            const body = document.getElementById('mainBody');
+            const button = document.getElementById('proToggle');
+            const heroBadge = document.getElementById('heroBadge');
+            const heroSubtitle = document.getElementById('heroSubtitle');
+            proModeActive = !proModeActive;
+            
+            if (proModeActive) {
+                body.classList.add('pro-mode');
+                button.classList.add('active');
+                button.innerHTML = '<span class="flame-icon">🔥</span><span>Modo Normal</span>';
                 
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.classList.remove('bg-green-50', 'border-green-300', 'text-green-700');
-                }, 2000);
-            });
+                // Cambiar textos del hero
+                heroBadge.innerHTML = '🔥 Modo Pro Activado';
+                heroBadge.className = 'px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-semibold rounded-full shadow-lg';
+                heroSubtitle.textContent = 'Gratis por siempre y sin publicidad';
+                
+                createFireParticles();
+                
+                // Sonido de activación (opcional)
+                playActivationSound();
+            } else {
+                body.classList.remove('pro-mode');
+                button.classList.remove('active');
+                button.innerHTML = '<span class="flame-icon">🔥</span><span>Modo Pro</span>';
+                
+                // Restaurar textos originales del hero
+                heroBadge.innerHTML = '✨ Gratis y fácil de usar';
+                heroBadge.className = 'px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full animate-pulse-slow';
+                heroSubtitle.textContent = 'Listos en 30 Segundos';
+                
+                clearInterval(particleInterval);
+                removeFireParticles();
+            }
+        }
+
+        function createFireParticles() {
+            particleInterval = setInterval(() => {
+                if (!proModeActive) return;
+                
+                // Crear 3 partículas aleatorias
+                for (let i = 0; i < 3; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'fire-particle';
+                    
+                    // Posición aleatoria en la parte inferior de la pantalla
+                    const randomX = Math.random() * window.innerWidth;
+                    const drift = (Math.random() - 0.5) * 100; // Deriva horizontal
+                    
+                    particle.style.left = randomX + 'px';
+                    particle.style.bottom = '0px';
+                    particle.style.setProperty('--drift', drift + 'px');
+                    particle.style.animationDelay = Math.random() + 's';
+                    
+                    document.body.appendChild(particle);
+                    
+                    // Eliminar partícula después de la animación
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 3000);
+                }
+            }, 500);
+        }
+
+        function removeFireParticles() {
+            const particles = document.querySelectorAll('.fire-particle');
+            particles.forEach(particle => particle.remove());
+        }
+
+        function playActivationSound() {
+            // Crear un breve sonido de activación con Web Audio API
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                // Si falla el audio, no hay problema
+                console.log('Audio not available');
+            }
         }
     </script>
 </body>

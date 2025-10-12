@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta Regresiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@400;600;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-1: #3b82f6;
+            --color-2: #60a5fa;
+            --color-3: #93c5fd;
+        }
+        .font-serif { font-family: 'Georgia', 'Times New Roman', serif; }
+        .font-mono { font-family: 'Courier New', monospace; }
+        .font-rounded { font-family: 'Quicksand', sans-serif; }
+        .font-elegant { font-family: 'Playfair Display', serif; }
+        .font-modern { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4 md:p-6" id="mainBody" style="background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 50%, var(--color-3) 100%);">
+    <div class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-12 max-w-2xl w-full" id="mainContainer">
+        <h1 id="eventTitle" class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4 sm:mb-6 md:mb-8 text-gray-800 px-2"></h1>
+        
+        <div id="countdown" class="flex justify-center items-center gap-4 sm:gap-6 md:gap-8 mb-4 sm:mb-6 md:mb-8 flex-wrap">
+            <!-- Los elementos se generan dinámicamente por JavaScript -->
+        </div>
+
+        <div id="message" class="text-center text-xl sm:text-2xl font-semibold text-gray-700 hidden px-2">
+        </div>
+
+        <div class="text-center text-xs sm:text-sm text-gray-500 mt-4 sm:mt-6 px-2">
+            <p id="targetDate"></p>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="https://widkit.lol/" target="_blank" class="text-xs text-gray-400 hover:text-gray-600 transition">
+                Powered by WidKit 🦉
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Obtener parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('title') || 'Cuenta Regresiva';
+        const year = parseInt(urlParams.get('y')) || new Date().getFullYear();
+        const month = parseInt(urlParams.get('m')) || new Date().getMonth() + 1;
+        const day = parseInt(urlParams.get('d')) || new Date().getDate();
+        const hour = parseInt(urlParams.get('h')) || 0;
+        const minute = parseInt(urlParams.get('min')) || 0;
+
+        // Colores personalizables (minimalista por defecto: azul suave)
+        const color1 = urlParams.get('c1') || '#3b82f6'; // Azul
+        const color2 = urlParams.get('c2') || '#60a5fa'; // Azul medio
+        const color3 = urlParams.get('c3') || '#93c5fd'; // Azul claro
+        
+        // Mensaje personalizable cuando el evento llega
+        const finishMessage = urlParams.get('message') || '🎉 ¡El evento ha llegado! 🎉';
+        
+        // Color de fondo personalizable
+        const bgColor = urlParams.get('bg') || null;
+        
+        // Tipografía personalizable
+        const font = urlParams.get('font') || 'system';
+        
+        // Color del card personalizable
+        const cardBg = urlParams.get('cardBg') || null;
+        
+        // Mostrar card contenedor - POR DEFECTO ACTIVADO, se desactiva con showCard=0
+        const showCard = urlParams.get('showCard') !== '0' && urlParams.get('showCard') !== 'false';
+        
+        // Estilo de números con card - POR DEFECTO DESACTIVADO, se activa con showCards=1
+        const showCards = urlParams.get('showCards') === 'true' || urlParams.get('showCards') === '1';
+        
+        // Modo minimalista - Solo números, sin títulos ni extras
+        const minimal = urlParams.get('minimal') === '1' || urlParams.get('minimal') === 'true';
+        
+        // Aplicar colores personalizados
+        document.documentElement.style.setProperty('--color-1', color1);
+        document.documentElement.style.setProperty('--color-2', color2);
+        document.documentElement.style.setProperty('--color-3', color3);
+
+        // Aplicar fondo personalizado si existe
+        if (bgColor) {
+            document.getElementById('mainBody').style.background = bgColor;
+            // Si es un fondo claro, ajustar el contenedor
+            const rgb = parseInt(bgColor.replace('#',''), 16);
+            const r = (rgb >> 16) & 0xff;
+            const g = (rgb >>  8) & 0xff;
+            const b = (rgb >>  0) & 0xff;
+            const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        }
+        
+        // Aplicar tipografía
+        const fontClasses = {
+            'serif': 'font-serif',
+            'mono': 'font-mono',
+            'rounded': 'font-rounded',
+            'elegant': 'font-elegant',
+            'modern': 'font-modern'
+        };
+        if (fontClasses[font]) {
+            document.getElementById('mainContainer').classList.add(fontClasses[font]);
+        }
+
+        // Modo minimalista - Solo números
+        if (minimal) {
+            // Ocultar todo excepto los números
+            document.getElementById('mainContainer').style.background = 'transparent';
+            document.getElementById('mainContainer').style.backdropFilter = 'none';
+            document.getElementById('mainContainer').classList.remove('bg-white/95', 'backdrop-blur-sm', 'rounded-2xl', 'sm:rounded-3xl');
+            document.getElementById('eventTitle').style.display = 'none';
+            document.querySelector('.text-center.text-xs').style.display = 'none';
+            document.querySelector('.text-center.mt-4').style.display = 'none';
+        } else {
+            // Aplicar o quitar el card contenedor
+            if (!showCard) {
+                // Modo sin card - completamente limpio
+                document.getElementById('mainContainer').style.background = 'transparent';
+                document.getElementById('mainContainer').style.backdropFilter = 'none';
+                document.getElementById('mainContainer').classList.remove('bg-white/95', 'backdrop-blur-sm', 'rounded-2xl', 'sm:rounded-3xl');
+            } else if (cardBg) {
+                // Aplicar color del card personalizado
+                document.getElementById('mainContainer').style.background = cardBg;
+            }
+
+            // Establecer el título
+            document.getElementById('eventTitle').textContent = title;
+        }
+        
+        // Establecer el mensaje de finalización
+        document.getElementById('message').textContent = finishMessage;
+
+        // Crear fecha objetivo (mes en JavaScript es 0-11)
+        const targetDate = new Date(year, month - 1, day, hour, minute, 0);
+        document.getElementById('targetDate').textContent = 
+            `Fecha objetivo: ${targetDate.toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })}`;
+
+        // Generar HTML del countdown según el estilo elegido
+        const countdown = document.getElementById('countdown');
+        
+        if (showCards) {
+            // Estilo CON CARDS (activado con showCards=1)
+            countdown.innerHTML = `
+                <div id="daysContainer" class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 text-center transform transition hover:scale-105 flex-shrink-0" style="background: var(--color-1);">
+                    <div id="days" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1">0</div>
+                    <div class="text-xs sm:text-sm text-white/80 uppercase tracking-wide">Días</div>
+                </div>
+                <div class="text-2xl sm:text-3xl md:text-4xl text-white font-bold">:</div>
+                <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 text-center transform transition hover:scale-105 flex-shrink-0" style="background: var(--color-2);">
+                    <div id="hours" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1">0</div>
+                    <div class="text-xs sm:text-sm text-white/80 uppercase tracking-wide">Horas</div>
+                </div>
+                <div class="text-2xl sm:text-3xl md:text-4xl text-white font-bold">:</div>
+                <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 text-center transform transition hover:scale-105 flex-shrink-0" style="background: var(--color-3);">
+                    <div id="minutes" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1">0</div>
+                    <div class="text-xs sm:text-sm text-white/80 uppercase tracking-wide">Minutos</div>
+                </div>
+                <div class="text-2xl sm:text-3xl md:text-4xl text-white font-bold">:</div>
+                <div class="rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 text-center transform transition hover:scale-105 flex-shrink-0" style="background: var(--color-2);">
+                    <div id="seconds" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-1">0</div>
+                    <div class="text-xs sm:text-sm text-white/80 uppercase tracking-wide">Segundos</div>
+                </div>
+            `;
+        } else {
+            // Estilo SIN CARDS (por defecto)
+            countdown.innerHTML = `
+                <div id="daysContainer" class="text-center flex-shrink-0">
+                    <div id="days" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1" style="color: var(--color-1);">0</div>
+                    <div class="text-xs sm:text-sm uppercase tracking-wide opacity-70" style="color: var(--color-1);">Días</div>
+                </div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-bold opacity-50" style="color: var(--color-2);">:</div>
+                <div class="text-center flex-shrink-0">
+                    <div id="hours" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1" style="color: var(--color-2);">0</div>
+                    <div class="text-xs sm:text-sm uppercase tracking-wide opacity-70" style="color: var(--color-2);">Horas</div>
+                </div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-bold opacity-50" style="color: var(--color-3);">:</div>
+                <div class="text-center flex-shrink-0">
+                    <div id="minutes" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1" style="color: var(--color-3);">0</div>
+                    <div class="text-xs sm:text-sm uppercase tracking-wide opacity-70" style="color: var(--color-3);">Minutos</div>
+                </div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-bold opacity-50" style="color: var(--color-1);">:</div>
+                <div class="text-center flex-shrink-0">
+                    <div id="seconds" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1" style="color: var(--color-2);">0</div>
+                    <div class="text-xs sm:text-sm uppercase tracking-wide opacity-70" style="color: var(--color-2);">Segundos</div>
+                </div>
+            `;
+        }
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                // El evento ha pasado
+                document.getElementById('countdown').classList.add('hidden');
+                document.getElementById('message').classList.remove('hidden');
+                return;
+            }
+
+            // Calcular tiempo restante
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Mostrar/ocultar días según el tiempo restante
+            const daysContainer = document.getElementById('daysContainer');
+            const separators = document.querySelectorAll('#countdown > .text-2xl');
+            
+            if (days === 0) {
+                // Ocultar días y primer separador
+                daysContainer.style.display = 'none';
+                if (separators[0]) separators[0].style.display = 'none';
+            } else {
+                // Mostrar días
+                daysContainer.style.display = 'block';
+                if (separators[0]) separators[0].style.display = 'block';
+            }
+
+            // Actualizar valores en el DOM
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        // Actualizar inmediatamente y luego cada segundo
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
