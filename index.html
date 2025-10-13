@@ -209,18 +209,284 @@
         }
         
         .pro-mode .widget-card .gradient-icon {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #dc2626 100%) !important;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            background: none !important;
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.8));
             animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        /* Estilos para imágenes en widgets */
+        .gradient-icon img {
+            transition: transform 0.3s ease;
+        }
+        
+        /* Hover normal sin modo pro - solo escala suave */
+        .widget-card:hover .gradient-icon img {
+            transform: scale(1.1);
+        }
+        
+        /* Animación de hover SOLO en Modo Pro */
+        .pro-mode .widget-card:hover .gradient-icon img {
+            animation: hover-wiggle-pro 0.7s ease-in-out !important;
+        }
+        
+        /* Animación de hover aleatoria para Modo Pro */
+        @keyframes hover-wiggle-pro {
+            0% { transform: scale(1.2) rotate(0deg); }
+            15% { transform: scale(1.4) rotate(-8deg) translateY(-10px); }
+            30% { transform: scale(1.6) rotate(8deg) translateX(5px); }
+            45% { transform: scale(1.8) rotate(-5deg) translateY(-15px); }
+            60% { transform: scale(1.75) rotate(10deg) translateX(-5px); }
+            75% { transform: scale(1.8) rotate(-3deg) translateY(-12px); }
+            100% { transform: scale(1.8) rotate(8deg); }
+        }
+        
+        /* Hover en features también - SOLO en Modo Pro */
+        .pro-mode .animate-float:hover img {
+            animation: hover-wiggle-pro 0.7s ease-in-out !important;
+        }
+        
+        /* Modo Pro: Imágenes más grandes y con animación */
+        .pro-mode .gradient-icon img,
+        .pro-mode .animate-float img {
+            transform: scale(1.2);
+        }
+        
+        /* Animaciones aleatorias para Modo Pro */
+        @keyframes float-random-1 {
+            0%, 100% { transform: scale(1.2) translateY(0px) rotate(0deg); }
+            25% { transform: scale(1.25) translateY(-15px) rotate(5deg); }
+            50% { transform: scale(1.2) translateY(-8px) rotate(-3deg); }
+            75% { transform: scale(1.25) translateY(-20px) rotate(7deg); }
+        }
+        
+        @keyframes float-random-2 {
+            0%, 100% { transform: scale(1.2) translateX(0px) rotate(0deg); }
+            33% { transform: scale(1.3) translateX(10px) rotate(-5deg); }
+            66% { transform: scale(1.2) translateX(-8px) rotate(5deg); }
+        }
+        
+        @keyframes float-random-3 {
+            0%, 100% { transform: scale(1.2) translateY(0px) translateX(0px) rotate(0deg); }
+            20% { transform: scale(1.25) translateY(-10px) translateX(5px) rotate(3deg); }
+            40% { transform: scale(1.3) translateY(-18px) translateX(-5px) rotate(-4deg); }
+            60% { transform: scale(1.25) translateY(-12px) translateX(8px) rotate(6deg); }
+            80% { transform: scale(1.2) translateY(-5px) translateX(-3px) rotate(-2deg); }
+        }
+        
+        @keyframes float-random-4 {
+            0%, 100% { transform: scale(1.2) rotate(0deg); }
+            50% { transform: scale(1.35) rotate(10deg); }
+        }
+        
+        @keyframes float-random-5 {
+            0%, 100% { transform: scale(1.2) translateY(0px); }
+            30% { transform: scale(1.28) translateY(-25px); }
+            70% { transform: scale(1.22) translateY(-10px); }
+        }
+        
+        /* Aplicar animaciones a las imágenes en modo pro */
+        .pro-mode .gradient-icon img:nth-child(1) {
+            animation: float-random-1 4s ease-in-out infinite;
+        }
+        
+        .pro-mode .widget-card:nth-child(2) .gradient-icon img {
+            animation: float-random-2 3.5s ease-in-out infinite;
+        }
+        
+        .pro-mode .widget-card:nth-child(3) .gradient-icon img {
+            animation: float-random-3 5s ease-in-out infinite;
+        }
+        
+        .pro-mode .widget-card:nth-child(4) .gradient-icon img {
+            animation: float-random-4 3s ease-in-out infinite;
+        }
+        
+        .pro-mode .widget-card:nth-child(5) .gradient-icon img {
+            animation: float-random-5 4.5s ease-in-out infinite;
+        }
+        
+        .pro-mode .widget-card:nth-child(6) .gradient-icon img {
+            animation: float-random-1 3.8s ease-in-out infinite 0.5s;
+        }
+        
+        .pro-mode .widget-card:nth-child(7) .gradient-icon img {
+            animation: float-random-2 4.2s ease-in-out infinite 0.8s;
+        }
+        
+        .pro-mode .widget-card:nth-child(8) .gradient-icon img {
+            animation: float-random-3 3.6s ease-in-out infinite 1s;
+        }
+        
+        .pro-mode .widget-card:nth-child(9) .gradient-icon img {
+            animation: float-random-4 4.8s ease-in-out infinite 0.3s;
+        }
+        
+        .pro-mode .widget-card:nth-child(10) .gradient-icon img {
+            animation: float-random-5 3.3s ease-in-out infinite 0.6s;
+        }
+        
+        .pro-mode .widget-card:nth-child(11) .gradient-icon img {
+            animation: float-random-1 5.2s ease-in-out infinite 1.2s;
+        }
+        
+        /* Features con animaciones */
+        .pro-mode .animate-float img {
+            animation: float-random-3 4s ease-in-out infinite !important;
+        }
+        
+        .pro-mode .animate-float.delay-100 img {
+            animation: float-random-1 3.8s ease-in-out infinite 0.5s !important;
+        }
+        
+        .pro-mode .animate-float.delay-200 img {
+            animation: float-random-2 4.2s ease-in-out infinite 0.8s !important;
+        }
+        
+        .pro-mode .animate-float.delay-300 img {
+            animation: float-random-4 3.5s ease-in-out infinite 1s !important;
+        }
+        
+        /* Animación de caída del logo hero */
+        .hero-logo-drop {
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 0;
+            opacity: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .hero-title-interactive {
+            min-height: 80px;
+            gap: 0.25rem;
+            transition: gap 0.5s ease;
+        }
+        
+        .hero-title-interactive.active {
+            gap: 1rem;
+        }
+        
+        .hero-title-interactive:not(.active) .hero-logo-drop {
+            opacity: 0;
+            max-width: 0;
+            margin: 0;
+            transform: translateY(-150px) scale(0.5);
+        }
+        
+        .hero-title-interactive.active .hero-logo-drop {
+            opacity: 1;
+            max-width: 500px;
+            margin: 0 0.5rem;
+            transform: translateY(0) scale(1);
+            animation: bounce-in 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .hero-title-interactive.active #widgetsText {
+            text-decoration: line-through;
+            text-decoration-color: #ef4444;
+            text-decoration-thickness: 4px;
+        }
+        
+        @keyframes bounce-in {
+            0% {
+                transform: translateY(-150px) scale(0.5);
+                opacity: 0;
+            }
+            60% {
+                transform: translateY(10px) scale(1.1);
+                opacity: 1;
+            }
+            80% {
+                transform: translateY(-5px) scale(0.95);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* Modo Pro: Estilos para el título hero */
+        .pro-mode .hero-title-interactive span {
+            color: white !important;
+        }
+        
+        .pro-mode .hero-title-interactive.active #widgetsText {
+            color: white !important;
+            text-decoration: line-through;
+            text-decoration-color: #fbbf24;
+            text-decoration-thickness: 4px;
+        }
+        
+        /* Estilos para logos LMS */
+        .lms-logo-card {
+            background: white !important;
+            transition: all 0.3s ease;
+        }
+        
+        .lms-logo-card:hover {
+            transform: scale(1.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Fondo blanco suave para toda la sección LMS en Modo Pro */
+        .pro-mode .lms-section {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.4), 0 0 60px rgba(251, 191, 36, 0.2);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+        }
+        
+        .pro-mode .lms-section p {
+            color: #1e293b !important;
+            font-weight: 600;
+        }
+        
+        /* Modo Pro: Borde dorado con animación de brillo */
+        .pro-mode .lms-logo-card {
+            background: white !important;
+            border-color: #fbbf24 !important;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pro-mode .lms-logo-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(251, 191, 36, 0.3),
+                transparent
+            );
+            animation: shine-border 3s infinite;
+            z-index: 0;
+        }
+        
+        @keyframes shine-border {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+        
+        .pro-mode .lms-logo-card:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.6);
+            border-color: #f59e0b !important;
         }
         
         @keyframes pulse-glow {
             0%, 100% {
-                box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+                filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.6));
                 transform: scale(1);
             }
             50% {
-                box-shadow: 0 0 40px rgba(251, 191, 36, 0.9), 0 0 60px rgba(220, 38, 38, 0.5);
+                filter: drop-shadow(0 0 40px rgba(251, 191, 36, 0.9)) drop-shadow(0 0 60px rgba(220, 38, 38, 0.5));
                 transform: scale(1.05);
             }
         }
@@ -237,6 +503,17 @@
             background-clip: text;
             animation: gradient-shift 4s ease infinite;
             background-size: 200% 200%;
+        }
+        
+        /* Excepción para el título hero - debe ser visible */
+        .pro-mode h2 .hero-title-interactive,
+        .pro-mode h2 .hero-title-interactive * {
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            -webkit-text-fill-color: initial !important;
+            background-clip: initial !important;
+            animation: none !important;
+            color: white !important;
         }
         
         .pro-mode footer {
@@ -315,6 +592,23 @@
         .flame-icon {
             font-size: 24px;
             animation: flicker 1.5s ease-in-out infinite;
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+        }
+        
+        .flame-icon.is-image {
+            width: 102px;
+            height: 102px;
+        }
+        
+        .flame-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: flicker 1.0s ease-in-out infinite;
         }
         
         @keyframes flicker {
@@ -333,6 +627,12 @@
             }
             .flame-icon {
                 font-size: 20px;
+                width: 20px;
+                height: 20px;
+            }
+            .flame-icon.is-image {
+                width: 28px;
+                height: 28px;
             }
         }
         
@@ -380,7 +680,7 @@
     <!-- Botón Modo Pro Flotante -->
     <button class="pro-toggle" id="proToggle" onclick="toggleProMode()">
         <span class="flame-icon">🔥</span>
-        <span>Modo Pro</span>
+        <span data-i18n="promode.button">Modo Pro</span>
     </button>
 
     <!-- Navbar -->
@@ -388,19 +688,70 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold text-2xl animate-float">
-                        🦉
-                    </div>
-                    <div>
+                    <a href="index.html" class="flex items-center">
+                        <img id="navLogo" src="assets/img/icons/widkit_entero.png" alt="WidKit" class="h-10 w-auto object-contain">
+                    </a>
+                    <div style="display: none;">
                         <h1 class="text-xl font-bold text-slate-900">WidKit</h1>
                         <p class="text-xs text-slate-500">Widgets para Todo</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
+                    <!-- Selector de Idioma (Solo disponible en index.html) -->
+                    <!-- Desktop: Botones horizontales -->
+                    <div class="hidden md:flex items-center gap-1 bg-slate-100 rounded-lg p-1">
+                        <button onclick="changeLanguage('es')" 
+                                class="lang-option px-3 py-1.5 text-xs font-semibold rounded transition hover:bg-slate-200" 
+                                data-lang="es"
+                                title="Español">
+                            🇪🇸 ES
+                        </button>
+                        <button onclick="changeLanguage('en')" 
+                                class="lang-option px-3 py-1.5 text-xs font-semibold rounded transition hover:bg-slate-200" 
+                                data-lang="en"
+                                title="English">
+                            🇬🇧 EN
+                        </button>
+                        <button onclick="changeLanguage('pt')" 
+                                class="lang-option px-3 py-1.5 text-xs font-semibold rounded transition hover:bg-slate-200" 
+                                data-lang="pt"
+                                title="Português">
+                            🇧🇷 PT
+                        </button>
+                    </div>
+                    
+                    <!-- Móvil: Menú desplegable -->
+                    <div class="md:hidden relative">
+                        <button onclick="toggleMobileLang()" 
+                                id="mobileLangBtn"
+                                class="flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs font-semibold transition">
+                            <span id="currentLangFlag">🇪🇸</span>
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="mobileLangMenu" class="hidden absolute top-full right-0 mt-2 bg-white rounded-lg shadow-lg border border-slate-200 overflow-hidden z-50">
+                            <button onclick="changeLanguage('es'); toggleMobileLang();" 
+                                    class="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2"
+                                    data-lang="es">
+                                ES
+                            </button>
+                            <button onclick="changeLanguage('en'); toggleMobileLang();" 
+                                    class="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2"
+                                    data-lang="en">
+                                EN
+                            </button>
+                            <button onclick="changeLanguage('pt'); toggleMobileLang();" 
+                                    class="w-full px-4 py-2 text-left text-sm hover:bg-slate-50 flex items-center gap-2"
+                                    data-lang="pt">
+                                PT
+                            </button>
+                        </div>
+                    </div>
+                    
                     <a href="example.html" 
-                       class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition group">
-                        <span class="text-lg">📚</span>
-                        <span class="hidden sm:inline">Ver Ejemplos</span>
+                       class="inline-flex items-center gap-2 px-6 py-3 bg-amber-50 text-slate-900 text-sm font-bold rounded-lg hover:bg-amber-500 hover:text-white hover:shadow-xl transition-all transform hover:scale-105 group border-2 border-white">
+                        <span class="hidden sm:inline" data-i18n="nav.examples">Ver Ejemplos</span>
                     </a>
                     <a href="https://github.com/bemtorres/widkit" 
                        target="_blank"
@@ -418,21 +769,25 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="text-center mb-8">
                 <div class="inline-block mb-4 animate-fadeInUp">
-                    <span id="heroBadge" class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full animate-pulse-slow">✨ Gratis y fácil de usar</span>
+                    <span id="heroBadge" class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full animate-pulse-slow" data-i18n="hero.badge">✨ Gratis y fácil de usar</span>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4 animate-fadeInUp delay-100">
-                    Widgets Educativos<br>
-                    <span id="heroSubtitle" class="text-amber-600 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Listos en 30 Segundos</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4 animate-fadeInUp delay-100 flex flex-col items-center gap-4">
+                    <div id="heroTitleContainer" class="hero-title-interactive flex items-center flex-wrap justify-center relative cursor-pointer">
+                        <span id="widgetsText" class="transition-all duration-500">Widgets </span>
+                        <img id="heroLogo" src="assets/img/icons/widkit_entero.png" alt="WidKit" class="h-20 md:h-26 w-auto object-contain hero-logo-drop">
+                        <span id="educativosText" class="transition-all duration-500">Educativos</span>
+                    </div>
+                    <span id="heroSubtitle" class="text-amber-600 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent" data-i18n="hero.subtitle">Listos en 30 Segundos</span>
                 </h2>
                 <p class="text-lg text-slate-600 max-w-2xl mx-auto mb-8 animate-fadeInUp delay-200">
-                    Integra cuenta regresiva, calculador de semanas y sorteos en Moodle, Blackboard, Canvas o cualquier sitio web. 
-                    <strong>¡Sin programación!</strong>
+                    <span data-i18n="hero.description">Integra cuenta regresiva, calculador de semanas y sorteos en Moodle, Blackboard, Canvas o cualquier sitio web.</span>
+                    <strong data-i18n="hero.descriptionBold">¡Sin programación!</strong>
                 </p>
                 <div class="animate-fadeInUp delay-300">
                     <a href="example.html" 
                        class="inline-flex items-center gap-2 px-8 py-4 bg-white text-amber-600 font-bold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition">
                         <span class="text-2xl">📚</span>
-                        <span>Ver 35+ Ejemplos Listos</span>
+                        <span data-i18n="hero.cta">Ver 35+ Ejemplos Listos</span>
                         <span class="text-xl">→</span>
                     </a>
                 </div>
@@ -444,47 +799,46 @@
                     <div class="bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-3">
                         <h3 class="text-white font-bold flex items-center gap-2">
                             <span class="text-xl">⚡</span>
-                            Ejemplo Súper Fácil: Copia y Pega en tu LMS
+                            <span data-i18n="hero.quickExample">Ejemplo Súper Fácil: Copia y Pega en tu LMS</span>
                         </h3>
                     </div>
                     <div class="p-6">
                         <p class="text-sm text-slate-600 mb-3">
-                            <strong>Paso 1:</strong> Copia este código y pégalo en Moodle, Blackboard o tu sitio web:
+                            <strong data-i18n="hero.step1">Paso 1:</strong> <span data-i18n="hero.step1Desc">Copia este código y pégalo en Moodle, Blackboard o tu sitio web:</span>
                         </p>
                         <div class="relative">
-                            <pre id="quickCode" class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto font-mono"><code>&lt;iframe src="https://tu-dominio.com/app/cuentaregresiva.html?title=Examen Final&y=2025&m=12&d=15&h=14" width="100%" height="450" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
+                            <pre id="quickCode" class="bg-slate-900 text-green-400 p-4 rounded-lg text-xs overflow-x-auto font-mono"><code>&lt;iframe src="https://widkit.io/app/cuentaregresiva.html?title=Examen Final&y=2025&m=12&d=15&h=14" width="100%" height="450" frameborder="0"&gt;&lt;/iframe&gt;</code></pre>
                             <button onclick="copiarCodigo('quickCode')" 
                                     class="absolute top-2 right-2 px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded transition">
-                                📋 Copiar
+                                📋 <span data-i18n="common.copy">Copiar</span>
                             </button>
                         </div>
                         <p class="text-sm text-slate-600 mt-3">
-                            <strong>Paso 2:</strong> ¡Listo! Ya tienes una cuenta regresiva funcionando. 
-                            <a href="#widgets" class="text-amber-600 hover:underline font-semibold">Ver más widgets →</a>
+                            <strong data-i18n="hero.step2">Paso 2:</strong> <span data-i18n="hero.step2Desc">¡Listo! Ya tienes una cuenta regresiva funcionando.</span>
+                            <a href="#widgets" class="text-amber-600 hover:underline font-semibold" data-i18n="hero.seeMore">Ver más widgets →</a>
                         </p>
                     </div>
                 </div>
             </div>
 
             <!-- LMS Logos -->
-            <div class="mt-10 text-center animate-fadeIn delay-400">
-                <p class="text-sm text-slate-500 mb-4 font-semibold">Compatible con:</p>
-                <div class="flex flex-wrap justify-center items-center gap-4 md:gap-6">
-                    <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm hover:shadow-md transition">
+            <div class="mt-10 text-center animate-fadeIn delay-400 lms-section">
+                <p class="text-sm text-slate-500 mb-4 font-semibold" data-i18n="hero.compatible">Compatible con:</p>
+                <div class="flex flex-wrap justify-center items-center gap-4 md:gap-6 lms-container">
+                    <div class="lms-logo-card flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm border-2 border-transparent">
                         <img src="assets/img/Moodle-logo.png" alt="Moodle" class="h-8 w-auto object-contain">
                         <!-- <span class="font-semibold text-slate-700">Moodle</span> -->
                     </div>
-                    <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="lms-logo-card flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm border-2 border-transparent">
                         <img src="assets/img/Blackboard-Original.png" alt="Blackboard" class="h-16 w-auto object-contain">
-                        <!-- <span class="font-semibold text-slate-700">Blackboard</span> -->
                     </div>
-                    <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="lms-logo-card flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm border-2 border-transparent">
                         <img src="assets/img/canvas-lms-logo.png" alt="Canvas" class="h-8 w-auto object-contain">
                         <!-- <span class="font-semibold text-slate-700">Canvas</span> -->
                     </div>
-                    <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="lms-logo-card flex items-center gap-3 bg-white px-5 py-3 rounded-lg shadow-sm border-2 border-transparent">
                         <span class="text-2xl">🌐</span>
-                        <span class="font-semibold text-slate-700">Cualquier Web</span>
+                        <span class="font-semibold text-slate-700" data-i18n="hero.anyWeb">Cualquier Web</span>
                     </div>
                 </div>
             </div>
@@ -496,19 +850,19 @@
         <!-- Widgets Grid -->
         <div id="widgets" class="mb-16 scroll-reveal">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-3">11 Widgets Listos para Usar</h2>
-                <p class="text-slate-600">Selecciona, configura y obtén el código embebido en segundos</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-3" data-i18n="widgets.title">11 Widgets Listos para Usar</h2>
+                <p class="text-slate-600" data-i18n="widgets.subtitle">Selecciona, configura y obtén el código embebido en segundos</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <!-- Cuenta Regresiva -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">⏱️</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_tempo.png" alt="Cuenta Regresiva" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Cuenta Regresiva</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.countdown.title">Cuenta Regresiva</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.countdown.desc">
                             Temporizador para exámenes, entregas y eventos importantes
                         </p>
                     </div>
@@ -518,30 +872,30 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Actualización en tiempo real</span>
+                            <span data-i18n="widget.countdown.feat1">Actualización en tiempo real</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Colores personalizables</span>
+                            <span data-i18n="widget.countdown.feat2">Colores personalizables</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Responsive</span>
+                            <span data-i18n="widget.countdown.feat3">Responsive</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/temporizador.html" 
-                           class="px-4 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition text-center">
+                           class="px-3 py-1.5 bg-blue-600 text-white text-sm font-semibold rounded-full hover:bg-blue-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="app/cuentaregresiva.html?title=Año Nuevo 2026&y=2026&m=1&d=1" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -550,11 +904,11 @@
                 <!-- Cronómetro Ascendente -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">🥇</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_medalla.png" alt="Cronómetro" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Cronómetro Ascendente</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.stopwatch.title">Cronómetro Ascendente</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.stopwatch.desc">
                             Tiempo transcurrido desde un evento o fecha de inicio
                         </p>
                     </div>
@@ -564,30 +918,30 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Cuenta hacia adelante</span>
+                            <span data-i18n="widget.stopwatch.feat1">Cuenta hacia adelante</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Tiempo de funcionamiento</span>
+                            <span data-i18n="widget.stopwatch.feat2">Tiempo de funcionamiento</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Personalizable</span>
+                            <span data-i18n="widget.stopwatch.feat3">Personalizable</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/cronometro.html" 
-                           class="px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition text-center">
+                           class="px-3 py-1.5 bg-green-600 text-white text-sm font-semibold rounded-full hover:bg-green-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="app/cronometro.html?title=Tiempo en línea&y=2025&m=1&d=1" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -596,11 +950,11 @@
                 <!-- Calculador de Semanas -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">📅</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_calendar.png" alt="Calculador de Semanas" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Calculador de Semanas</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.weeks.title">Calculador de Semanas</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.weeks.desc">
                             Organiza tu curso por semanas con actividades programadas
                         </p>
                     </div>
@@ -610,29 +964,29 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Semana actual destacada</span>
+                            <span data-i18n="widget.weeks.feat1">Semana actual destacada</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Actividades por semana</span>
+                            <span data-i18n="widget.weeks.feat2">Actividades por semana</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Ideal para cursos</span>
+                            <span data-i18n="widget.weeks.feat3">Ideal para cursos</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/semana.html" 
-                           class="px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition text-center">
+                           class="px-3 py-1.5 bg-green-600 text-white text-sm font-semibold rounded-full hover:bg-green-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="#" onclick="openSemanaDemo(); return false;" 
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -641,11 +995,11 @@
                 <!-- Sorteo Interactivo -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-purple-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">🎲</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_dado.png" alt="Sorteo Interactivo" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Sorteo Interactivo</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.raffle.title">Sorteo Interactivo</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.raffle.desc">
                             Sorteos animados para seleccionar ganadores o participaciones
                         </p>
                     </div>
@@ -655,30 +1009,30 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Animación de ruleta</span>
+                            <span data-i18n="widget.raffle.feat1">Animación de ruleta</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Efectos visuales y confetti</span>
+                            <span data-i18n="widget.raffle.feat2">Efectos visuales y confetti</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Múltiples ganadores</span>
+                            <span data-i18n="widget.raffle.feat3">Múltiples ganadores</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/sorteo.html" 
-                           class="px-4 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition text-center">
+                           class="px-3 py-1.5 bg-purple-600 text-white text-sm font-semibold rounded-full hover:bg-purple-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="app/sorteo.html?list=Benja,María,Tomás,Ana,Pedro&time=3&win=3" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -687,11 +1041,11 @@
                 <!-- Generador de QR -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-orange-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">📱</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_mobile.png" alt="Generador QR" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Generador de QR</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.qr.title">Generador de QR</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.qr.desc">
                             Crea códigos QR personalizados para URLs, textos y más
                         </p>
                     </div>
@@ -701,30 +1055,30 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>URLs, texto, WiFi, email</span>
+                            <span data-i18n="widget.qr.feat1">URLs, texto, WiFi, email</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Colores personalizables</span>
+                            <span data-i18n="widget.qr.feat2">Colores personalizables</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Descarga directa PNG</span>
+                            <span data-i18n="widget.qr.feat3">Descarga directa PNG</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/qr.html" 
-                           class="px-4 py-2.5 bg-orange-600 text-white text-sm font-semibold rounded-lg hover:bg-orange-700 transition text-center">
+                           class="px-3 py-1.5 bg-orange-600 text-white text-sm font-semibold rounded-full hover:bg-orange-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
-                        <a href="app/qr.html?code=https://widkit.com&size=256" 
+                        <a href="app/qr.html?code=https://widkit.lol&size=256" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -733,11 +1087,11 @@
                 <!-- Selector de Estudiante -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-cyan-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">🎯</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_mark.png" alt="Selector de Estudiante" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Selector de Estudiante</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.roulette.title">Selector de Estudiante</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.roulette.desc">
                             Selección rápida y aleatoria de participantes
                         </p>
                     </div>
@@ -747,30 +1101,30 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Animación de ruleta rápida</span>
+                            <span data-i18n="widget.roulette.feat1">Animación de ruleta rápida</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Elimina ya seleccionados</span>
+                            <span data-i18n="widget.roulette.feat2">Elimina ya seleccionados</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Ideal para participaciones</span>
+                            <span data-i18n="widget.roulette.feat3">Ideal para participaciones</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/ruleta.html" 
-                           class="px-4 py-2.5 bg-cyan-600 text-white text-sm font-semibold rounded-lg hover:bg-cyan-700 transition text-center">
+                           class="px-3 py-1.5 bg-cyan-600 text-white text-sm font-semibold rounded-full hover:bg-cyan-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="app/ruleta.html?list=Benja,María,Tomás,Ana,Pedro" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -779,11 +1133,11 @@
                 <!-- Calculadora de Notas -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-purple-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">🔢</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-1">
+                            <img src="assets/img/icons/widkit_calc.png" alt="Calculadora de Notas" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Calculadora de Notas</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.grades.title">Calculadora de Notas</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.grades.desc">
                             Promedio ponderado y "¿Qué nota necesito?"
                         </p>
                     </div>
@@ -793,30 +1147,30 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Cálculo automático ponderado</span>
+                            <span data-i18n="widget.grades.feat1">Cálculo automático ponderado</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>¿Qué nota necesito para aprobar?</span>
+                            <span data-i18n="widget.grades.feat2">¿Qué nota necesito para aprobar?</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Barras de progreso visuales</span>
+                            <span data-i18n="widget.grades.feat3">Barras de progreso visuales</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/notas.html" 
-                           class="px-4 py-2.5 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 transition text-center">
+                           class="px-3 py-1.5 bg-purple-600 text-white text-sm font-semibold rounded-full hover:bg-purple-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="app/notas.html?porcentaje=30,30,40" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -825,11 +1179,11 @@
                 <!-- Generador de Equipos -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">👥</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_rayo_two.png" alt="Generador de Equipos" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Generador de Equipos</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.teams.title">Generador de Equipos</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.teams.desc">
                             Divide participantes en equipos balanceados
                         </p>
                     </div>
@@ -839,30 +1193,30 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Asignación aleatoria balanceada</span>
+                            <span data-i18n="widget.teams.feat1">Asignación aleatoria balanceada</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Edición drag & drop en vivo</span>
+                            <span data-i18n="widget.teams.feat2">Edición drag & drop en vivo</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Exportar lista de equipos</span>
+                            <span data-i18n="widget.teams.feat3">Exportar lista de equipos</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/equipos.html" 
-                           class="px-4 py-2.5 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition text-center">
+                           class="px-3 py-1.5 bg-green-600 text-white text-sm font-semibold rounded-full hover:bg-green-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="app/equipos.html?list=Benja,María,Tomás,Ana,Pedro,Luis,Carmen,Diego&equipos=2&countdown=3" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -871,11 +1225,11 @@
                 <!-- Pomodoro Timer -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-red-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-red-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">⏲️</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_crono.png" alt="Pomodoro Timer" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Pomodoro Timer</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.pomodoro.title">Pomodoro Timer</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.pomodoro.desc">
                             Técnica de productividad con intervalos trabajo-descanso
                         </p>
                     </div>
@@ -885,30 +1239,30 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Timer configurable (25/5 min)</span>
+                            <span data-i18n="widget.pomodoro.feat1">Timer configurable (25/5 min)</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Contador de sesiones completadas</span>
+                            <span data-i18n="widget.pomodoro.feat2">Contador de sesiones completadas</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Notificaciones y sonidos</span>
+                            <span data-i18n="widget.pomodoro.feat3">Notificaciones y sonidos</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/pomodoro.html" 
-                           class="px-4 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition text-center">
+                           class="px-3 py-1.5 bg-red-600 text-white text-sm font-semibold rounded-full hover:bg-red-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="app/pomodoro.html?work=25&break=5&sessions=4" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -917,11 +1271,11 @@
                 <!-- Tabla de Clasificación -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">🏆</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_trofeo.png" alt="Tabla de Clasificación" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Tabla de Clasificación</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.leaderboard.title">Tabla de Clasificación</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.leaderboard.desc">
                             Ranking de estudiantes, equipos o competencias
                         </p>
                     </div>
@@ -931,30 +1285,30 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Ordenamiento automático</span>
+                            <span data-i18n="widget.leaderboard.feat1">Ordenamiento automático</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Medallas para top 3</span>
+                            <span data-i18n="widget.leaderboard.feat2">Medallas para top 3</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>3 estilos de visualización</span>
+                            <span data-i18n="widget.leaderboard.feat3">3 estilos de visualización</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/leaderboard.html" 
-                           class="px-4 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition text-center">
+                           class="px-3 py-1.5 bg-blue-600 text-white text-sm font-semibold rounded-full hover:bg-blue-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="app/leaderboard.html?title=Top 10&data=Ana:95,Juan:92,María:88,Pedro:85,Lucía:82" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
                     </div>
@@ -963,11 +1317,11 @@
                 <!-- Votación en Vivo -->
                 <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-indigo-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
                     <div class="text-center mb-4">
-                        <div class="gradient-icon w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                            <span class="text-3xl">🗳️</span>
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <img src="assets/img/icons/widkit_book_check.png" alt="Votación en Vivo" class="w-full h-full object-contain">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-2">Votación en Vivo</h3>
-                        <p class="text-sm text-slate-600">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="widget.voting.title">Votación en Vivo</h3>
+                        <p class="text-sm text-slate-600" data-i18n="widget.voting.desc">
                             Toma decisiones en clase con votación en tiempo real
                         </p>
                     </div>
@@ -977,32 +1331,49 @@
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Botones + / - para contar votos</span>
+                            <span data-i18n="widget.voting.feat1">Botones + / - para contar votos</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Muestra ganador con confetti</span>
+                            <span data-i18n="widget.voting.feat2">Muestra ganador con confetti</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Ideal para tomar decisiones</span>
+                            <span data-i18n="widget.voting.feat3">Ideal para tomar decisiones</span>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <a href="admin/votacion.html" 
-                           class="px-4 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition text-center">
+                           class="px-3 py-1.5 bg-indigo-600 text-white text-sm font-semibold rounded-full hover:bg-indigo-700 transition text-center" data-i18n="common.configure">
                             Configurar
                         </a>
                         <a href="app/votacion.html?question=¿Qué%20tema%20prefieres?&alternatives=Opción%20A:%20Energía%20Solar,Opción%20B:%20Reciclaje,Opción%20C:%20Huertos%20Urbanos" 
                            target="_blank"
-                           class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition text-center">
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
                             Demo
                         </a>
+                    </div>
+                </div>
+
+                <!-- Próximamente Más -->
+                <div class="widget-card bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl border-2 border-dashed border-slate-300 p-6 flex items-center justify-center min-h-[400px]">
+                    <div class="text-center">
+                        <div class="mb-6 animate-bounce">
+                            <span class="text-7xl">✨</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-700 mb-3">Próximamente más...</h3>
+                        <p class="text-sm text-slate-600 mb-4">
+                            Estamos trabajando en nuevos widgets increíbles
+                        </p>
+                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full text-sm font-semibold">
+                            <span>🚀</span>
+                            <span>Síguenos en GitHub</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1011,8 +1382,8 @@
         <!-- Integration Guide -->
         <div class="mb-16 scroll-reveal">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-3">Cómo Integrarlo en tu LMS</h2>
-                <p class="text-slate-600">3 pasos simples para tener widgets funcionando en minutos</p>
+                <h2 class="text-3xl font-bold text-slate-900 mb-3" data-i18n="integration.title">Cómo Integrarlo en tu LMS</h2>
+                <p class="text-slate-600" data-i18n="integration.subtitle">3 pasos simples para tener widgets funcionando en minutos</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1020,8 +1391,8 @@
                     <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 animate-pulse-slow">
                         1
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Configura tu Widget</h3>
-                    <p class="text-sm text-slate-700">
+                    <h3 class="text-lg font-bold text-slate-900 mb-2" data-i18n="integration.step1.title">Configura tu Widget</h3>
+                    <p class="text-sm text-slate-700" data-i18n="integration.step1.desc">
                         Elige el widget que necesitas, personaliza colores, textos y fechas desde nuestra interfaz visual. 
                         No se requiere programación.
                     </p>
@@ -1031,8 +1402,8 @@
                     <div class="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 animate-pulse-slow">
                         2
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Copia el Código</h3>
-                    <p class="text-sm text-slate-700">
+                    <h3 class="text-lg font-bold text-slate-900 mb-2" data-i18n="integration.step2.title">Copia el Código</h3>
+                    <p class="text-sm text-slate-700" data-i18n="integration.step2.desc">
                         Obtén el código iframe generado automáticamente. Es un simple copiar y pegar. 
                         También puedes usar el enlace directo.
                     </p>
@@ -1042,8 +1413,8 @@
                     <div class="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 animate-pulse-slow">
                         3
                     </div>
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">Pégalo en tu LMS</h3>
-                    <p class="text-sm text-slate-700">
+                    <h3 class="text-lg font-bold text-slate-900 mb-2" data-i18n="integration.step3.title">Pégalo en tu LMS</h3>
+                    <p class="text-sm text-slate-700" data-i18n="integration.step3.desc">
                         En Moodle, Blackboard, Canvas o tu web, activa el editor HTML y pega el código. 
                         ¡Funciona al instante!
                     </p>
@@ -1053,7 +1424,7 @@
 
         <!-- Platform Specific Instructions -->
         <div class="bg-white rounded-xl border-2 border-slate-200 p-8 mb-16 scroll-reveal">
-            <h3 class="text-2xl font-bold text-slate-900 mb-6 text-center">Instrucciones Específicas por Plataforma</h3>
+            <h3 class="text-2xl font-bold text-slate-900 mb-6 text-center" data-i18n="platform.title">Instrucciones Específicas por Plataforma</h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Moodle -->
@@ -1063,11 +1434,11 @@
                         Moodle
                     </h4>
                     <ol class="text-sm text-slate-700 space-y-1 list-decimal list-inside">
-                        <li>Activa el modo edición en tu curso</li>
-                        <li>Añade una "Etiqueta" o "Página"</li>
-                        <li>Haz clic en el botón HTML (<strong>&lt;/&gt;</strong>)</li>
-                        <li>Pega el código iframe</li>
-                        <li>Guarda ¡y listo!</li>
+                        <li data-i18n="platform.moodle.step1">Activa el modo edición en tu curso</li>
+                        <li data-i18n="platform.moodle.step2">Añade una "Etiqueta" o "Página"</li>
+                        <li data-i18n="platform.moodle.step3">Haz clic en el botón HTML (<strong>&lt;/&gt;</strong>)</li>
+                        <li data-i18n="platform.moodle.step4">Pega el código iframe</li>
+                        <li data-i18n="platform.moodle.step5">Guarda ¡y listo!</li>
                     </ol>
                 </div>
 
@@ -1078,11 +1449,11 @@
                         Blackboard
                     </h4>
                     <ol class="text-sm text-slate-700 space-y-1 list-decimal list-inside">
-                        <li>Ve al área de contenido</li>
-                        <li>Selecciona "Crear contenido" → "Elemento"</li>
-                        <li>En el editor, cambia a vista HTML</li>
-                        <li>Pega el código iframe</li>
-                        <li>Envía ¡y funciona!</li>
+                        <li data-i18n="platform.blackboard.step1">Ve al área de contenido</li>
+                        <li data-i18n="platform.blackboard.step2">Selecciona "Crear contenido" → "Elemento"</li>
+                        <li data-i18n="platform.blackboard.step3">En el editor, cambia a vista HTML</li>
+                        <li data-i18n="platform.blackboard.step4">Pega el código iframe</li>
+                        <li data-i18n="platform.blackboard.step5">Envía ¡y funciona!</li>
                     </ol>
                 </div>
 
@@ -1093,11 +1464,11 @@
                         Canvas
                     </h4>
                     <ol class="text-sm text-slate-700 space-y-1 list-decimal list-inside">
-                        <li>Edita una página o módulo</li>
-                        <li>Haz clic en "Editor HTML" (icono &lt;/&gt;)</li>
-                        <li>Pega el código iframe</li>
-                        <li>Guarda cambios</li>
-                        <li>¡Listo para usar!</li>
+                        <li data-i18n="platform.canvas.step1">Edita una página o módulo</li>
+                        <li data-i18n="platform.canvas.step2">Haz clic en "Editor HTML" (icono &lt;/&gt;)</li>
+                        <li data-i18n="platform.canvas.step3">Pega el código iframe</li>
+                        <li data-i18n="platform.canvas.step4">Guarda cambios</li>
+                        <li data-i18n="platform.canvas.step5">¡Listo para usar!</li>
                     </ol>
                 </div>
 
@@ -1105,14 +1476,14 @@
                 <div class="border-l-4 border-purple-500 pl-4">
                     <h4 class="font-bold text-slate-900 mb-2 flex items-center gap-2">
                         <span class="text-xl">🌐</span>
-                        Sitio Web / WordPress
+                        <span data-i18n="platform.web.title">Sitio Web / WordPress</span>
                     </h4>
                     <ol class="text-sm text-slate-700 space-y-1 list-decimal list-inside">
-                        <li>Edita tu página o entrada</li>
-                        <li>Agrega un bloque "HTML personalizado"</li>
-                        <li>Pega el código iframe</li>
-                        <li>Publica</li>
-                        <li>¡Visible al instante!</li>
+                        <li data-i18n="platform.web.step1">Edita tu página o entrada</li>
+                        <li data-i18n="platform.web.step2">Agrega un bloque "HTML personalizado"</li>
+                        <li data-i18n="platform.web.step3">Pega el código iframe</li>
+                        <li data-i18n="platform.web.step4">Publica</li>
+                        <li data-i18n="platform.web.step5">¡Visible al instante!</li>
                     </ol>
                 </div>
             </div>
@@ -1120,28 +1491,36 @@
 
         <!-- Features -->
         <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl p-8 text-white mb-16 scroll-reveal gradient-animated">
-            <h3 class="text-2xl font-bold mb-6 text-center">¿Por Qué Usar WidKit?</h3>
+            <h3 class="text-2xl font-bold mb-6 text-center" data-i18n="features.title">¿Por Qué Usar WidKit?</h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="text-center transform transition hover:scale-110">
-                    <div class="text-4xl mb-2 animate-float">⚡</div>
-                    <h4 class="font-bold mb-1">Rápido</h4>
-                    <p class="text-sm opacity-90">Configura en 30 segundos, sin instalaciones</p>
+                    <div class="mb-2 animate-float flex justify-center">
+                        <img src="assets/img/icons/widkit_rayo.png" alt="Rápido" class="w-36 h-36 object-contain">
+                    </div>
+                    <h4 class="font-bold mb-1" data-i18n="features.fast.title">Rápido</h4>
+                    <p class="text-sm opacity-90" data-i18n="features.fast.desc">Configura en 30 segundos, sin instalaciones</p>
                 </div>
                 <div class="text-center transform transition hover:scale-110">
-                    <div class="text-4xl mb-2 animate-float delay-100">🎨</div>
-                    <h4 class="font-bold mb-1">Personalizable</h4>
-                    <p class="text-sm opacity-90">Colores, textos y estilos a tu gusto</p>
+                    <div class="mb-2 animate-float delay-100 flex justify-center">
+                        <img src="assets/img/icons/widkit_pintura.png" alt="Personalizable" class="w-36 h-36 object-contain">
+                    </div>
+                    <h4 class="font-bold mb-1" data-i18n="features.custom.title">Personalizable</h4>
+                    <p class="text-sm opacity-90" data-i18n="features.custom.desc">Colores, textos y estilos a tu gusto</p>
                 </div>
                 <div class="text-center transform transition hover:scale-110">
-                    <div class="text-4xl mb-2 animate-float delay-200">💾</div>
-                    <h4 class="font-bold mb-1">Sin Base de Datos</h4>
-                    <p class="text-sm opacity-90">Todo funciona por URL, sin backend</p>
+                    <div class="mb-2 animate-float delay-200 flex justify-center">
+                        <img src="assets/img/icons/widkit_disk.png" alt="Sin Base de Datos" class="w-36 h-36 object-contain">
+                    </div>
+                    <h4 class="font-bold mb-1" data-i18n="features.nodb.title">Sin Base de Datos</h4>
+                    <p class="text-sm opacity-90" data-i18n="features.nodb.desc">Todo funciona por URL, sin backend</p>
                 </div>
                 <div class="text-center transform transition hover:scale-110">
-                    <div class="text-4xl mb-2 animate-float delay-300">📱</div>
-                    <h4 class="font-bold mb-1">Responsive</h4>
-                    <p class="text-sm opacity-90">Se adapta a móvil, tablet y desktop</p>
+                    <div class="mb-2 animate-float delay-300 flex justify-center">
+                        <img src="assets/img/icons/widkit_mobile.png" alt="Responsive" class="w-36 h-36 object-contain">
+                    </div>
+                    <h4 class="font-bold mb-1" data-i18n="features.responsive.title">Responsive</h4>
+                    <p class="text-sm opacity-90" data-i18n="features.responsive.desc">Se adapta a móvil, tablet y desktop</p>
                 </div>
             </div>
         </div>
@@ -1152,26 +1531,24 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <!-- Sección Superior: Marca -->
             <div class="text-center mb-8 pb-8 border-b border-slate-700">
-                <div class="flex items-center gap-3 justify-center mb-4">
-                    <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center text-3xl animate-float shadow-lg">
-                        🦉
-                    </div>
-                    <div class="text-left">
-                        <a href="https://widkit.lol/" target="_blank" class="text-2xl font-bold text-white hover:text-amber-500 transition">
-                            WidKit
-                        </a>
-                        <p class="text-sm text-slate-400">Widgets Educativos Gratuitos</p>
-                    </div>
+                <div class="flex items-center justify-center mb-4">
+                    <a href="https://widkit.lol/" target="_blank" class="hover:opacity-80 transition">
+                        <img id="footerLogo" src="assets/img/icons/widkit_entero.png" alt="WidKit" class="h-12 w-auto object-contain">
+                    </a>
                 </div>
-                <p class="text-sm text-slate-300 max-w-2xl mx-auto mb-4">
-                    Como el búho sabio, gestiona tu tiempo y eventos. Widgets embebibles para educación sin código, sin registro y completamente gratis.
-                </p>
-                <div class="flex gap-3 justify-center flex-wrap">
-                    <span class="px-3 py-1.5 bg-green-500/20 border border-green-500/30 text-green-400 text-xs font-semibold rounded-lg">✓ 100% Gratis</span>
-                    <span class="px-3 py-1.5 bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold rounded-lg">✓ Sin Registro</span>
-                    <span class="px-3 py-1.5 bg-purple-500/20 border border-purple-500/30 text-purple-400 text-xs font-semibold rounded-lg">✓ Open Source</span>
-                    <span class="px-3 py-1.5 bg-amber-500/20 border border-amber-500/30 text-amber-400 text-xs font-semibold rounded-lg">✓ 11 Widgets</span>
-                </div>
+                <p class="text-sm text-slate-400">Widgets Educativos Gratuitos</p>
+                    <p class="text-sm text-slate-300 max-w-2xl mx-auto mb-4" data-i18n="footer.description">
+                        Aprende a toda velocidad. Widgets educativos sin código y sin límites.
+                        
+                        <br>
+                        para educación sin código, sin registro y completamente gratis.
+                    </p>
+                    <div class="flex gap-3 justify-center flex-wrap">
+                        <span class="px-3 py-1.5 bg-green-500/20 border border-green-500/30 text-green-400 text-xs font-semibold rounded-lg" data-i18n="footer.free">✓ 100% Gratis</span>
+                        <span class="px-3 py-1.5 bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold rounded-lg" data-i18n="footer.noregister">✓ Sin Registro</span>
+                        <span class="px-3 py-1.5 bg-purple-500/20 border border-purple-500/30 text-purple-400 text-xs font-semibold rounded-lg" data-i18n="footer.opensource">✓ Open Source</span>
+                        <span class="px-3 py-1.5 bg-amber-500/20 border border-amber-500/30 text-amber-400 text-xs font-semibold rounded-lg" data-i18n="footer.widgets">✓ 11 Widgets</span>
+                    </div>
             </div>
 
             <!-- Sección Media: Enlaces en Grid -->
@@ -1180,7 +1557,7 @@
                 <div>
                     <h3 class="font-bold text-white mb-4 flex items-center gap-2">
                         <span class="text-amber-500">⏱️</span>
-                        Tiempo
+                        <span data-i18n="footer.time">Tiempo</span>
                     </h3>
                     <ul class="space-y-2 text-sm">
                         <li><a href="admin/temporizador.html" class="text-slate-300 hover:text-amber-500 transition inline-flex items-center gap-1.5">
@@ -1202,7 +1579,7 @@
                 <div>
                     <h3 class="font-bold text-white mb-4 flex items-center gap-2">
                         <span class="text-amber-500">🎲</span>
-                        Clase
+                        <span data-i18n="footer.class">Clase</span>
                     </h3>
                     <ul class="space-y-2 text-sm">
                         <li><a href="admin/sorteo.html" class="text-slate-300 hover:text-amber-500 transition inline-flex items-center gap-1.5">
@@ -1227,7 +1604,7 @@
                 <div>
                     <h3 class="font-bold text-white mb-4 flex items-center gap-2">
                         <span class="text-amber-500">🔧</span>
-                        Herramientas
+                        <span data-i18n="footer.tools">Herramientas</span>
                     </h3>
                     <ul class="space-y-2 text-sm">
                         <li><a href="admin/notas.html" class="text-slate-300 hover:text-amber-500 transition inline-flex items-center gap-1.5">
@@ -1243,7 +1620,7 @@
                 <div>
                     <h3 class="font-bold text-white mb-4 flex items-center gap-2">
                         <span class="text-amber-500">📚</span>
-                        Recursos
+                        <span data-i18n="footer.resources">Recursos</span>
                     </h3>
                     <ul class="space-y-2 text-sm">
                         <li><a href="example.html" class="text-slate-300 hover:text-amber-500 transition inline-flex items-center gap-1.5">
@@ -1267,13 +1644,13 @@
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <!-- Copyright -->
                     <div class="text-center md:text-left">
-                        <p class="text-xs text-slate-400">
+                        <p class="text-xs text-slate-400" data-i18n="footer.copyright">
                             © 2025 WidKit. Todos los derechos reservados.
                         </p>
                         <div class="flex gap-2 text-xs text-slate-400 mt-1 justify-center md:justify-start">
-                            <a href="#" class="hover:text-amber-500 transition">Términos</a>
+                            <a href="#" class="hover:text-amber-500 transition" data-i18n="footer.terms">Términos</a>
                             <span>·</span>
-                            <a href="#" class="hover:text-amber-500 transition">Privacidad</a>
+                            <a href="#" class="hover:text-amber-500 transition" data-i18n="footer.privacy">Privacidad</a>
                             <span>·</span>
                             <a href="https://github.com/bemtorres/widkit" target="_blank" class="hover:text-amber-500 transition">GitHub</a>
                         </div>
@@ -1295,7 +1672,7 @@
 
                     <!-- Developer -->
                     <div class="text-center md:text-right">
-                        <p class="text-xs text-slate-400">Desarrollado con ❤️ por</p>
+                        <p class="text-xs text-slate-400" data-i18n="footer.developed">Desarrollado con ❤️ por</p>
                         <a href="https://github.com/bemtorres" target="_blank" class="text-sm font-bold text-amber-500 hover:text-amber-400 transition">
                             @bemtorres
                         </a>
@@ -1355,6 +1732,36 @@
             window.open(url, '_blank');
         }
 
+        // Toggle menú de idiomas móvil
+        function toggleMobileLang() {
+            const menu = document.getElementById('mobileLangMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Cerrar menú móvil al hacer click fuera
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobileLangMenu');
+            const button = document.getElementById('mobileLangBtn');
+            if (menu && button && !menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Animación Hero Title - Logo Drop
+        const heroTitleContainer = document.getElementById('heroTitleContainer');
+        
+        if (heroTitleContainer) {
+            // Activar animación al pasar el mouse
+            heroTitleContainer.addEventListener('mouseenter', function() {
+                this.classList.add('active');
+            });
+            
+            // Desactivar al salir del mouse - las palabras vuelven a juntarse
+            heroTitleContainer.addEventListener('mouseleave', function() {
+                this.classList.remove('active');
+            });
+        }
+
         // Modo Pro Toggle
         let proModeActive = false;
         let particleInterval = null;
@@ -1364,17 +1771,43 @@
             const button = document.getElementById('proToggle');
             const heroBadge = document.getElementById('heroBadge');
             const heroSubtitle = document.getElementById('heroSubtitle');
+            const navLogo = document.getElementById('navLogo');
+            const footerLogo = document.getElementById('footerLogo');
             proModeActive = !proModeActive;
+            
+            // Cambiar imágenes de widgets y features
+            const widgetImages = document.querySelectorAll('.gradient-icon img, .animate-float img');
             
             if (proModeActive) {
                 body.classList.add('pro-mode');
                 button.classList.add('active');
-                button.innerHTML = '<span class="flame-icon">🔥</span><span>Modo Normal</span>';
+                // Cambiar emoji por imagen cuando se activa
+                button.innerHTML = '<span class="flame-icon is-image"><img src="assets/img/icons/widkit_fuego_xl.png" alt="Fire"></span><span data-i18n="promode.buttonNormal">Modo Normal</span>';
+                
+                // Cambiar logos a versión Pro
+                if (navLogo) {
+                    navLogo.src = 'assets/img/icons/widkit_entero_pro.png';
+                }
+                if (heroLogo) {
+                    heroLogo.src = 'assets/img/icons/widkit_entero_pro.png';
+                }
+                if (footerLogo) {
+                    footerLogo.src = 'assets/img/icons/widkit_entero_pro.png';
+                }
                 
                 // Cambiar textos del hero
-                heroBadge.innerHTML = '🔥 Modo Pro Activado';
+                heroBadge.innerHTML = t('hero.badgePro');
                 heroBadge.className = 'px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-semibold rounded-full shadow-lg';
-                heroSubtitle.textContent = 'Gratis por siempre y sin publicidad';
+                heroSubtitle.textContent = t('hero.subtitlePro');
+                
+                // Cambiar todas las imágenes a versión _pro
+                widgetImages.forEach(img => {
+                    const originalSrc = img.src;
+                    if (originalSrc.includes('.png') && !originalSrc.includes('_pro.png')) {
+                        img.dataset.originalSrc = originalSrc; // Guardar src original
+                        img.src = originalSrc.replace('.png', '_pro.png');
+                    }
+                });
                 
                 createFireParticles();
                 
@@ -1383,12 +1816,32 @@
             } else {
                 body.classList.remove('pro-mode');
                 button.classList.remove('active');
-                button.innerHTML = '<span class="flame-icon">🔥</span><span>Modo Pro</span>';
+                // Restaurar emoji
+                button.innerHTML = '<span class="flame-icon">🔥</span><span data-i18n="promode.button">Modo Pro</span>';
+                
+                // Restaurar logos a versión normal
+                if (navLogo) {
+                    navLogo.src = 'assets/img/icons/widkit_entero.png';
+                }
+                if (heroLogo) {
+                    heroLogo.src = 'assets/img/icons/widkit_entero.png';
+                }
+                if (footerLogo) {
+                    footerLogo.src = 'assets/img/icons/widkit_entero.png';
+                }
                 
                 // Restaurar textos originales del hero
-                heroBadge.innerHTML = '✨ Gratis y fácil de usar';
+                heroBadge.innerHTML = t('hero.badge');
                 heroBadge.className = 'px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full animate-pulse-slow';
-                heroSubtitle.textContent = 'Listos en 30 Segundos';
+                heroSubtitle.textContent = t('hero.subtitle');
+                
+                // Restaurar imágenes originales
+                widgetImages.forEach(img => {
+                    if (img.dataset.originalSrc) {
+                        img.src = img.dataset.originalSrc;
+                        delete img.dataset.originalSrc;
+                    }
+                });
                 
                 clearInterval(particleInterval);
                 removeFireParticles();
@@ -1740,5 +2193,8 @@
         ]
     }
     </script>
+    
+    <!-- Sistema de Internacionalización -->
+    <script src="assets/js/i18n.js"></script>
 </body>
 </html>
