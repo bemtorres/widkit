@@ -1,6 +1,6 @@
-const CACHE_NAME = 'widkit-v1.0.0';
-const STATIC_CACHE = 'widkit-static-v1.0.0';
-const DYNAMIC_CACHE = 'widkit-dynamic-v1.0.0';
+const CACHE_NAME = 'widkit-v1.0.0a';
+const STATIC_CACHE = 'widkit-static-v1.0.0a';
+const DYNAMIC_CACHE = 'widkit-dynamic-v1.0.0a';
 
 // Archivos estáticos para cachear en la instalación
 const STATIC_ASSETS = [
