@@ -1,355 +1,238 @@
-# 🦉 WidKit - Widgets Educativos PWA
-
 <div align="center">
 
-**Widgets educativos listos para usar en Moodle, Blackboard, Canvas y cualquier LMS**
+![WidKit Logo](assets/img/icons/widkit_entero.png)
 
-[![PWA Ready](https://img.shields.io/badge/PWA-Ready-success?style=for-the-badge&logo=pwa)](https://web.dev/progressive-web-apps/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
-[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge)](https://github.com/bemtorres)
+# ~~Widgets~~ WidKit Educativos
 
-[🌐 Demo en Vivo](https://widkit.lol/) • [📱 Instalar App](#-instalación-como-pwa) • [📚 Documentación](#-widgets-disponibles)
+**Widgets educativos listos para usar en 30 segundos. Sin código, sin registro, sin límites.**
+
+[![PWA Ready](https://img.shields.io/badge/PWA-Ready-success?style=flat-square)](https://widkit.lol/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![11 Widgets](https://img.shields.io/badge/Widgets-11-orange?style=flat-square)](https://widkit.lol/)
+
+[🌐 **Ver Demo**](https://widkit.lol/) • [📱 **Instalar App**](https://widkit.lol/) • [💡 **Ver Ejemplos**](https://widkit.lol/example.html)
 
 </div>
 
 ---
 
-## ✨ Características
+## ⚡ ¿Qué es WidKit?
 
-- 🚀 **Progressive Web App (PWA)** - Instálala como app nativa
-- 📴 **Funciona Offline** - Gracias al Service Worker
-- ⚡ **Carga Rápida** - Sistema de caché inteligente
-- 🎨 **8 Widgets Diferentes** - Listos para usar
-- 🔧 **Sin Backend** - Todo funciona por URL
-- 📱 **100% Responsive** - Funciona en todos los dispositivos
-- 🆓 **Completamente Gratis** - Sin registro ni anuncios
-- 🎯 **Cero Configuración** - Copia y pega el iframe
+WidKit son **11 widgets educativos** que funcionan en cualquier plataforma (Moodle, Blackboard, Canvas, Google Classroom, etc.). Solo copias un link, lo pegas en tu LMS, y funciona. **Así de simple.**
 
-## 🎯 Widgets Disponibles
+### ✨ Lo mejor:
+- ✅ **Sin programar** - Copia y pega
+- ✅ **Sin registros** - Empieza ya
+- ✅ **Sin límites** - Usa todo gratis
+- ✅ **Sin base de datos** - Todo por URL
+- ✅ **100% Responsive** - Funciona en todo
 
-| Widget | Descripción | Demo |
-|--------|-------------|------|
-| ⏱️ **Cuenta Regresiva** | Temporizador para exámenes y entregas | [Ver demo](app/cuentaregresiva.html) |
-| 🥇 **Cronómetro** | Tiempo transcurrido desde un evento | [Ver demo](app/cronometro.html) |
-| 📅 **Calculador de Semanas** | Organiza tu curso por semanas | [Ver demo](app/semana.html) |
-| 🎲 **Sorteo Interactivo** | Sorteos con animación y confetti | [Ver demo](app/sorteo.html) |
-| 📱 **Generador de QR** | Códigos QR personalizables | [Ver demo](app/qr.html) |
-| 🎯 **Selector de Estudiante** | Selección aleatoria rápida | [Ver demo](app/ruleta.html) |
-| 🔢 **Calculadora de Notas** | Promedio ponderado y más | [Ver demo](app/notas.html) |
-| 👥 **Generador de Equipos** | Divide en equipos balanceados | [Ver demo](app/equipos.html) |
+---
 
-## 📱 Instalación como PWA
+## 🎯 Los 11 Widgets
 
-### Para Usuarios:
+| Widget | Para qué sirve | Demo |
+|--------|----------------|------|
+| ⏱️ **Cuenta Regresiva** | Temporizador para exámenes y entregas | [▶️](https://widkit.lol/app/cuentaregresiva.html) |
+| 🥇 **Cronómetro** | Tiempo transcurrido desde un evento | [▶️](https://widkit.lol/app/cronometro.html) |
+| 📅 **Calculador de Semanas** | Organiza tu curso por semanas | [▶️](https://widkit.lol/app/semana.html) |
+| 🎲 **Sorteo Interactivo** | Sorteos animados con confetti | [▶️](https://widkit.lol/app/sorteo.html) |
+| 📱 **Generador de QR** | Códigos QR personalizables | [▶️](https://widkit.lol/app/qr.html) |
+| 🎯 **Selector de Estudiante** | Ruleta para selección aleatoria | [▶️](https://widkit.lol/app/ruleta.html) |
+| 🔢 **Calculadora de Notas** | Promedio ponderado y "¿qué nota necesito?" | [▶️](https://widkit.lol/app/notas.html) |
+| 👥 **Generador de Equipos** | Divide estudiantes en equipos | [▶️](https://widkit.lol/app/equipos.html) |
+| ⏲️ **Pomodoro Timer** | Técnica Pomodoro para productividad | [▶️](https://widkit.lol/app/pomodoro.html) |
+| 🏆 **Tabla de Clasificación** | Ranking de estudiantes o equipos | [▶️](https://widkit.lol/app/leaderboard.html) |
+| 🗳️ **Votación en Vivo** | Toma decisiones democráticas en clase | [▶️](https://widkit.lol/app/votacion.html) |
 
-1. **En el navegador:**
-   - Busca el ícono de instalación (⊕) en la barra de direcciones
-   - O haz clic en el botón flotante "📱 Instalar App"
+---
 
-2. **En móvil:**
-   - Chrome: Menú (⋮) → "Instalar aplicación"
-   - Safari: Compartir → "Agregar a pantalla de inicio"
+## 🚀 Cómo Usar (30 segundos)
 
-3. **¡Listo!** La app aparecerá en tu pantalla de inicio
+### Paso 1: Configura tu widget
+Ve a [widkit.lol](https://widkit.lol/), elige un widget y configúralo:
 
-### Para Desarrolladores:
-
-```bash
-# Clonar el repositorio
-git clone https://github.com/bemtorres/widkit.git
-cd widkit
-
-# Iniciar servidor local con Node.js
-npm start
-
-# O usa Python
-python -m http.server 8080
-
-# O usa npx serve
-npx serve .
+```
+📝 Ejemplo: Cuenta Regresiva
+- Título: "Examen Final"
+- Fecha: 15 de Diciembre, 2025
+- Haz clic en "Copiar Código"
 ```
 
-Luego abre `http://localhost:8080` en tu navegador.
+### Paso 2: Pega en tu LMS
 
-## 🎨 Generar Iconos PWA
+**En Moodle:**
+1. Activa edición → Añade "Etiqueta" o "Página"
+2. Clic en botón HTML `</>`
+3. Pega el código
+4. ¡Listo! 🎉
 
-**Opción 1: Generador Incluido (Más Fácil)**
+**En Blackboard:**
+1. "Crear contenido" → "Elemento"
+2. Vista HTML
+3. Pega el código
+4. ¡Funciona! ✅
 
-```bash
-# Abre el generador en tu navegador:
-http://localhost:8080/icon-generator.html
+**En Canvas:**
+1. Edita página → "Editor HTML" `</>`
+2. Pega el código
+3. Guarda
+4. ¡Ya está! 🚀
 
-# 1. Personaliza el emoji/texto y color
-# 2. Haz clic en "Generar Todos los Iconos"
-# 3. Los iconos se descargarán automáticamente
-# 4. Coloca los archivos en assets/img/
-```
-
-**Opción 2: Herramienta Online**
-- Ve a [PWA Asset Generator](https://www.pwabuilder.com/imageGenerator)
-- Sube tu logo (512x512px recomendado)
-- Descarga y coloca en `assets/img/`
-
-**Opción 3: ImageMagick (Línea de Comandos)**
-```bash
-# Generar todos los tamaños desde logo.png
-for size in 72 96 128 144 152 192 384 512; do
-  convert logo.png -resize ${size}x${size} assets/img/icon-${size}x${size}.png
-done
-```
-
-## 🔧 Integración en LMS
-
-### Moodle
+**En cualquier web:**
 ```html
-1. Activa el modo edición en tu curso
-2. Añade una "Etiqueta" o "Página"
-3. Haz clic en el botón HTML (</>)
-4. Pega el código iframe:
-
-<iframe src="https://tu-dominio.com/app/cuentaregresiva.html?title=Examen&y=2025&m=12&d=15" 
+<!-- Así de simple -->
+<iframe src="https://widkit.lol/app/cuentaregresiva.html?title=Examen&y=2025&m=12&d=15" 
         width="100%" height="450" frameborder="0"></iframe>
 ```
 
-### Blackboard
-```html
-1. Ve al área de contenido
-2. Selecciona "Crear contenido" → "Elemento"
-3. En el editor, cambia a vista HTML
-4. Pega el código iframe
-5. Envía y ¡funciona!
+---
+
+## 💡 Ejemplos Reales
+
+### 1. Cuenta Regresiva para Examen
 ```
-
-### Canvas
-```html
-1. Edita una página o módulo
-2. Haz clic en "Editor HTML" (icono </>)
-3. Pega el código iframe
-4. Guarda cambios
+URL: https://widkit.lol/app/cuentaregresiva.html?title=Examen%20Final&y=2025&m=12&d=15&h=14
 ```
+Los estudiantes ven cuánto tiempo queda en tiempo real.
 
-## 🚀 Despliegue
+### 2. Sorteo de Participaciones
+```
+URL: https://widkit.lol/app/sorteo.html?items=Juan,María,Pedro,Ana,Luis
+```
+Click en "Sortear" → animación → confetti → ¡ganador!
 
-### GitHub Pages
+### 3. QR para Enlaces Rápidos
+```
+URL: https://widkit.lol/app/qr.html?code=https://meet.google.com/abc-def-ghi&size=256
+```
+Genera un QR al instante, sin apps externas.
+
+---
+
+## 📱 Instalar como App (Opcional)
+
+WidKit es una **PWA** (Progressive Web App). Puedes instalarla como app nativa:
+
+- **En el navegador:** Busca el ícono ⊕ en la barra de direcciones
+- **En móvil:** Menú → "Instalar aplicación"
+- **Ventajas:** Funciona offline, más rápida, como app nativa
+
+---
+
+## 🛠️ Para Desarrolladores
+
+### Instalación Local
 ```bash
-git add .
-git commit -m "Deploy PWA"
-git push origin main
+# Clonar
+git clone https://github.com/bemtorres/widkit.git
+cd widkit
 
-# Activa GitHub Pages en Settings → Pages
-# Source: main branch / root
-```
-
-### Netlify
-```bash
-# 1. Conecta tu repositorio en netlify.com
-# 2. Build command: (vacío)
-# 3. Publish directory: .
-# 4. Deploy!
-```
-
-### Vercel
-```bash
-vercel deploy
-```
-
-## 📊 Verificar PWA
-
-### Lighthouse Audit
-1. Abre Chrome DevTools (F12)
-2. Pestaña "Lighthouse"
-3. Selecciona "Progressive Web App"
-4. "Generate report"
-5. **Objetivo: 100/100** ✅
-
-### Service Worker
-1. DevTools → Application
-2. Service Workers (sidebar)
-3. Debe mostrar "activated and running"
-
-### Manifest
-1. DevTools → Application
-2. Manifest (sidebar)
-3. Verifica nombre, iconos y colores
-
-## 🛠️ Estructura del Proyecto
-
-```
-widkit/
-├── index.html              # Página principal (PWA ready)
-├── manifest.json           # Configuración de la PWA
-├── sw.js                   # Service Worker
-├── offline.html            # Página sin conexión
-├── icon-generator.html     # Generador de iconos
-├── server.js               # Servidor de desarrollo
-├── package.json            # Dependencias npm
-├── PWA-SETUP.md           # Guía detallada de PWA
-│
-├── admin/                  # Páginas de configuración
-│   ├── cronometro.html
-│   ├── equipos.html
-│   ├── notas.html
-│   ├── qr.html
-│   ├── ruleta.html
-│   ├── semana.html
-│   ├── sorteo.html
-│   ├── temporizador.html
-│   └── js/                 # Scripts de admin
-│
-├── app/                    # Widgets embebibles
-│   ├── cronometro.html
-│   ├── cuentaregresiva.html
-│   ├── equipos.html
-│   ├── notas.html
-│   ├── qr.html
-│   ├── ruleta.html
-│   ├── semana.html
-│   └── sorteo.html
-│
-└── assets/
-    ├── css/
-    ├── js/
-    └── img/
-        ├── icon-*.png      # Iconos de la PWA (genera con icon-generator.html)
-        ├── Moodle-logo.png
-        ├── Blackboard-Original.png
-        └── canvas-lms-logo.png
-```
-
-## 🧪 Desarrollo
-
-### Requisitos
-- Navegador moderno (Chrome, Edge, Firefox)
-- Node.js (opcional, para servidor local)
-
-### Comandos
-```bash
-# Iniciar servidor de desarrollo
+# Servidor local
 npm start
-
-# O usar Python
+# o
 python -m http.server 8080
-
-# O usar npx
+# o
 npx serve .
 ```
 
-### Actualizar Service Worker
-```javascript
-// En sw.js, incrementa la versión:
-const CACHE_NAME = 'widkit-v1.1.0';  // ← Cambia esto
+### Estructura
+```
+widkit/
+├── index.html              # Landing page
+├── manifest.json           # PWA config
+├── sw.js                   # Service Worker
+├── admin/                  # Configuradores
+│   ├── cronometro.html
+│   ├── equipos.html
+│   └── ...
+├── app/                    # Widgets embebibles
+│   ├── cronometro.html
+│   ├── cuentaregresiva.html
+│   └── ...
+└── assets/
+    ├── css/
+    ├── js/
+    │   └── i18n.js         # Multi-idioma (ES/EN/PT)
+    └── img/
+        └── icons/
+            ├── widkit_entero.png       # Logo normal
+            └── widkit_entero_pro.png   # Logo Pro Mode
 ```
 
-Los usuarios recibirán una notificación para actualizar.
+### Personalizar
+Todos los widgets funcionan por **parámetros URL**:
+```
+?title=texto&y=2025&m=12&d=15&c1=%23ff0000&c2=%2300ff00
+```
 
-## 🌐 Arquitectura PWA
+Sin backend, sin base de datos. **Todo en el cliente.**
 
-### Archivos Clave
+---
 
-- **manifest.json**: Define metadatos, iconos, colores y shortcuts
-- **sw.js**: Service Worker para caché y funcionalidad offline
-- **offline.html**: Página mostrada cuando no hay conexión
+## 🎨 Modo Pro
 
-### Estrategia de Caché
+![Modo Pro](assets/img/icons/widkit_fuego_xl.png)
 
-- **Cache First**: Archivos estáticos (HTML, CSS, JS)
-- **Network First**: Contenido dinámico con fallback a caché
-- **Stale While Revalidate**: Imágenes y assets
+Activa el **Modo Pro** en [widkit.lol](https://widkit.lol/) para:
+- 🔥 Tema oscuro con efectos de fuego
+- ✨ Animaciones especiales
+- 💫 Partículas flotantes
+- 🎨 Iconos animados
 
-### Características PWA Implementadas
+*Es solo visual, todos los widgets siguen siendo gratis.*
 
-✅ Instalable en escritorio y móvil  
-✅ Funciona sin conexión  
-✅ Actualizaciones automáticas  
-✅ Shortcuts a widgets populares  
-✅ Notificación de actualizaciones  
-✅ Modo standalone (sin barra del navegador)  
-✅ Splash screen personalizado  
-✅ Tema color adaptable  
+---
 
-## 📱 Compatibilidad
+## 🌍 Multi-idioma
 
-### Navegadores Soportados
-| Navegador | Versión Mínima | PWA Support |
-|-----------|----------------|-------------|
-| Chrome | 90+ | ✅ Completo |
-| Firefox | 88+ | ✅ Completo |
-| Safari | 14+ | ⚠️ Limitado |
-| Edge | 90+ | ✅ Completo |
-| Opera | 76+ | ✅ Completo |
+WidKit está disponible en:
+- 🇪🇸 **Español**
+- 🇬🇧 **English**
+- 🇧🇷 **Português**
 
-### Dispositivos
-- 📱 **Móviles:** iOS 14+, Android 5+
-- 📱 **Tablets:** iPad, Android tablets
-- 💻 **Desktop:** Windows, macOS, Linux
-- 🖥️ **Pantallas grandes:** 4K, ultrawide
+Cambia el idioma en la esquina superior derecha de [widkit.lol](https://widkit.lol/).
 
-## 🐛 Solución de Problemas
+---
 
-### El Service Worker no se registra:
-- Verifica que estés usando HTTPS o localhost
-- Revisa la consola del navegador para errores
-- Asegúrate de que `sw.js` esté en la raíz del proyecto
+## 🤝 Compatible con
 
-### Los iconos no se muestran:
-- Verifica que los archivos existen en `assets/img/`
-- Revisa las rutas en `manifest.json`
-- Limpia el caché del navegador
-- Usa el generador: `icon-generator.html`
+<div align="center">
 
-### La instalación no aparece:
-- Verifica que todos los criterios de PWA se cumplan (Lighthouse)
-- En Chrome, ve a chrome://flags y busca "bypass-app-banner-engagement-checks"
-- Limpia el cache y recarga
+![Moodle](assets/img/Moodle-logo.png)
+![Blackboard](assets/img/Blackboard-Original.png)
+![Canvas](assets/img/canvas-lms-logo.png)
 
-### El widget no funciona offline:
-- Verifica que el Service Worker esté activo (DevTools → Application)
-- Carga la página al menos una vez con conexión
-- Revisa que los archivos estén en STATIC_ASSETS (sw.js)
+**Moodle • Blackboard • Canvas • Google Classroom • Cualquier LMS o Web**
+
+</div>
+
+---
 
 ## 📄 Licencia
 
-MIT License - Uso libre y gratuito
+**MIT License** - Uso libre y gratuito para siempre.
 
-```
-Copyright (c) 2025 WidKit
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
-```
+---
 
 ## 👨‍💻 Autor
 
-Desarrollado con ❤️ por [@bemtorres](https://github.com/bemtorres)
+Creado con ❤️ por [@bemtorres](https://github.com/bemtorres)
 
-## 🤝 Contribuir
+---
 
-¡Las contribuciones son bienvenidas! 
+## 🌟 ¿Te Gusta?
 
-1. Fork el proyecto
-2. Crea tu rama (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add: nueva característica'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 📚 Recursos Adicionales
-
-- [PWA Documentation](https://web.dev/progressive-web-apps/)
-- [Service Workers Guide](https://developers.google.com/web/fundamentals/primers/service-workers)
-- [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)
-- [PWA-SETUP.md](PWA-SETUP.md) - Guía completa de configuración
-
-## ⭐ Apóyanos
-
-Si te gusta WidKit, dale una ⭐ en GitHub y compártelo con otros educadores.
+Si WidKit te ayuda, dale una ⭐ en GitHub y compártelo con otros educadores.
 
 ---
 
 <div align="center">
 
-**[🌐 Visita widkit.lol](https://widkit.lol/)** • **[📱 Prueba la PWA](https://widkit.lol/)** • **[💬 Issues](https://github.com/bemtorres/widkit/issues)**
+### [🌐 widkit.lol](https://widkit.lol/) • [📱 Probar Ahora](https://widkit.lol/) • [💬 Reportar Bug](https://github.com/bemtorres/widkit/issues)
 
-Hecho con 🦉 para educadores
+**Aprende a toda velocidad. Widgets sin código y sin límites.**
+
+![WidKit Logo](assets/img/icons/widkit_rayo.png)
 
 </div>
