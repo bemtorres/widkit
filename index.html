@@ -13,10 +13,10 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WidKit - 11 Widgets Educativos Gratis para Profesores | Moodle, Blackboard, Canvas</title>
+    <title>WidKit - 14 Widgets Educativos Gratis para Profesores | Moodle, Blackboard, Canvas</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="11 widgets educativos gratuitos para profesores: cuenta regresiva, sorteos, calculadora de notas, pomodoro timer, votación en vivo y más. Intégralos en Moodle, Blackboard o Canvas sin programar. ¡Gratis y sin registro!">
+    <meta name="description" content="14 widgets educativos gratuitos para profesores: cuenta regresiva, sorteos, calculadora de notas, pomodoro timer, votación en vivo, flashcards, matemáticas y palabras. Intégralos en Moodle, Blackboard o Canvas sin programar. ¡Gratis y sin registro!">
     <meta name="keywords" content="widgets educativos, herramientas moodle, cuenta regresiva clases, sorteo estudiantes, calculadora notas, generador equipos, pomodoro profesores, tabla clasificación, recursos profesores, lms widgets, blackboard widgets, canvas lms, herramientas docentes, educación digital">
     <meta name="author" content="WidKit - @bemtorres">
     <meta name="robots" content="index, follow">
@@ -28,7 +28,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://widkit.lol/">
     <meta property="og:title" content="WidKit - Widgets Educativos Gratis para Profesores | Moodle, Blackboard, Canvas">
-    <meta property="og:description" content="11 widgets educativos gratuitos listos para usar: cuenta regresiva, sorteos, notas, pomodoro, votación en vivo y más. Sin programar, sin registro. ¡Úsalos en tu LMS ahora!">
+    <meta property="og:description" content="14 widgets educativos gratuitos listos para usar: cuenta regresiva, sorteos, notas, pomodoro, votación en vivo, flashcards, matemáticas y palabras. Sin programar, sin registro. ¡Úsalos en tu LMS ahora!">
     <meta property="og:image" content="https://widkit.lol/assets/widkit_fuego_icono.png">
     <meta property="og:locale" content="es_ES">
     <meta property="og:site_name" content="WidKit">
@@ -37,7 +37,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://widkit.lol/">
     <meta name="twitter:title" content="WidKit - Widgets Educativos para Profesores">
-    <meta name="twitter:description" content="11 widgets gratuitos para dinamizar tus clases: sorteos, timers, notas, votación en vivo y más. Sin código, sin registro.">
+    <meta name="twitter:description" content="14 widgets gratuitos para dinamizar tus clases: sorteos, timers, notas, votación en vivo, flashcards, matemáticas y palabras. Sin código, sin registro.">
     <meta name="twitter:image" content="https://widkit.lol/assets/widkit_fuego_icono.png">
     <meta name="twitter:creator" content="@bemtorres">
     
@@ -846,17 +846,27 @@
     </section>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Widgets Grid -->
-        <div id="widgets" class="mb-16 scroll-reveal">
+        <div id="widgets" class="mb-16 scroll-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-slate-900 mb-3" data-i18n="widgets.title">11 Widgets Listos para Usar</h2>
+                <h2 class="text-3xl font-bold text-slate-900 mb-3" data-i18n="widgets.title">14 Widgets Listos para Usar</h2>
                 <p class="text-slate-600" data-i18n="widgets.subtitle">Selecciona, configura y obtén el código embebido en segundos</p>
+            </div>
+
+            <div class="flex items-center justify-center mb-6">
+                <label for="categoryFilter" class="mr-2 text-sm text-slate-600">Filtrar por categoría:</label>
+                <select id="categoryFilter" class="px-3 py-2 border border-slate-300 bg-white rounded-lg text-sm">
+                    <option value="all">Todas</option>
+                    <option value="tiempo">Tiempo</option>
+                    <option value="clase">Clase</option>
+                    <option value="herramientas">Herramientas</option>
+                    <option value="juegos">Juegos</option>
+                </select>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <!-- Cuenta Regresiva -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="tiempo">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_tempo.png" alt="Cuenta Regresiva" class="w-full h-full object-contain">
@@ -902,7 +912,7 @@
                 </div>
 
                 <!-- Cronómetro Ascendente -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="tiempo">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_medalla.png" alt="Cronómetro" class="w-full h-full object-contain">
@@ -948,7 +958,7 @@
                 </div>
 
                 <!-- Calculador de Semanas -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="tiempo">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_calendar.png" alt="Calculador de Semanas" class="w-full h-full object-contain">
@@ -993,7 +1003,7 @@
                 </div>
 
                 <!-- Sorteo Interactivo -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-purple-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-purple-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="clase">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_dado.png" alt="Sorteo Interactivo" class="w-full h-full object-contain">
@@ -1039,7 +1049,7 @@
                 </div>
 
                 <!-- Generador de QR -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-orange-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-orange-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="herramientas">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_mobile.png" alt="Generador QR" class="w-full h-full object-contain">
@@ -1084,8 +1094,39 @@
                     </div>
                 </div>
 
+                <!-- Contador de Pasos -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-emerald-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="herramientas">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <span class="text-6xl">👣</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Contador de Pasos</h3>
+                        <p class="text-sm text-slate-600">
+                            Objetivo de pasos con cronómetro, distancia, kcal y reset
+                        </p>
+                    </div>
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <span>Start/Pausa + Añadir/Restar pasos</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <span>Objetivo, km, kcal, velocidad</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <span>Params: goal, stepLen, weight, autostart</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/steps.html" class="px-3 py-1.5 bg-emerald-600 text-white text-sm font-semibold rounded-full hover:bg-emerald-700 transition text-center" data-i18n="common.configure">Configurar</a>
+                        <a href="app/steps.html?goal=6000&autostart=0" target="_blank" class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">Demo</a>
+                    </div>
+                </div>
+
                 <!-- Selector de Estudiante -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-cyan-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-cyan-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="clase">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_mark.png" alt="Selector de Estudiante" class="w-full h-full object-contain">
@@ -1131,7 +1172,7 @@
                 </div>
 
                 <!-- Calculadora de Notas -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-purple-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-purple-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="herramientas">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-1">
                             <img src="assets/img/icons/widkit_calc.png" alt="Calculadora de Notas" class="w-full h-full object-contain">
@@ -1177,7 +1218,7 @@
                 </div>
 
                 <!-- Generador de Equipos -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="clase">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_rayo_two.png" alt="Generador de Equipos" class="w-full h-full object-contain">
@@ -1223,7 +1264,7 @@
                 </div>
 
                 <!-- Pomodoro Timer -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-red-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-red-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="tiempo">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_crono.png" alt="Pomodoro Timer" class="w-full h-full object-contain">
@@ -1269,7 +1310,7 @@
                 </div>
 
                 <!-- Tabla de Clasificación -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="clase">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_trofeo.png" alt="Tabla de Clasificación" class="w-full h-full object-contain">
@@ -1315,7 +1356,7 @@
                 </div>
 
                 <!-- Votación en Vivo -->
-                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-indigo-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1">
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-indigo-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="clase">
                     <div class="text-center mb-4">
                         <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
                             <img src="assets/img/icons/widkit_book_check.png" alt="Votación en Vivo" class="w-full h-full object-contain">
@@ -1360,8 +1401,191 @@
                     </div>
                 </div>
 
+                <!-- Quiz (Selección múltiple/única/VoF) -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-amber-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="clase">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <span class="text-6xl">📝</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Quiz</h3>
+                        <p class="text-sm text-slate-600">
+                            Selección múltiple, única y verdadero/falso con puntaje final
+                        </p>
+                    </div>
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Modo múltiple, única y VoF</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Pide nombre y muestra puntaje final</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>URL params: mode=single|multi|tf</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/quiz.html" 
+                           class="px-3 py-1.5 bg-amber-600 text-white text-sm font-semibold rounded-full hover:bg-amber-700 transition text-center" data-i18n="common.configure">
+                            Configurar
+                        </a>
+                        <a href="app/quiz.html?mode=single" 
+                           target="_blank"
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center" data-i18n="common.demo">
+                            Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Flashcards -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-pink-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="juegos">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <span class="text-6xl">📚</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Flashcards</h3>
+                        <p class="text-sm text-slate-600">
+                            Tarjetas de estudio interactivas para repasar contenido
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Efecto de volteo 3D</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Navegación con teclado</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Parámetros URL personalizables</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/flashcard.html" 
+                           class="px-3 py-1.5 bg-pink-600 text-white text-sm font-semibold rounded-full hover:bg-pink-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/flashcard.html?question=¿Qué es JavaScript?,¿Dónde está Chile?,¿Cómo se llamaba?&answer=Un lenguaje de programación,En América del Sur,Se llamaba Pedro" 
+                           target="_blank"
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Juego de Palabras -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-blue-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="juegos">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <span class="text-6xl">📝</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Juego de Palabras</h3>
+                        <p class="text-sm text-slate-600">
+                            Juego dinámico con modal de asignación de puntos automático
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Modal de asignación de puntos automático</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Participantes ocultos durante el juego</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Opción "Nadie" para no asignar puntos</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/palabras.html" 
+                           class="px-3 py-1.5 bg-blue-600 text-white text-sm font-semibold rounded-full hover:bg-blue-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/palabras.html?list=perro,chancho,caballa,serpiente,elefante&category=Animales" 
+                           target="_blank"
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Juego de Matemáticas -->
+                <div class="widget-card bg-white rounded-xl border-2 border-slate-200 p-6 hover:border-green-500 hover:shadow-lg transition-all transform hover:scale-105 hover:-translate-y-1" data-category="juegos">
+                    <div class="text-center mb-4">
+                        <div class="gradient-icon w-36 h-36 flex items-center justify-center mx-auto mb-3">
+                            <span class="text-6xl">➕</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Juego de Matemáticas</h3>
+                        <p class="text-sm text-slate-600">
+                            Operaciones matemáticas con modal de puntos automático
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Modal de asignación de puntos automático</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>3 niveles de dificultad configurables</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Participantes ocultos hasta el final</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="admin/matematicas.html" 
+                           class="px-3 py-1.5 bg-green-600 text-white text-sm font-semibold rounded-full hover:bg-green-700 transition text-center">
+                            Configurar
+                        </a>
+                        <a href="app/matematicas.html?difficulty=easy&operations=suma,resta&time=10&total=10" 
+                           target="_blank"
+                           class="px-3 py-1.5 border-2 border-slate-300 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-50 transition text-center">
+                            Demo
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Próximamente Más -->
-                <div class="widget-card bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl border-2 border-dashed border-slate-300 p-6 flex items-center justify-center min-h-[400px]">
+                <div class="widget-card bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl border-2 border-dashed border-slate-300 p-6 flex items-center justify-center min-h-[400px]" data-category="otros">
                     <div class="text-center">
                         <div class="mb-6 animate-bounce">
                             <span class="text-7xl">✨</span>
@@ -1547,7 +1771,7 @@
                         <span class="px-3 py-1.5 bg-green-500/20 border border-green-500/30 text-green-400 text-xs font-semibold rounded-lg" data-i18n="footer.free">✓ 100% Gratis</span>
                         <span class="px-3 py-1.5 bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-semibold rounded-lg" data-i18n="footer.noregister">✓ Sin Registro</span>
                         <span class="px-3 py-1.5 bg-purple-500/20 border border-purple-500/30 text-purple-400 text-xs font-semibold rounded-lg" data-i18n="footer.opensource">✓ Open Source</span>
-                        <span class="px-3 py-1.5 bg-amber-500/20 border border-amber-500/30 text-amber-400 text-xs font-semibold rounded-lg" data-i18n="footer.widgets">✓ 11 Widgets</span>
+                        <span class="px-3 py-1.5 bg-amber-500/20 border border-amber-500/30 text-amber-400 text-xs font-semibold rounded-lg" data-i18n="footer.widgets">✓ 14 Widgets</span>
                     </div>
             </div>
 
@@ -1612,6 +1836,15 @@
                         </a></li>
                         <li><a href="admin/qr.html" class="text-slate-300 hover:text-amber-500 transition inline-flex items-center gap-1.5">
                             <span class="text-xs">→</span> Generador QR
+                        </a></li>
+                        <li><a href="admin/flashcard.html" class="text-slate-300 hover:text-amber-500 transition inline-flex items-center gap-1.5">
+                            <span class="text-xs">→</span> Flashcards
+                        </a></li>
+                        <li><a href="admin/matematicas.html" class="text-slate-300 hover:text-amber-500 transition inline-flex items-center gap-1.5">
+                            <span class="text-xs">→</span> Juego Matemáticas
+                        </a></li>
+                        <li><a href="admin/palabras.html" class="text-slate-300 hover:text-amber-500 transition inline-flex items-center gap-1.5">
+                            <span class="text-xs">→</span> Juego Palabras
                         </a></li>
                     </ul>
                 </div>
@@ -1746,6 +1979,29 @@
                 menu.classList.add('hidden');
             }
         });
+
+        // Filtro por categoría
+        function setupCategoryFilter() {
+            const select = document.getElementById('categoryFilter');
+            if (!select) return;
+
+            const applyFilter = () => {
+                const selected = select.value;
+                document.querySelectorAll('.widget-card').forEach(card => {
+                    const category = card.dataset.category || 'otros';
+                    if (selected === 'all' || selected === category) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            };
+
+            select.addEventListener('change', applyFilter);
+            applyFilter();
+        }
+
+        window.addEventListener('DOMContentLoaded', setupCategoryFilter);
 
         // Animación Hero Title - Logo Drop
         const heroTitleContainer = document.getElementById('heroTitleContainer');
@@ -2027,7 +2283,7 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "WidKit",
-        "description": "11 widgets educativos gratuitos para profesores. Integra cuenta regresiva, sorteos, calculadora de notas, pomodoro timer, votación en vivo y más en Moodle, Blackboard o Canvas sin programar.",
+        "description": "14 widgets educativos gratuitos para profesores. Integra cuenta regresiva, sorteos, calculadora de notas, pomodoro timer, votación en vivo, flashcards, matemáticas y palabras en Moodle, Blackboard o Canvas sin programar.",
         "url": "https://widkit.lol",
         "applicationCategory": "EducationalApplication",
         "operatingSystem": "Web Browser, iOS, Android, Windows, macOS",
@@ -2060,7 +2316,10 @@
             "Generador de equipos balanceados",
             "Pomodoro timer para productividad",
             "Tabla de clasificación y rankings",
-            "Votación en vivo para decisiones en clase"
+            "Votación en vivo para decisiones en clase",
+            "Flashcards interactivas",
+            "Actividades de matemáticas",
+            "Práctica de palabras"
         ],
         "softwareVersion": "1.0.0",
         "datePublished": "2025-01-01",
@@ -2111,7 +2370,7 @@
         "@type": "ItemList",
         "name": "Widgets Educativos de WidKit",
         "description": "Lista completa de widgets disponibles",
-        "numberOfItems": 11,
+        "numberOfItems": 14,
         "itemListElement": [
             {
                 "@type": "ListItem",
@@ -2189,6 +2448,27 @@
                 "name": "Votación en Vivo",
                 "description": "Toma decisiones democráticas en clase con votación en tiempo real",
                 "url": "https://widkit.lol/admin/votacion.html"
+            },
+            {
+                "@type": "ListItem",
+                "position": 12,
+                "name": "Flashcards",
+                "description": "Crea y comparte tarjetas de estudio interactivas",
+                "url": "https://widkit.lol/admin/flashcard.html"
+            },
+            {
+                "@type": "ListItem",
+                "position": 13,
+                "name": "Matemáticas",
+                "description": "Actividades y ejercicios de matemáticas para clase",
+                "url": "https://widkit.lol/admin/matematicas.html"
+            },
+            {
+                "@type": "ListItem",
+                "position": 14,
+                "name": "Palabras",
+                "description": "Práctica y juegos con palabras y vocabulario",
+                "url": "https://widkit.lol/admin/palabras.html"
             }
         ]
     }

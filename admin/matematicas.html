@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Matemáticas - WidKit Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        .preview-card {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .operation-display {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .difficulty-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center p-2">
+                        <span class="text-xl">➕</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900">Juego de Matemáticas</h1>
+                        <p class="text-xs text-slate-500">Configura tu juego de operaciones matemáticas - WidKit</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="../index.html" 
+                       class="inline-flex items-center gap-2 px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Navegación entre widgets -->
+    <div class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex gap-2 py-3 overflow-x-auto" aria-label="Widgets">
+                <a href="temporizador.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    ⏱️ Temporizador
+                </a>
+                <a href="cronometro.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    ⏰ Cronómetro
+                </a>
+                <a href="sorteo.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🎲 Sorteo
+                </a>
+                <a href="qr.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    📱 QR
+                </a>
+                <a href="ruleta.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🎯 Ruleta
+                </a>
+                <a href="notas.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    📊 Notas
+                </a>
+                <a href="equipos.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    👥 Equipos
+                </a>
+                <a href="pomodoro.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🍅 Pomodoro
+                </a>
+                <a href="leaderboard.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🏆 Ranking
+                </a>
+                <a href="votacion.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    🗳️ Votación
+                </a>
+                <a href="semana.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    📅 Semana
+                </a>
+                <a href="flashcard.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    📚 Flashcards
+                </a>
+                <a href="palabras.html" 
+                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
+                    📝 Palabras
+                </a>
+                <a href="matematicas.html" 
+                   class="px-4 py-2 bg-green-100 text-green-700 text-sm font-medium rounded-lg transition whitespace-nowrap">
+                    ➕ Matemáticas
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-slate-900 mb-2">Configura tu Juego de Matemáticas</h2>
+            <p class="text-slate-600">Crea un juego interactivo de operaciones matemáticas</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Configuración -->
+            <div class="bg-white rounded-xl border-2 border-slate-200 p-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">⚙️ Configuración</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Título del juego
+                        </label>
+                        <input type="text" id="game-title" 
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                               placeholder="Ej: Operaciones Básicas"
+                               value="Juego de Matemáticas">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Dificultad
+                        </label>
+                        <select id="difficulty" 
+                                class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <option value="easy">Fácil (1-10)</option>
+                            <option value="medium">Medio (1-50)</option>
+                            <option value="hard">Difícil (1-100)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Operaciones incluidas
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="op-suma" checked class="mr-2">
+                                <span>Suma (+)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="op-resta" checked class="mr-2">
+                                <span>Resta (-)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="op-multiplicacion" class="mr-2">
+                                <span>Multiplicación (×)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="op-division" class="mr-2">
+                                <span>División (÷)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Tiempo por operación (segundos)
+                        </label>
+                        <input type="number" id="operation-time" min="5" max="60" value="10"
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Número total de operaciones
+                        </label>
+                        <input type="number" id="total-operations" min="5" max="100" value="20"
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Número máximo de participantes
+                        </label>
+                        <input type="number" id="max-participants" min="2" max="20" value="10"
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista previa -->
+            <div class="bg-white rounded-xl border-2 border-slate-200 p-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">👁️ Vista Previa</h3>
+                
+                <div class="space-y-4">
+                    <div class="text-center">
+                        <h4 id="preview-title" class="text-lg font-semibold text-slate-800">Juego de Matemáticas</h4>
+                        <p id="preview-difficulty" class="text-sm text-slate-600">Fácil</p>
+                    </div>
+
+                    <div class="preview-card rounded-2xl p-8 text-center text-white relative">
+                        <div class="difficulty-badge bg-white bg-opacity-20 text-white" id="preview-difficulty-badge">
+                            Fácil
+                        </div>
+                        <div class="operation-display mb-4" id="preview-operation">5 + 3 = ?</div>
+                        <div class="text-xl opacity-90" id="preview-operation-type">Suma</div>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-xs text-slate-500">Tiempo: <span id="preview-time">10</span> segundos por operación</p>
+                        <p class="text-xs text-slate-500">Total: <span id="preview-total">20</span> operaciones</p>
+                        <p class="text-xs text-slate-500">Operaciones: <span id="preview-ops">Suma, Resta</span></p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-lg">
+                        <h5 class="font-semibold text-slate-800 mb-2">Características del juego:</h5>
+                        <ul class="text-sm text-slate-600 space-y-1">
+                            <li>• Operaciones generadas automáticamente</li>
+                            <li>• Diferentes niveles de dificultad</li>
+                            <li>• Temporizador visual de cuenta regresiva</li>
+                            <li>• Sistema de puntuación por participante</li>
+                            <li>• Pausa y reanudación del juego</li>
+                            <li>• Resultados finales con ranking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Código generado -->
+        <div class="mt-8 bg-white rounded-xl border-2 border-slate-200 p-6">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">🔗 Código para Integrar</h3>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Enlace directo:
+                    </label>
+                    <div class="flex gap-2">
+                        <input type="text" id="direct-link" 
+                               class="flex-1 px-3 py-2 border border-slate-300 rounded-lg bg-slate-50 text-sm"
+                               readonly>
+                        <button onclick="copyToClipboard('direct-link')" 
+                                class="px-4 py-2 bg-slate-500 text-white rounded-lg hover:bg-slate-600 transition-colors">
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">
+                        Código iframe:
+                    </label>
+                    <div class="flex gap-2">
+                        <textarea id="iframe-code" 
+                                  class="flex-1 px-3 py-2 border border-slate-300 rounded-lg bg-slate-50 text-sm font-mono"
+                                  rows="3" readonly></textarea>
+                        <button onclick="copyToClipboard('iframe-code')" 
+                                class="px-4 py-2 bg-slate-500 text-white rounded-lg hover:bg-slate-600 transition-colors">
+                            Copiar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div class="flex items-start gap-2">
+                    <span class="text-green-600">💡</span>
+                    <div class="text-sm text-green-800">
+                        <strong>Consejo:</strong> Este juego es perfecto para practicar operaciones matemáticas básicas. 
+                        Los estudiantes pueden competir individualmente o en equipos, y el profesor puede controlar 
+                        el ritmo del juego desde la pantalla principal.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/matematicas.js"></script>
+</body>
+</html>

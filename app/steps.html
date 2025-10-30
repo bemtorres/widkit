@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WidKit - Contador de Pasos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Contador de pasos con cronómetro, objetivo, distancia y calorías. Start/Pausa, añadir/restar pasos y reiniciar.">
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <header class="mb-4 text-center">
+            <h1 id="title" class="text-2xl md:text-3xl font-bold text-slate-900">👣 Contador de Pasos</h1>
+            <p id="subtitle" class="text-slate-600 text-sm">Marca pasos, controla el tiempo y sigue tu progreso</p>
+        </header>
+
+        <div class="bg-white rounded-2xl shadow border border-slate-200 p-6">
+            <div class="flex flex-col items-center">
+                <div class="relative w-56 h-56 mb-4">
+                    <svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full">
+                        <circle cx="50" cy="50" r="45" fill="#0ea5e9" opacity="0.12"></circle>
+                        <circle cx="50" cy="50" r="45" stroke="#10b981" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="283" id="goalCircle" style="stroke-dashoffset: 283;"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                        <div class="text-xs text-slate-500">Objetivo: <span id="goal">6000</span></div>
+                        <div id="steps" class="text-4xl font-extrabold text-slate-900">0</div>
+                        <div class="text-xs text-slate-500">Pasos</div>
+                        <button id="toggleBtn" class="mt-2 px-4 py-1.5 text-sm bg-emerald-600 text-white rounded-full hover:bg-emerald-700">Iniciar</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-3 w-full text-center mb-4">
+                    <div class="bg-slate-50 rounded-lg p-2 border">
+                        <div class="text-xs text-slate-500">Km</div>
+                        <div id="km" class="font-semibold">0.00</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-2 border">
+                        <div class="text-xs text-slate-500">Kcal</div>
+                        <div id="kcal" class="font-semibold">0</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-2 border">
+                        <div class="text-xs text-slate-500">Tiempo</div>
+                        <div id="time" class="font-semibold">00:00:00</div>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-2 border">
+                        <div class="text-xs text-slate-500">Km/h</div>
+                        <div id="speed" class="font-semibold">0.00</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 mb-3">
+                    <button id="minusBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 rounded-full">-</button>
+                    <input id="addAmount" type="number" min="1" value="1" class="w-16 text-center border rounded-lg py-1" />
+                    <button id="plusBtn" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 rounded-full">+</button>
+                </div>
+
+                <div class="flex flex-wrap gap-2 w-full">
+                    <button id="resetBtn" class="flex-1 px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50">Reiniciar</button>
+                    <button id="saveBtn" class="px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-xs text-slate-500 mt-3">Parámetros soportados: goal, stepLen, weight, autostart, title, subtitle.</p>
+    </div>
+
+    <script>
+        function getParam(name) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get(name);
+        }
+
+        // Estado
+        let steps = 0;
+        let goal = Number(getParam('goal') || 6000);
+        let stepLen = Number(getParam('stepLen') || 0.75); // metros por paso (aprox.)
+        let weight = Number(getParam('weight') || 70); // kg para kcal estimadas
+        let timerInterval = null;
+        let startTs = null; // timestamp de inicio o reanudación
+        let elapsedMs = 0; // tiempo acumulado
+
+        // UI
+        const stepsEl = document.getElementById('steps');
+        const goalEl = document.getElementById('goal');
+        const kmEl = document.getElementById('km');
+        const kcalEl = document.getElementById('kcal');
+        const timeEl = document.getElementById('time');
+        const speedEl = document.getElementById('speed');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const plusBtn = document.getElementById('plusBtn');
+        const minusBtn = document.getElementById('minusBtn');
+        const addAmount = document.getElementById('addAmount');
+        const resetBtn = document.getElementById('resetBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const goalCircle = document.getElementById('goalCircle');
+
+        function formatTime(ms) {
+            const t = Math.max(0, Math.floor(ms/1000));
+            const h = String(Math.floor(t/3600)).padStart(2,'0');
+            const m = String(Math.floor((t%3600)/60)).padStart(2,'0');
+            const s = String(t%60).padStart(2,'0');
+            return `${h}:${m}:${s}`;
+        }
+
+        function updateProgress() {
+            stepsEl.textContent = steps;
+            goalEl.textContent = goal;
+            // distancia en km
+            const meters = steps * stepLen;
+            const km = meters / 1000;
+            kmEl.textContent = km.toFixed(2);
+            // tiempo y velocidad
+            timeEl.textContent = formatTime(elapsedMs);
+            const hours = elapsedMs > 0 ? (elapsedMs/3600000) : 0;
+            const speed = hours > 0 ? km / hours : 0;
+            speedEl.textContent = speed.toFixed(2);
+            // kcal (estimación simple caminar ~0.5 kcal por kg por km)
+            const kcal = km * weight * 0.5;
+            kcalEl.textContent = Math.round(kcal);
+            // círculo progreso
+            const circumference = 2 * Math.PI * 45; // r=45
+            const ratio = Math.min(1, steps / goal);
+            goalCircle.style.strokeDasharray = String(circumference);
+            goalCircle.style.strokeDashoffset = String(circumference * (1 - ratio));
+        }
+
+        function tick() {
+            const now = Date.now();
+            elapsedMs += now - startTs;
+            startTs = now;
+            updateProgress();
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+            startTs = Date.now();
+            timerInterval = setInterval(tick, 1000);
+            toggleBtn.textContent = 'Pausa';
+            toggleBtn.classList.remove('bg-emerald-600','hover:bg-emerald-700');
+            toggleBtn.classList.add('bg-slate-700','hover:bg-slate-800');
+        }
+
+        function pauseTimer() {
+            if (!timerInterval) return;
+            clearInterval(timerInterval);
+            timerInterval = null;
+            toggleBtn.textContent = 'Iniciar';
+            toggleBtn.classList.add('bg-emerald-600','hover:bg-emerald-700');
+            toggleBtn.classList.remove('bg-slate-700','hover:bg-slate-800');
+        }
+
+        function resetAll() {
+            steps = 0;
+            elapsedMs = 0;
+            pauseTimer();
+            updateProgress();
+        }
+
+        // Eventos
+        toggleBtn.addEventListener('click', () => timerInterval ? pauseTimer() : startTimer());
+        plusBtn.addEventListener('click', () => {
+            steps += Number(addAmount.value || 1);
+            updateProgress();
+        });
+        minusBtn.addEventListener('click', () => {
+            steps = Math.max(0, steps - Number(addAmount.value || 1));
+            updateProgress();
+        });
+        resetBtn.addEventListener('click', resetAll);
+        saveBtn.addEventListener('click', () => {
+            const payload = { steps, elapsedMs, goal, stepLen, weight, savedAt: new Date().toISOString() };
+            try {
+                localStorage.setItem('widkit_steps', JSON.stringify(payload));
+                saveBtn.textContent = '✓ Guardado';
+                setTimeout(() => saveBtn.textContent = 'Guardar', 1200);
+            } catch (_) {}
+        });
+
+        // Inicialización desde parámetros
+        (function initFromParams(){
+            const t = getParam('title');
+            const st = getParam('subtitle');
+            if (t) document.getElementById('title').textContent = `👣 ${t}`;
+            if (st) document.getElementById('subtitle').textContent = st;
+            goal = Number(getParam('goal') || goal);
+            stepLen = Number(getParam('stepLen') || stepLen);
+            weight = Number(getParam('weight') || weight);
+            // restaurar guardado si existe
+            const saved = localStorage.getItem('widkit_steps');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    steps = Number(data.steps || 0);
+                    elapsedMs = Number(data.elapsedMs || 0);
+                    goal = Number(data.goal || goal);
+                    stepLen = Number(data.stepLen || stepLen);
+                    weight = Number(data.weight || weight);
+                } catch(_) {}
+            }
+            updateProgress();
+            if ((getParam('autostart') || '0') === '1') startTimer();
+        })();
+    </script>
+</body>
+</html>
+
+

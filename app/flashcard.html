@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards - WidKit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #ec4899;
+            --color-secondary: #f97316;
+            --color-accent: #8b5cf6;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .card {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 550px;
+            height: 350px;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .card-back {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .question-text, .answer-text {
+            font-size: 1.8rem;
+            font-weight: 500;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .flip-hint {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .card:hover .card-inner {
+            transform: scale(1.02);
+        }
+        
+        .card.flipped:hover .card-inner {
+            transform: rotateY(180deg) scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <!-- <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl">📚</span>
+                </div>
+                <h1 class="text-4xl font-bold text-slate-800">Flashcards</h1>
+            </div>
+            <p class="text-slate-600">Haz clic en la tarjeta para ver la respuesta</p>
+        </div> -->
+
+        <!-- Progress Bar -->
+        <div class="max-w-md mx-auto mb-8">
+            <div class="flex justify-between text-sm text-slate-600 mb-2">
+                <span>Progreso</span>
+                <span id="progress-text">1 de 1</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Card Container -->
+        <div class="flex justify-center mb-8">
+            <div class="card" id="card" onclick="flipCard()">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="question-text" id="question-text">Cargando pregunta...</div>
+                    </div>
+                    <div class="card-back">
+                        <div class="answer-text" id="answer-text">Cargando respuesta...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex justify-center space-x-4 mb-8">
+            <button onclick="previousCard()" id="prev-btn" class="px-6 py-2 bg-slate-500 text-white rounded-lg hover:bg-slate-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Anterior
+            </button>
+            <button onclick="nextCard()" id="next-btn" class="px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors">
+                Siguiente
+            </button>
+        </div>
+
+        
+    </div>
+
+    <script>
+        let flashcards = [];
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        // Función para obtener parámetros de la URL
+        function getUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const questions = urlParams.get('question');
+            const answers = urlParams.get('answer');
+            const bg = urlParams.get('bg');
+            const front = urlParams.get('front');
+            const back = urlParams.get('back');
+            
+            if (questions && answers) {
+                const questionArray = questions.split(',');
+                const answerArray = answers.split(',');
+                
+                // Crear array de flashcards
+                for (let i = 0; i < questionArray.length; i++) {
+                    flashcards.push({
+                        question: questionArray[i].trim(),
+                        answer: answerArray[i] ? answerArray[i].trim() : 'Sin respuesta'
+                    });
+                }
+            } else {
+                // Datos de ejemplo si no hay parámetros
+                flashcards = [
+                    { question: "¿Qué es JavaScript?", answer: "Un lenguaje de programación" },
+                    { question: "¿Dónde está Chile?", answer: "En América del Sur" },
+                    { question: "¿Cómo se llamaba?", answer: "Se llamaba Pedro" }
+                ];
+            }
+
+            // Aplicar colores si vienen en la URL
+            try {
+                if (bg) {
+                    document.body.style.background = `#${bg}`;
+                }
+                if (front) {
+                    const frontEl = document.querySelector('.card-front');
+                    if (frontEl) frontEl.style.background = `#${front}`;
+                }
+                if (back) {
+                    const backEl = document.querySelector('.card-back');
+                    if (backEl) backEl.style.background = `#${back}`;
+                }
+            } catch (e) {
+                // Silencioso: si hay error con colores, continúa con estilos por defecto
+            }
+        }
+
+        // Función para actualizar la tarjeta
+        function updateCard() {
+            const questionText = document.getElementById('question-text');
+            const answerText = document.getElementById('answer-text');
+            const progressText = document.getElementById('progress-text');
+            const progressFill = document.getElementById('progress-fill');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            if (flashcards.length > 0) {
+                questionText.textContent = flashcards[currentIndex].question;
+                answerText.textContent = flashcards[currentIndex].answer;
+                
+                // Actualizar progreso
+                progressText.textContent = `${currentIndex + 1} de ${flashcards.length}`;
+                progressFill.style.width = `${((currentIndex + 1) / flashcards.length) * 100}%`;
+                
+                // Actualizar botones
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === flashcards.length - 1;
+                
+                // Resetear estado de volteo
+                isFlipped = false;
+                document.getElementById('card').classList.remove('flipped');
+            }
+        }
+
+        // Función para voltear la tarjeta
+        function flipCard() {
+            const card = document.getElementById('card');
+            isFlipped = !isFlipped;
+            
+            if (isFlipped) {
+                card.classList.add('flipped');
+            } else {
+                card.classList.remove('flipped');
+            }
+        }
+
+        // Función para ir a la siguiente tarjeta
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                updateCard();
+            }
+        }
+
+        // Función para ir a la tarjeta anterior
+        function previousCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCard();
+            }
+        }
+
+        // Función para manejar teclas
+        function handleKeyPress(event) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case ' ':
+                    event.preventDefault();
+                    flipCard();
+                    break;
+            }
+        }
+
+        // Inicializar la aplicación
+        function init() {
+            getUrlParams();
+            updateCard();
+            
+            // Agregar event listener para teclas
+            document.addEventListener('keydown', handleKeyPress);
+            
+            // Agregar animación de entrada
+            document.body.classList.add('fade-in');
+        }
+
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

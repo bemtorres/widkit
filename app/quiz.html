@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WidKit - Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Actividad de quiz: selección múltiple, única y verdadero/falso. Pide el nombre, realiza la actividad y muestra el puntaje final.">
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <header class="mb-6 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-slate-900">📝 Quiz</h1>
+            <p class="text-slate-600 text-sm">Ingresa tu nombre, responde y ve tu puntaje.</p>
+        </header>
+
+        <!-- Nombre -->
+        <section id="nameSection" class="bg-white rounded-xl shadow border border-slate-200 p-5 mb-6">
+            <label class="block text-sm font-semibold text-slate-700 mb-2">Tu nombre</label>
+            <input id="playerName" type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="Escribe tu nombre" />
+            <div class="mt-4 flex justify-end">
+                <button id="startBtn" class="px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700">Comenzar</button>
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quizSection" class="hidden bg-white rounded-xl shadow border border-slate-200 p-5 mb-6"></section>
+
+        <!-- Resultados -->
+        <section id="resultSection" class="hidden bg-white rounded-xl shadow border border-slate-200 p-5">
+            <h2 class="text-xl font-bold text-slate-900 mb-2">Resultado</h2>
+            <p id="resultText" class="text-slate-700"></p>
+            <div class="mt-4 flex gap-2">
+                <button id="retryBtn" class="px-4 py-2 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800">Reintentar</button>
+                <button id="shareBtn" class="px-4 py-2 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50">Compartir</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function getParam(name) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get(name);
+        }
+
+        function loadQuestions() {
+            // Formato esperado por URL (opcional): questions=[{q:"texto",type:"single|multi|tf",options:["a","b"],correct:[0,2]}]
+            // Si no vienen, se usa set de ejemplo
+            const raw = getParam('questions');
+            if (raw) {
+                // Intentar distintas variantes de decodificación
+                try { return JSON.parse(decodeURIComponent(raw)); } catch (_) {}
+                try { return JSON.parse(raw); } catch (_) {}
+            }
+            const mode = (getParam('mode') || '').toLowerCase();
+            if (mode === 'tf') {
+                return [
+                    { q: 'El Sol es una estrella', type: 'tf', correct: [0] },
+                    { q: 'La suma de ángulos de un triángulo es 200°', type: 'tf', correct: [1] }
+                ];
+            }
+            if (mode === 'multi') {
+                return [
+                    { q: 'Lenguajes que corren en el navegador', type: 'multi', options: ['JavaScript', 'Python', 'CSS', 'HTML'], correct: [0,2,3] },
+                    { q: 'Países de Sudamérica', type: 'multi', options: ['Chile', 'España', 'Perú', 'México'], correct: [0,2] }
+                ];
+            }
+            // single (por defecto)
+            return [
+                { q: 'Capital de Chile', type: 'single', options: ['Lima', 'Santiago', 'Bogotá', 'Quito'], correct: [1] },
+                { q: '2 + 2 =', type: 'single', options: ['3', '4', '5'], correct: [1] }
+            ];
+        }
+
+        const nameSection = document.getElementById('nameSection');
+        const quizSection = document.getElementById('quizSection');
+        const resultSection = document.getElementById('resultSection');
+        const startBtn = document.getElementById('startBtn');
+        const retryBtn = document.getElementById('retryBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const playerNameInput = document.getElementById('playerName');
+        const resultText = document.getElementById('resultText');
+
+        let questions = [];
+        let playerName = '';
+        let userAnswers = [];
+
+        function renderQuiz() {
+            quizSection.innerHTML = '';
+            questions.forEach((q, qi) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'mb-5 p-4 rounded-lg border border-slate-200';
+                const title = document.createElement('h3');
+                title.className = 'font-semibold text-slate-900 mb-2';
+                title.textContent = `${qi + 1}. ${q.q}`;
+                wrapper.appendChild(title);
+
+                if (q.type === 'tf') {
+                    const opts = ['Verdadero', 'Falso'];
+                    const container = document.createElement('div');
+                    container.className = 'space-y-2';
+                    opts.forEach((label, oi) => {
+                        const id = `q${qi}_o${oi}`;
+                        const line = document.createElement('label');
+                        line.className = 'flex items-center gap-2';
+                        line.innerHTML = `<input type="radio" name="q_${qi}" value="${oi}" class="w-4 h-4"> <span>${label}</span>`;
+                        container.appendChild(line);
+                    });
+                    wrapper.appendChild(container);
+                } else if (q.type === 'single') {
+                    const container = document.createElement('div');
+                    container.className = 'space-y-2';
+                    (q.options || []).forEach((opt, oi) => {
+                        const line = document.createElement('label');
+                        line.className = 'flex items-center gap-2';
+                        line.innerHTML = `<input type="radio" name="q_${qi}" value="${oi}" class="w-4 h-4"> <span>${opt}</span>`;
+                        container.appendChild(line);
+                    });
+                    wrapper.appendChild(container);
+                } else {
+                    const container = document.createElement('div');
+                    container.className = 'space-y-2';
+                    (q.options || []).forEach((opt, oi) => {
+                        const line = document.createElement('label');
+                        line.className = 'flex items-center gap-2';
+                        line.innerHTML = `<input type="checkbox" name="q_${qi}" value="${oi}" class="w-4 h-4"> <span>${opt}</span>`;
+                        container.appendChild(line);
+                    });
+                    wrapper.appendChild(container);
+
+                    const checkBtn = document.createElement('button');
+                    checkBtn.className = 'mt-2 px-3 py-1.5 text-xs bg-slate-100 border rounded hover:bg-slate-200';
+                    checkBtn.textContent = 'Comprobar';
+                    checkBtn.addEventListener('click', () => checkQuestion(qi, wrapper));
+                    wrapper.appendChild(checkBtn);
+                }
+
+                const feedback = document.createElement('div');
+                feedback.id = `fb_q${qi}`;
+                feedback.className = 'mt-3 text-sm';
+                wrapper.appendChild(feedback);
+
+                quizSection.appendChild(wrapper);
+
+                // Feedback inmediato para radio (única/VoF)
+                if (q.type === 'tf' || q.type === 'single') {
+                    wrapper.addEventListener('change', (e) => {
+                        const target = e.target;
+                        if (target && target.name === `q_${qi}`) {
+                            checkQuestion(qi, wrapper);
+                        }
+                    });
+                }
+            });
+
+            const submit = document.createElement('button');
+            submit.className = 'mt-2 px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700';
+            submit.textContent = 'Finalizar y ver puntaje';
+            submit.addEventListener('click', gradeQuiz);
+            quizSection.appendChild(submit);
+        }
+
+        function arraysEqual(a, b) {
+            if (a.length !== b.length) return false;
+            const sa = [...a].sort();
+            const sb = [...b].sort();
+            return sa.every((v, i) => String(v) === String(sb[i]));
+        }
+
+        function gradeQuiz() {
+            let score = 0;
+            const breakdown = [];
+            questions.forEach((q, qi) => {
+                const { selected, isCorrect, correctLabels, selectedLabels } = evaluateQuestion(q, qi);
+                if (isCorrect) score += 1;
+                breakdown.push({ qi, q: q.q, isCorrect, correctLabels, selectedLabels });
+            });
+
+            const total = questions.length;
+            resultText.textContent = `${playerName}, tu puntaje es ${score} / ${total}`;
+
+            // Resumen detallado
+            const list = document.createElement('div');
+            list.className = 'mt-3 space-y-3';
+            breakdown.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'p-3 rounded border ' + (item.isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50');
+                const title = document.createElement('div');
+                title.className = 'font-semibold mb-1';
+                title.textContent = `${item.qi + 1}. ${item.q}`;
+                const detail = document.createElement('div');
+                detail.className = 'text-sm';
+                detail.innerHTML = item.isCorrect
+                    ? '<span class="text-green-700 font-semibold">Correcto</span>'
+                    : `<span class=\"text-red-700 font-semibold\">Incorrecto</span> · Correcta(s): <span class=\"font-medium\">${item.correctLabels.join(', ')}</span>${item.selectedLabels.length ? ` · Tu(s): ${item.selectedLabels.join(', ')}` : ''}`;
+                row.appendChild(title);
+                row.appendChild(detail);
+                list.appendChild(row);
+            });
+
+            // Limpiar breakdown previo si existe y anexar
+            resultSection.querySelectorAll('.mt-3.space-y-3').forEach(n => n.remove());
+            resultSection.appendChild(list);
+
+            quizSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function checkQuestion(qi, wrapper) {
+            const q = questions[qi];
+            const { isCorrect, correctLabels, selectedLabels } = evaluateQuestion(q, qi);
+            const fb = wrapper.querySelector(`#fb_q${qi}`);
+            if (!fb) return;
+            if (isCorrect) {
+                fb.className = 'mt-3 text-sm text-green-700';
+                fb.textContent = '¡Correcto!';
+                wrapper.classList.remove('border-red-300','bg-red-50');
+                wrapper.classList.add('border-green-300','bg-green-50');
+            } else {
+                fb.className = 'mt-3 text-sm text-red-700';
+                fb.textContent = `Incorrecto. Correcta(s): ${correctLabels.join(', ')}${selectedLabels.length ? ` · Tu(s): ${selectedLabels.join(', ')}` : ''}`;
+                wrapper.classList.remove('border-green-300','bg-green-50');
+                wrapper.classList.add('border-red-300','bg-red-50');
+            }
+        }
+
+        function evaluateQuestion(q, qi) {
+            let selected = [];
+            if (q.type === 'tf' || q.type === 'single') {
+                const checked = document.querySelector(`input[name="q_${qi}"]:checked`);
+                if (checked) selected = [Number(checked.value)];
+            } else {
+                selected = Array.from(document.querySelectorAll(`input[name="q_${qi}"]:checked`)).map(i => Number(i.value));
+            }
+            userAnswers[qi] = selected;
+            const isCorrect = arraysEqual(selected, q.correct || []);
+            const { correctLabels, selectedLabels } = mapLabels(q, selected);
+            return { selected, isCorrect, correctLabels, selectedLabels };
+        }
+
+        function mapLabels(q, selected) {
+            let options = q.options || [];
+            if (q.type === 'tf') options = ['Verdadero', 'Falso'];
+            const correctLabels = (q.correct || []).map(i => options[i]).filter(Boolean);
+            const selectedLabels = (selected || []).map(i => options[i]).filter(Boolean);
+            return { correctLabels, selectedLabels };
+        }
+
+        startBtn.addEventListener('click', () => {
+            const val = playerNameInput.value.trim();
+            if (!val) {
+                playerNameInput.focus();
+                return;
+            }
+            playerName = val;
+            questions = loadQuestions();
+            // Título opcional por URL
+            const t = getParam('title');
+            if (t) {
+                document.title = `${t} - WidKit Quiz`;
+                const headerH1 = document.querySelector('header h1');
+                if (headerH1) headerH1.textContent = `📝 ${t}`;
+            }
+            nameSection.classList.add('hidden');
+            quizSection.classList.remove('hidden');
+            renderQuiz();
+        });
+
+        retryBtn.addEventListener('click', () => {
+            // Reinicia sin perder modo/params
+            window.location.reload();
+        });
+
+        shareBtn.addEventListener('click', async () => {
+            const text = resultText.textContent + ' - ' + window.location.href;
+            try {
+                await navigator.clipboard.writeText(text);
+                shareBtn.textContent = '✓ Copiado';
+                setTimeout(() => shareBtn.textContent = 'Compartir', 1500);
+            } catch (_) {}
+        });
+    </script>
+</body>
+</html>
+

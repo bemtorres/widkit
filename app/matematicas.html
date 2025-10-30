@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Matemáticas - WidKit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #10b981;
+            --color-secondary: #f59e0b;
+            --color-accent: #8b5cf6;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .math-card {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transform: scale(1);
+            transition: all 0.3s ease;
+        }
+        .math-card:hover {
+            transform: scale(1.05);
+        }
+        .timer-circle {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1s linear;
+        }
+        .pulse-animation {
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .score-item {
+            transition: all 0.3s ease;
+        }
+        .score-item:hover {
+            transform: translateX(5px);
+        }
+        .winner {
+            animation: winnerPulse 2s infinite;
+        }
+        @keyframes winnerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .operation-display {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .difficulty-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                    <span class="text-2xl">➕</span>
+                </div>
+                <h1 class="text-4xl font-bold text-slate-800">Juego de Matemáticas</h1>
+            </div>
+            <p class="text-slate-600">¡Resuelve rápido! Tienes tiempo limitado para cada operación</p>
+        </div>
+
+        <!-- Configuración de participantes -->
+        <div id="setup-section" class="max-w-2xl mx-auto mb-8">
+            <div class="bg-white rounded-xl border-2 border-slate-200 p-6">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">👥 Configuración de Participantes</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Número de participantes
+                        </label>
+                        <input type="number" id="participant-count" min="2" max="20" value="4"
+                               class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    </div>
+                    <div id="participant-names" class="space-y-2">
+                        <!-- Los nombres se generarán dinámicamente -->
+                    </div>
+                    <button onclick="startGame()" 
+                            class="w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-semibold">
+                        🚀 Iniciar Juego
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Juego -->
+        <div id="game-section" class="hidden">
+            <!-- Información del juego -->
+            <div class="text-center mb-8">
+                <div class="flex justify-center items-center gap-4 mb-4">
+                    <div class="text-2xl font-bold text-slate-800">
+                        Operación <span id="current-operation-number">1</span> de <span id="total-operations">0</span>
+                    </div>
+                    <div class="w-16 h-16 relative">
+                        <svg class="w-16 h-16 transform -rotate-90">
+                            <circle cx="32" cy="32" r="28" stroke="#e5e7eb" stroke-width="6" fill="none"/>
+                            <circle cx="32" cy="32" r="28" stroke="#10b981" stroke-width="6" fill="none" 
+                                    class="timer-circle" id="timer-circle"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="timer-text" class="text-lg font-bold text-green-600">10</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta de operación -->
+            <div class="flex justify-center mb-8">
+                <div class="math-card rounded-2xl p-12 text-center text-white max-w-2xl w-full relative">
+                    <div class="difficulty-badge bg-white bg-opacity-20 text-white" id="difficulty-badge">
+                        Fácil
+                    </div>
+                    <div class="operation-display mb-4" id="current-operation">5 + 3 = ?</div>
+                    <div class="text-xl opacity-90" id="operation-type">Suma</div>
+                </div>
+            </div>
+
+            <!-- Controles del juego -->
+            <div class="flex justify-center space-x-4 mb-8">
+                <!-- <button onclick="nextOperation()" id="next-btn" 
+                        class="px-8 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
+                    Siguiente Operación →
+                </button> -->
+                <button onclick="pauseGame()" id="pause-btn" 
+                        class="px-8 py-3 bg-primary-500 text-white rounded-lg hover:bg-yellow-600 transition-colors font-semibold">
+                    Pausar
+                </button>
+                <button onclick="endGame()" id="end-btn"  class="px-8 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-semibold">
+                    Terminar
+                </button>
+            </div>
+
+            <!-- Tabla de puntuaciones (oculta durante el juego) -->
+            <div id="scores-section" class="max-w-4xl mx-auto hidden">
+                <h3 class="text-2xl font-bold text-slate-900 mb-4 text-center">🏆 Puntuaciones</h3>
+                <div id="scores-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Las puntuaciones se generarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados finales -->
+        <div id="results-section" class="hidden">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-bold text-slate-900 mb-8">🎉 ¡Juego Terminado!</h2>
+                <div class="bg-white rounded-xl border-2 border-slate-200 p-8 mb-8">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-6">🏆 Puntuaciones Finales</h3>
+                    <div id="final-scores" class="space-y-4">
+                        <!-- Los resultados finales se mostrarán aquí -->
+                    </div>
+                </div>
+                <div class="space-x-4">
+                    <button onclick="restartGame()" 
+                            class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-semibold">
+                        🔄 Jugar de Nuevo
+                    </button>
+                    <a href="../index.html" 
+                       class="inline-block px-6 py-3 bg-slate-500 text-white rounded-lg hover:bg-slate-600 transition-colors font-semibold">
+                        🏠 Volver a WidKit
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de asignación de puntos -->
+        <div id="points-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">🏆 ¿Quién ganó los puntos?</h3>
+                    <p class="text-slate-600">Asigna los puntos de esta operación</p>
+                </div>
+                
+                <div class="space-y-3 mb-6 max-h-60 overflow-y-auto">
+                    <button onclick="assignPoints('nadie')" 
+                            class="w-full p-3 text-left border-2 border-slate-300 rounded-lg hover:border-red-400 hover:bg-red-50 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">❌</span>
+                            <div>
+                                <div class="font-semibold text-slate-800">Nadie</div>
+                                <div class="text-sm text-slate-600">No asignar puntos</div>
+                            </div>
+                        </div>
+                    </button>
+                    <div id="participant-buttons">
+                        <!-- Los botones de participantes se generarán dinámicamente -->
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="closePointsModal()" 
+                            class="px-6 py-2 bg-slate-500 text-white rounded-lg hover:bg-slate-600 transition-colors">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let operations = [];
+        let participants = [];
+        let currentOperationIndex = 0;
+        let scores = {};
+        let timer = null;
+        let timeLeft = 10;
+        let isPaused = false;
+        let gameStarted = false;
+        let gameConfig = {
+            difficulty: 'easy',
+            operations: ['suma', 'resta', 'multiplicacion', 'division'],
+            timePerOperation: 10,
+            totalOperations: 20
+        };
+
+        // Función para obtener parámetros de la URL
+        function getUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const difficulty = urlParams.get('difficulty') || 'easy';
+            const operations = urlParams.get('operations') || 'suma,resta,multiplicacion,division';
+            const time = parseInt(urlParams.get('time')) || 10;
+            const total = parseInt(urlParams.get('total')) || 20;
+            
+            gameConfig = {
+                difficulty: difficulty,
+                operations: operations.split(','),
+                timePerOperation: time,
+                totalOperations: total
+            };
+            
+            timeLeft = time;
+        }
+
+        // Función para generar operaciones matemáticas
+        function generateOperations() {
+            operations = [];
+            const { difficulty, operations: opTypes, totalOperations } = gameConfig;
+            
+            for (let i = 0; i < totalOperations; i++) {
+                const operation = generateRandomOperation(opTypes, difficulty);
+                operations.push(operation);
+            }
+        }
+
+        // Función para generar una operación aleatoria
+        function generateRandomOperation(types, difficulty) {
+            const type = types[Math.floor(Math.random() * types.length)];
+            let a, b, result, display;
+            
+            switch (difficulty) {
+                case 'easy':
+                    a = Math.floor(Math.random() * 10) + 1;
+                    b = Math.floor(Math.random() * 10) + 1;
+                    break;
+                case 'medium':
+                    a = Math.floor(Math.random() * 50) + 1;
+                    b = Math.floor(Math.random() * 50) + 1;
+                    break;
+                case 'hard':
+                    a = Math.floor(Math.random() * 100) + 1;
+                    b = Math.floor(Math.random() * 100) + 1;
+                    break;
+            }
+            
+            switch (type) {
+                case 'suma':
+                    result = a + b;
+                    display = `${a} + ${b} = ?`;
+                    break;
+                case 'resta':
+                    // Asegurar que el resultado sea positivo
+                    if (a < b) [a, b] = [b, a];
+                    result = a - b;
+                    display = `${a} - ${b} = ?`;
+                    break;
+                case 'multiplicacion':
+                    a = Math.floor(Math.random() * 12) + 1;
+                    b = Math.floor(Math.random() * 12) + 1;
+                    result = a * b;
+                    display = `${a} × ${b} = ?`;
+                    break;
+                case 'division':
+                    result = Math.floor(Math.random() * 12) + 1;
+                    b = Math.floor(Math.random() * 12) + 1;
+                    a = result * b;
+                    display = `${a} ÷ ${b} = ?`;
+                    break;
+            }
+            
+            return {
+                display: display,
+                result: result,
+                type: type,
+                difficulty: difficulty
+            };
+        }
+
+        // Función para generar nombres de participantes
+        function generateParticipantNames() {
+            const count = parseInt(document.getElementById('participant-count').value);
+            const container = document.getElementById('participant-names');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= count; i++) {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <label class="block text-sm font-medium text-slate-700 mb-1">
+                        Participante ${i}
+                    </label>
+                    <input type="text" id="participant-${i}" 
+                           class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                           placeholder="Nombre del participante ${i}"
+                           value="Participante ${i}">
+                `;
+                container.appendChild(div);
+            }
+        }
+
+        // Función para iniciar el juego
+        function startGame() {
+            const count = parseInt(document.getElementById('participant-count').value);
+            participants = [];
+            scores = {};
+            
+            // Recopilar nombres de participantes
+            for (let i = 1; i <= count; i++) {
+                const name = document.getElementById(`participant-${i}`).value || `Participante ${i}`;
+                participants.push(name);
+                scores[name] = 0;
+            }
+            
+            // Generar operaciones
+            generateOperations();
+            
+            // Actualizar interfaz
+            document.getElementById('setup-section').classList.add('hidden');
+            document.getElementById('game-section').classList.remove('hidden');
+            document.getElementById('total-operations').textContent = operations.length;
+            
+            gameStarted = true;
+            currentOperationIndex = 0;
+            showCurrentOperation();
+            updateScores();
+        }
+
+        // Función para mostrar la operación actual
+        function showCurrentOperation() {
+            if (currentOperationIndex >= operations.length) {
+                endGame();
+                return;
+            }
+            
+            const operation = operations[currentOperationIndex];
+            document.getElementById('current-operation').textContent = operation.display;
+            document.getElementById('operation-type').textContent = operation.type.charAt(0).toUpperCase() + operation.type.slice(1);
+            document.getElementById('difficulty-badge').textContent = operation.difficulty.charAt(0).toUpperCase() + operation.difficulty.slice(1);
+            document.getElementById('current-operation-number').textContent = currentOperationIndex + 1;
+            
+            // Iniciar temporizador
+            startTimer();
+        }
+
+        // Función para iniciar el temporizador
+        function startTimer() {
+            timeLeft = gameConfig.timePerOperation;
+            updateTimer();
+            
+            timer = setInterval(() => {
+                if (!isPaused) {
+                    timeLeft--;
+                    updateTimer();
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        // Mostrar modal de asignación de puntos
+                        showPointsModal();
+                    }
+                }
+            }, 1000);
+        }
+
+        // Función para actualizar el temporizador visual
+        function updateTimer() {
+            const circle = document.getElementById('timer-circle');
+            const text = document.getElementById('timer-text');
+            
+            const circumference = 2 * Math.PI * 28; // radio = 28
+            const offset = circumference - (timeLeft / gameConfig.timePerOperation) * circumference;
+            
+            circle.style.strokeDashoffset = offset;
+            text.textContent = timeLeft;
+            
+            // Cambiar color según el tiempo restante
+            if (timeLeft <= 2) {
+                circle.style.stroke = '#ef4444';
+                text.style.color = '#ef4444';
+            } else if (timeLeft <= 3) {
+                circle.style.stroke = '#f59e0b';
+                text.style.color = '#f59e0b';
+            } else {
+                circle.style.stroke = '#10b981';
+                text.style.color = '#10b981';
+            }
+        }
+
+        // Función para pausar/reanudar el juego
+        function pauseGame() {
+            isPaused = !isPaused;
+            const btn = document.getElementById('pause-btn');
+            
+            if (isPaused) {
+                btn.textContent = '▶️ Reanudar';
+                btn.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
+                btn.classList.add('bg-green-500', 'hover:bg-green-600');
+            } else {
+                btn.textContent = '⏸️ Pausar';
+                btn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                btn.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
+            }
+        }
+
+        // Función para ir a la siguiente operación
+        function nextOperation() {
+            if (timer) {
+                clearInterval(timer);
+            }
+            
+            currentOperationIndex++;
+            
+            if (currentOperationIndex < operations.length) {
+                showCurrentOperation();
+            } else {
+                endGame();
+            }
+        }
+
+        // Función para terminar el juego
+        function endGame() {
+            if (timer) {
+                clearInterval(timer);
+            }
+            
+            gameStarted = false;
+            document.getElementById('game-section').classList.add('hidden');
+            document.getElementById('results-section').classList.remove('hidden');
+            showFinalResults();
+        }
+
+        // Función para mostrar resultados finales
+        function showFinalResults() {
+            const container = document.getElementById('final-scores');
+            const sortedScores = Object.entries(scores)
+                .sort(([,a], [,b]) => b - a);
+            
+            container.innerHTML = '';
+            
+            sortedScores.forEach(([name, score], index) => {
+                const div = document.createElement('div');
+                const isWinner = index === 0;
+                div.className = `score-item p-4 rounded-lg border-2 ${isWinner ? 'bg-yellow-50 border-yellow-300 winner' : 'bg-slate-50 border-slate-200'}`;
+                
+                div.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="text-2xl">
+                                ${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg ${isWinner ? 'text-yellow-700' : 'text-slate-800'}">${name}</div>
+                                ${isWinner ? '<div class="text-sm text-yellow-600">¡Ganador!</div>' : ''}
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold ${isWinner ? 'text-yellow-700' : 'text-slate-700'}">${score}</div>
+                    </div>
+                `;
+                
+                container.appendChild(div);
+            });
+        }
+
+        // Función para reiniciar el juego
+        function restartGame() {
+            document.getElementById('results-section').classList.add('hidden');
+            document.getElementById('setup-section').classList.remove('hidden');
+            document.getElementById('participant-count').value = 4;
+            generateParticipantNames();
+        }
+
+        // Función para actualizar puntuaciones
+        function updateScores() {
+            const container = document.getElementById('scores-container');
+            container.innerHTML = '';
+            
+            const sortedScores = Object.entries(scores)
+                .sort(([,a], [,b]) => b - a);
+            
+            sortedScores.forEach(([name, score]) => {
+                const div = document.createElement('div');
+                div.className = 'score-item bg-white p-4 rounded-lg border border-slate-200';
+                div.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-slate-800">${name}</span>
+                        <span class="text-xl font-bold text-green-600">${score}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Función para agregar puntos (se puede llamar desde consola o botones)
+        function addPoints(participantName, points = 1) {
+            if (scores.hasOwnProperty(participantName)) {
+                scores[participantName] += points;
+                updateScores();
+            }
+        }
+
+        // Inicializar la aplicación
+        function init() {
+            getUrlParams();
+            generateParticipantNames();
+            document.body.classList.add('fade-in');
+        }
+
+        // Event listeners
+        document.getElementById('participant-count').addEventListener('input', generateParticipantNames);
+
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Función para mostrar el modal de asignación de puntos
+        function showPointsModal() {
+            const modal = document.getElementById('points-modal');
+            const container = document.getElementById('participant-buttons');
+            
+            // Generar botones de participantes
+            container.innerHTML = '';
+            participants.forEach(participant => {
+                const button = document.createElement('button');
+                button.className = 'w-full p-3 text-left border-2 border-slate-300 rounded-lg hover:border-green-400 hover:bg-green-50 transition-colors';
+                button.onclick = () => assignPoints(participant);
+                button.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">👤</span>
+                        <div>
+                            <div class="font-semibold text-slate-800">${participant}</div>
+                            <div class="text-sm text-slate-600">Puntos actuales: ${scores[participant]}</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(button);
+            });
+            
+            modal.classList.remove('hidden');
+        }
+
+        // Función para cerrar el modal de puntos
+        function closePointsModal() {
+            document.getElementById('points-modal').classList.add('hidden');
+        }
+
+        // Función para asignar puntos
+        function assignPoints(participant) {
+            if (participant !== 'nadie') {
+                scores[participant] += 1;
+                updateScores();
+            }
+            closePointsModal();
+            nextOperation();
+        }
+
+        // Función para actualizar puntuaciones
+        function updateScores() {
+            const container = document.getElementById('scores-container');
+            container.innerHTML = '';
+            
+            const sortedScores = Object.entries(scores)
+                .sort(([,a], [,b]) => b - a);
+            
+            sortedScores.forEach(([name, score]) => {
+                const div = document.createElement('div');
+                div.className = 'score-item bg-white p-4 rounded-lg border border-slate-200';
+                div.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-semibold text-slate-800">${name}</span>
+                        <span class="text-xl font-bold text-green-600">${score}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Hacer funciones globales para uso desde consola
+        window.addPoints = addPoints;
+        window.nextOperation = nextOperation;
+        window.pauseGame = pauseGame;
+        window.endGame = endGame;
+        window.assignPoints = assignPoints;
+    </script>
+</body>
+</html>

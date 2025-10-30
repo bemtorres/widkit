@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WidKit - Administrador Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Creador de preguntas para el Quiz: selección única, múltiple y verdadero/falso. Genera un enlace o iframe listo para usar.">
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center p-2">
+                        <img src="../assets/widkit_fuego_icono.png" alt="WidKit" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900">Administrador de Quiz</h1>
+                        <p class="text-xs text-slate-500">Configura tu quiz - WidKit</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="../index.html" 
+                       class="inline-flex items-center gap-2 px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="admin-widgets-nav"></div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2">
+                <header class="mb-6">
+                    <h2 class="text-base font-semibold text-slate-900">⚙️ Constructor de Quiz</h2>
+                    <p class="text-slate-600 text-sm">Crea preguntas, marca respuestas correctas y genera el enlace listo.</p>
+                </header>
+
+        <section class="bg-white rounded-xl shadow border border-slate-200 p-5 mb-6">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+                <div class="w-full md:w-1/2">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Título (opcional)</label>
+                    <input id="quizTitle" type="text" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="Ej: Evaluación Unidad 1">
+                </div>
+                <div class="flex gap-2">
+                    <button id="addSingle" class="px-3 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700">+ Única</button>
+                    <button id="addMulti" class="px-3 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700">+ Múltiple</button>
+                    <button id="addTF" class="px-3 py-2 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700">+ V/F</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="questionList" class="space-y-4"></section>
+
+        <section class="mt-6 bg-white rounded-xl shadow border border-slate-200 p-5">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div class="flex gap-2">
+                    <button id="generateUrl" class="px-4 py-2 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700">Generar URL</button>
+                    <button id="copyUrl" class="px-4 py-2 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50">Copiar URL</button>
+                    <button id="copyIframe" class="px-4 py-2 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50">Copiar iFrame</button>
+                    <button id="preview" class="px-4 py-2 bg-slate-800 text-white font-semibold rounded-lg hover:bg-slate-900">Vista previa</button>
+                </div>
+                <div class="w-full md:w-1/2">
+                    <input id="outputUrl" type="text" readonly class="w-full px-3 py-2 border border-slate-300 rounded-lg text-xs" placeholder="URL generada...">
+                </div>
+            </div>
+        </section>
+            </div>
+
+            <!-- Vista Previa -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg border border-slate-200 p-4 sticky top-24">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-slate-900">Vista Previa</h3>
+                        <span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded">En vivo</span>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg overflow-hidden" style="height: 700px;">
+                        <iframe id="preview-quiz" class="w-full h-full" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/admin-nav.js"></script>
+
+    <template id="tpl-single">
+        <div class="q-card bg-white rounded-xl shadow border border-slate-200 p-5">
+            <div class="flex items-start justify-between gap-3">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="px-2 py-0.5 text-xs rounded bg-blue-100 text-blue-700 font-semibold">Única</span>
+                        <button class="dupBtn text-xs px-2 py-1 border rounded">Duplicar</button>
+                        <button class="delBtn text-xs px-2 py-1 border rounded">Eliminar</button>
+                    </div>
+                    <input class="q-text w-full px-3 py-2 border border-slate-300 rounded-lg mb-3" placeholder="Escribe la pregunta...">
+                    <div class="options space-y-2"></div>
+                    <button class="addOpt mt-3 px-3 py-1.5 bg-slate-100 border rounded">+ Opción</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-multi">
+        <div class="q-card bg-white rounded-xl shadow border border-slate-200 p-5">
+            <div class="flex items-start justify-between gap-3">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="px-2 py-0.5 text-xs rounded bg-green-100 text-green-700 font-semibold">Múltiple</span>
+                        <button class="dupBtn text-xs px-2 py-1 border rounded">Duplicar</button>
+                        <button class="delBtn text-xs px-2 py-1 border rounded">Eliminar</button>
+                    </div>
+                    <input class="q-text w-full px-3 py-2 border border-slate-300 rounded-lg mb-3" placeholder="Escribe la pregunta...">
+                    <div class="options space-y-2"></div>
+                    <button class="addOpt mt-3 px-3 py-1.5 bg-slate-100 border rounded">+ Opción</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-tf">
+        <div class="q-card bg-white rounded-xl shadow border border-slate-200 p-5">
+            <div class="flex items-start justify-between gap-3">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="px-2 py-0.5 text-xs rounded bg-purple-100 text-purple-700 font-semibold">Verdadero / Falso</span>
+                        <button class="dupBtn text-xs px-2 py-1 border rounded">Duplicar</button>
+                        <button class="delBtn text-xs px-2 py-1 border rounded">Eliminar</button>
+                    </div>
+                    <input class="q-text w-full px-3 py-2 border border-slate-300 rounded-lg mb-3" placeholder="Escribe la afirmación...">
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-2"><input type="radio" name="tf" value="0" class="tf-ans w-4 h-4"> <span>Verdadero</span></label>
+                        <label class="flex items-center gap-2"><input type="radio" name="tf" value="1" class="tf-ans w-4 h-4"> <span>Falso</span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        const questionList = document.getElementById('questionList');
+        const addSingle = document.getElementById('addSingle');
+        const addMulti = document.getElementById('addMulti');
+        const addTF = document.getElementById('addTF');
+        const outputUrl = document.getElementById('outputUrl');
+        const generateUrl = document.getElementById('generateUrl');
+        const copyUrl = document.getElementById('copyUrl');
+        const copyIframe = document.getElementById('copyIframe');
+        const preview = document.getElementById('preview');
+        const quizTitle = document.getElementById('quizTitle');
+
+        function addOptionRow(container, type) {
+            const idx = container.querySelectorAll('.opt-row').length;
+            const row = document.createElement('div');
+            row.className = 'opt-row flex items-center gap-2';
+            const input = document.createElement('input');
+            input.className = 'opt-text flex-1 px-3 py-2 border border-slate-300 rounded-lg';
+            input.placeholder = `Opción ${idx + 1}`;
+            const mark = document.createElement('input');
+            mark.className = 'opt-mark w-4 h-4';
+            mark.type = (type === 'single') ? 'radio' : 'checkbox';
+            mark.name = 'correct';
+            const remove = document.createElement('button');
+            remove.className = 'text-xs px-2 py-1 border rounded';
+            remove.textContent = 'Quitar';
+            remove.addEventListener('click', () => row.remove());
+            row.appendChild(mark);
+            row.appendChild(input);
+            row.appendChild(remove);
+            container.appendChild(row);
+        }
+
+        function attachCommonHandlers(card, type) {
+            const opts = card.querySelector('.options');
+            if (opts) {
+                if (opts.children.length === 0) {
+                    addOptionRow(opts, type);
+                    addOptionRow(opts, type);
+                }
+                card.querySelector('.addOpt').addEventListener('click', () => addOptionRow(opts, type));
+            }
+            card.querySelector('.delBtn').addEventListener('click', () => card.remove());
+            card.querySelector('.dupBtn').addEventListener('click', () => {
+                const clone = card.cloneNode(true);
+                questionList.insertBefore(clone, card.nextSibling);
+                rewireCard(clone, type);
+            });
+        }
+
+        function rewireCard(card, type) {
+            if (type === 'tf') {
+                const radios = card.querySelectorAll('.tf-ans');
+                radios.forEach(r => { r.name = `tf_${crypto.randomUUID()}`; });
+                card.querySelector('.delBtn').addEventListener('click', () => card.remove());
+                card.querySelector('.dupBtn').addEventListener('click', () => {
+                    const clone = card.cloneNode(true);
+                    questionList.insertBefore(clone, card.nextSibling);
+                    rewireCard(clone, type);
+                });
+            } else {
+                const opts = card.querySelector('.options');
+                card.querySelector('.addOpt').addEventListener('click', () => addOptionRow(opts, type));
+                card.querySelectorAll('.opt-row button').forEach(btn => {
+                    btn.addEventListener('click', (e) => e.currentTarget.parentElement.remove());
+                });
+                card.querySelector('.delBtn').addEventListener('click', () => card.remove());
+                card.querySelector('.dupBtn').addEventListener('click', () => {
+                    const clone = card.cloneNode(true);
+                    questionList.insertBefore(clone, card.nextSibling);
+                    rewireCard(clone, type);
+                });
+            }
+        }
+
+        function addQuestion(type) {
+            const tplId = type === 'single' ? 'tpl-single' : (type === 'multi' ? 'tpl-multi' : 'tpl-tf');
+            const tpl = document.getElementById(tplId);
+            const node = tpl.content.firstElementChild.cloneNode(true);
+            questionList.appendChild(node);
+            if (type === 'tf') {
+                rewireCard(node, 'tf');
+            } else {
+                attachCommonHandlers(node, type);
+            }
+        }
+
+        addSingle.addEventListener('click', () => addQuestion('single'));
+        addMulti.addEventListener('click', () => addQuestion('multi'));
+        addTF.addEventListener('click', () => addQuestion('tf'));
+
+        function collectQuestions() {
+            const cards = Array.from(document.querySelectorAll('.q-card'));
+            return cards.map(card => {
+                const isTF = !!card.querySelector('.tf-ans');
+                const q = card.querySelector('.q-text')?.value?.trim() || '';
+                if (isTF) {
+                    const radios = card.querySelectorAll('.tf-ans');
+                    let correctIndex = -1;
+                    radios.forEach(r => { if (r.checked) correctIndex = Number(r.value); });
+                    return { q, type: 'tf', correct: correctIndex >= 0 ? [correctIndex] : [] };
+                }
+                const hasRadio = !!card.querySelector('input[type="radio"][name="correct"]');
+                const type = hasRadio ? 'single' : 'multi';
+                const opts = Array.from(card.querySelectorAll('.opt-text')).map(i => i.value.trim()).filter(Boolean);
+                const marks = Array.from(card.querySelectorAll('.opt-mark'));
+                const correct = marks.reduce((acc, m, i) => {
+                    if (m.checked) acc.push(i);
+                    return acc;
+                }, []);
+                return { q, type, options: opts, correct };
+            });
+        }
+
+        function makeUrl(questions) {
+            const base = `${location.origin}${location.pathname.replace('/admin/quiz.html','')}/app/quiz.html`;
+            const params = new URLSearchParams();
+            if (quizTitle.value.trim()) params.set('title', quizTitle.value.trim());
+            params.set('questions', encodeURIComponent(JSON.stringify(questions)));
+            return `${base}?${params.toString()}`;
+        }
+
+        generateUrl.addEventListener('click', () => {
+            const qs = collectQuestions();
+            outputUrl.value = makeUrl(qs);
+        });
+
+        copyUrl.addEventListener('click', async () => {
+            if (!outputUrl.value) generateUrl.click();
+            if (!outputUrl.value) return;
+            try { await navigator.clipboard.writeText(outputUrl.value); copyUrl.textContent = '✓ Copiado'; setTimeout(()=>copyUrl.textContent='Copiar URL',1200);} catch(_){}
+        });
+
+        copyIframe.addEventListener('click', async () => {
+            if (!outputUrl.value) generateUrl.click();
+            if (!outputUrl.value) return;
+            const iframe = `<iframe src="${outputUrl.value}" width="100%" height="500" frameborder="0"></iframe>`;
+            try { await navigator.clipboard.writeText(iframe); copyIframe.textContent = '✓ Copiado'; setTimeout(()=>copyIframe.textContent='Copiar iFrame',1200);} catch(_){}
+        });
+
+        preview.addEventListener('click', () => {
+            if (!outputUrl.value) generateUrl.click();
+            if (!outputUrl.value) return;
+            const iframe = document.getElementById('preview-quiz');
+            if (iframe) {
+                iframe.src = outputUrl.value.replace(window.location.origin + window.location.pathname.replace('admin/quiz.html', ''), '../');
+            } else {
+                window.open(outputUrl.value, '_blank');
+            }
+        });
+
+        // Actualiza preview al generar URL
+        generateUrl.addEventListener('click', () => {
+            const iframe = document.getElementById('preview-quiz');
+            if (iframe && outputUrl.value) {
+                iframe.src = outputUrl.value.replace(window.location.origin + window.location.pathname.replace('admin/quiz.html', ''), '../');
+            }
+        });
+    </script>
+</body>
+</html>
+

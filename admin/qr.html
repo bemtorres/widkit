@@ -42,53 +42,7 @@
         </div>
     </nav>
 
-    <!-- Navegación entre widgets -->
-    <div class="bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="flex gap-2 py-3 overflow-x-auto" aria-label="Widgets">
-                <a href="temporizador.html" 
-                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
-                    ⏱️ Cuenta Regresiva
-                </a>
-                <a href="cronometro.html" 
-                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
-                    🥇 Cronómetro
-                </a>
-                <a href="semana.html" 
-                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
-                    📅 Calculador de Semanas
-                </a>
-                <a href="sorteo.html" 
-                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
-                    🎲 Sorteo Interactivo
-                </a>
-                <a href="qr.html" 
-                   class="px-4 py-2 bg-blue-100 text-blue-700 text-sm font-medium rounded-lg whitespace-nowrap">
-                    📱 Generador QR
-                </a>
-                <a href="ruleta.html" 
-                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
-                    🎯 Selector Estudiante
-                </a>
-                <a href="notas.html" 
-                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
-                    🔢 Calculadora Notas
-                </a>
-                <a href="equipos.html" 
-                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
-                    👥 Generador Equipos
-                </a>
-                <a href="pomodoro.html" 
-                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
-                    ⏲️ Pomodoro
-                </a>
-                <a href="leaderboard.html" 
-                   class="px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition whitespace-nowrap">
-                    🏆 Ranking
-                </a>
-            </nav>
-        </div>
-    </div>
+    <div id="admin-widgets-nav"></div>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -343,6 +297,7 @@
 
     <script src="js/qr-modal.js"></script>
     <script src="js/qr.js"></script>
+    <script src="js/admin-nav.js"></script>
     <script>
         // Funciones auxiliares locales
         function copyText(inputId) {
