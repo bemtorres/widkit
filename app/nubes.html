@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WidKit - Nubes Matemáticas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        canvas { background: linear-gradient(#87cefa, #e0f2fe); border-radius: 16px; }
+        .crosshair { cursor: crosshair; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-slate-900">☁️ Nubes Matemáticas</h1>
+            <p class="text-slate-600">Dispara a la nube con el resultado correcto antes que el tiempo termine</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4 mb-4">
+            <div class="bg-white border rounded-lg p-3">
+                <div class="text-xs text-slate-500">Operación</div>
+                <div id="operation" class="text-xl font-extrabold text-slate-900">-</div>
+            </div>
+            <div class="bg-white border rounded-lg p-3 text-center">
+                <div class="text-xs text-slate-500">Tiempo</div>
+                <div id="time" class="text-xl font-extrabold text-slate-900">10</div>
+            </div>
+            <div class="bg-white border rounded-lg p-3 text-right">
+                <div class="text-xs text-slate-500">Puntaje</div>
+                <div id="score" class="text-xl font-extrabold text-green-600">0</div>
+            </div>
+        </div>
+
+        <canvas id="game" width="900" height="420" class="w-full crosshair shadow border"></canvas>
+
+        <div class="flex gap-2 mt-4">
+            <button id="startBtn" class="px-4 py-2 bg-emerald-600 text-white rounded-lg">Iniciar</button>
+            <button id="pauseBtn" class="px-4 py-2 border rounded-lg">Pausa</button>
+            <button id="resetBtn" class="px-4 py-2 border rounded-lg">Reiniciar</button>
+        </div>
+        <p class="text-xs text-slate-500 mt-3">Parámetros: difficulty, operations, time, total</p>
+    </div>
+
+    <script>
+        function getParam(n){ const u=new URL(location.href); return u.searchParams.get(n); }
+
+        // Configuración
+        let config = {
+            difficulty: (getParam('difficulty')||'easy'),
+            operations: (getParam('operations')||'suma,resta').split(','),
+            timePerQuestion: Number(getParam('time')||10),
+            total: Number(getParam('total')||15)
+        };
+
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+        const opEl = document.getElementById('operation');
+        const timeEl = document.getElementById('time');
+        const scoreEl = document.getElementById('score');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let clouds = [];
+        let currentOp = null;
+        let score = 0;
+        let remaining = config.total;
+        let tLeft = config.timePerQuestion;
+        let timer = null;
+        let running = false;
+
+        const cloudImg = new Image();
+        cloudImg.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="80" viewBox="0 0 140 80"><g fill="%23ffffff" stroke="%23d1d5db" stroke-width="2"><ellipse cx="50" cy="50" rx="30" ry="20"/><ellipse cx="75" cy="45" rx="35" ry="25"/><ellipse cx="100" cy="50" rx="30" ry="20"/></g></svg>';
+
+        function rnd(min,max){ return Math.random()*(max-min)+min; }
+
+        function genNums(d){
+            switch(d){
+                case 'hard': return [Math.floor(rnd(20,100)), Math.floor(rnd(20,100))];
+                case 'medium': return [Math.floor(rnd(10,50)), Math.floor(rnd(10,50))];
+                default: return [Math.floor(rnd(1,10)), Math.floor(rnd(1,10))];
+            }
+        }
+
+        function makeOperation(){
+            const type = config.operations[Math.floor(Math.random()*config.operations.length)];
+            let a,b,res,display;
+            [a,b] = genNums(config.difficulty);
+            if(type==='suma'){res=a+b; display=`${a} + ${b}`}
+            else if(type==='resta'){ if(a<b) [a,b]=[b,a]; res=a-b; display=`${a} - ${b}`}
+            else if(type==='multiplicacion'){ a=Math.floor(rnd(1,12)); b=Math.floor(rnd(1,12)); res=a*b; display=`${a} × ${b}` }
+            else { // division exacta
+                b=Math.floor(rnd(1,12)); res=Math.floor(rnd(1,12)); a=res*b; display=`${a} ÷ ${b}`;
+            }
+            return { type, a, b, res, display };
+        }
+
+        function spawnClouds(correct){
+            clouds = [];
+            const answers = new Set([correct]);
+            while(answers.size<5){
+                answers.add(correct + Math.floor(rnd(-10,11)));
+            }
+            const arr=[...answers].sort(()=>Math.random()-0.5);
+            for(let i=0;i<arr.length;i++){
+                clouds.push({ x: rnd(-150, canvas.width-50), y: rnd(40, canvas.height-60), v: rnd(0.5,1.5), value: arr[i] });
+            }
+        }
+
+        function draw(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            // suelo
+            ctx.fillStyle = '#bae6fd';
+            ctx.fillRect(0,canvas.height-30, canvas.width, 30);
+            clouds.forEach(c=>{
+                c.x += c.v; if(c.x>canvas.width+50) c.x=-150;
+                ctx.drawImage(cloudImg, c.x-50, c.y-30, 120, 70);
+                ctx.fillStyle = '#0f172a';
+                ctx.font = 'bold 20px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(String(c.value), c.x+10, c.y);
+            });
+
+            if(running) requestAnimationFrame(draw);
+        }
+
+        function nextQuestion(){
+            if(remaining<=0){ endGame(); return; }
+            currentOp = makeOperation();
+            opEl.textContent = `${currentOp.display} = ?`;
+            spawnClouds(currentOp.res);
+            tLeft = config.timePerQuestion;
+            timeEl.textContent = tLeft;
+            if(timer) clearInterval(timer);
+            timer = setInterval(()=>{
+                if(!running) return;
+                tLeft--; timeEl.textContent = tLeft;
+                if(tLeft<=0){ remaining--; nextQuestion(); }
+            },1000);
+        }
+
+        function shoot(x,y){
+            // detectar nube clickeada
+            for(const c of clouds){
+                const hit = x>c.x-50 && x<c.x+70 && y>c.y-30 && y<c.y+40;
+                if(hit){
+                    if(Number(c.value)===currentOp.res){ score++; scoreEl.textContent = score; remaining--; nextQuestion(); }
+                    else { remaining--; nextQuestion(); }
+                    return;
+                }
+            }
+        }
+
+        canvas.addEventListener('click', (e)=>{
+            if(!running) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+            shoot(x,y);
+        });
+
+        function start(){ if(running) return; running=true; draw(); nextQuestion(); }
+        function pause(){ running=!running; if(running){ draw(); } }
+        function reset(){ running=false; clearInterval(timer); score=0; remaining=config.total; scoreEl.textContent='0'; timeEl.textContent=config.timePerQuestion; opEl.textContent='-'; ctx.clearRect(0,0,canvas.width,canvas.height); }
+        function endGame(){ running=false; clearInterval(timer); opEl.textContent = `Fin. Puntaje: ${score}/${config.total}`; }
+
+        startBtn.addEventListener('click', start);
+        pauseBtn.addEventListener('click', pause);
+        resetBtn.addEventListener('click', reset);
+    </script>
+</body>
+</html>
+
+

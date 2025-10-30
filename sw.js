@@ -1,6 +1,8 @@
-const CACHE_NAME = 'widkit-v1.0.0a';
-const STATIC_CACHE = 'widkit-static-v1.0.0a';
-const DYNAMIC_CACHE = 'widkit-dynamic-v1.0.0a';
+// Incrementa estas versiones en cada despliegue para forzar limpieza
+const CACHE_VERSION = 'v1.0.1';
+const CACHE_NAME = `widkit-${CACHE_VERSION}`;
+const STATIC_CACHE = `widkit-static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `widkit-dynamic-${CACHE_VERSION}`;
 
 // Archivos estáticos para cachear en la instalación
 const STATIC_ASSETS = [
@@ -11,6 +13,7 @@ const STATIC_ASSETS = [
   '/example.html',
   '/faq.html',
   '/casos-uso.html',
+  '/nosotros.html',
   '/sitemap.xml',
   '/robots.txt',
   
@@ -25,6 +28,10 @@ const STATIC_ASSETS = [
   '/admin/semana.html',
   '/admin/sorteo.html',
   '/admin/temporizador.html',
+  '/admin/quiz.html',
+  '/admin/steps.html',
+  '/admin/nubes.html',
+  '/admin/fuego-salto.html',
   
   // App pages
   '/app/cronometro.html',
@@ -37,6 +44,10 @@ const STATIC_ASSETS = [
   '/app/ruleta.html',
   '/app/semana.html',
   '/app/sorteo.html',
+  '/app/quiz.html',
+  '/app/steps.html',
+  '/app/nubes.html',
+  '/app/fuego-salto.html',
   
   // Assets
   '/assets/img/Moodle-logo.png',
@@ -93,7 +104,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-  
+
   // Solo interceptar peticiones del mismo origen
   if (url.origin !== location.origin) {
     // Para recursos externos (CDN, etc.), intentar red primero
@@ -111,62 +122,35 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
-  // Estrategia: Cache First con Network Fallback
+  // HTML: estrategia network-first (para evitar servir versiones viejas)
+  const isHtml = request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html');
+  if (isHtml) {
+    event.respondWith(
+      fetch(request)
+        .then((res) => {
+          const clone = res.clone();
+          caches.open(DYNAMIC_CACHE).then((c) => c.put(request, clone));
+          return res;
+        })
+        .catch(() => caches.match(request).then((r) => r || caches.match('/index.html')))
+    );
+    return;
+  }
+
+  // Estáticos (css/js/img): stale-while-revalidate
   event.respondWith(
-    caches.match(request)
-      .then((cachedResponse) => {
-        if (cachedResponse) {
-          console.log('[SW] Sirviendo desde caché:', request.url);
-          // Actualizar caché en segundo plano
-          fetch(request).then(response => {
-            if (response && response.status === 200) {
-              caches.open(DYNAMIC_CACHE).then(cache => {
-                cache.put(request, response);
-              });
-            }
-          }).catch(() => {});
-          return cachedResponse;
-        }
-        
-        // Si no está en caché, buscar en la red
-        console.log('[SW] Buscando en red:', request.url);
-        return fetch(request)
-          .then((response) => {
-            // No cachear respuestas inválidas
-            if (!response || response.status !== 200 || response.type === 'error') {
-              return response;
-            }
-            
-            // Clonar la respuesta porque solo se puede usar una vez
-            const responseToCache = response.clone();
-            
-            // Guardar en caché dinámica
-            caches.open(DYNAMIC_CACHE).then((cache) => {
-              cache.put(request, responseToCache);
-            });
-            
-            return response;
-          })
-          .catch((error) => {
-            console.error('[SW] Error al buscar en red:', request.url, error);
-            
-            // Si es una página HTML, devolver página offline personalizada
-            if (request.headers.get('accept').includes('text/html')) {
-              return caches.match('/offline.html').then(response => {
-                return response || caches.match('/index.html');
-              });
-            }
-            
-            // Para otros recursos, simplemente fallar
-            return new Response('Offline - Recurso no disponible', {
-              status: 503,
-              statusText: 'Service Unavailable',
-              headers: new Headers({
-                'Content-Type': 'text/plain'
-              })
-            });
-          });
-      })
+    caches.match(request).then((cached) => {
+      const fetchPromise = fetch(request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(DYNAMIC_CACHE).then((c) => c.put(request, clone));
+          }
+          return response;
+        })
+        .catch(() => cached);
+      return cached || fetchPromise;
+    })
   );
 });
 

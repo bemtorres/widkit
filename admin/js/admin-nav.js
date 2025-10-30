@@ -26,6 +26,8 @@
            link('leaderboard.html', 'Ranking', '🏆') +
            link('steps.html', 'Pasos', '👣') +
            link('quiz.html', 'Quiz', '📝') +
+           link('nubes.html', 'Nubes', '☁️') +
+           link('fuego-salto.html', 'Fuego Salto', '🔥') +
       '    </nav>' +
       '  </div>' +
       '</div>';

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WidKit - Fuego Salta Nubes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        canvas { background: linear-gradient(#87cefa, #e0f2fe); border-radius: 16px; touch-action: manipulation; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center mb-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-slate-900">🔥 Fuego Salta Nubes</h1>
+            <p class="text-slate-600">Salta de nube en nube y asciende lo más alto posible</p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 mb-3 text-center">
+            <div class="bg-white border rounded-lg p-2">
+                <div class="text-xs text-slate-500">Altura</div>
+                <div id="score" class="text-xl font-extrabold">0</div>
+            </div>
+            <div class="bg-white border rounded-lg p-2">
+                <div class="text-xs text-slate-500">Mejor</div>
+                <div id="best" class="text-xl font-extrabold">0</div>
+            </div>
+            <div class="bg-white border rounded-lg p-2">
+                <div class="text-xs text-slate-500">Estado</div>
+                <div id="state" class="text-xl font-extrabold text-emerald-600">Listo</div>
+            </div>
+        </div>
+
+        <canvas id="game" width="420" height="640" class="w-full shadow border"></canvas>
+
+        <div class="flex gap-2 mt-3">
+            <button id="startBtn" class="px-4 py-2 bg-emerald-600 text-white rounded-lg">Iniciar</button>
+            <button id="resetBtn" class="px-4 py-2 border rounded-lg">Reiniciar</button>
+        </div>
+        <p class="text-xs text-slate-500 mt-3">Controles: ← → o A/D para moverse, Space/↑ para salto. En móvil: toca izquierda/derecha para moverte, doble toque para saltar.</p>
+    </div>
+
+    <script>
+        function gp(n){ const u=new URL(location.href); return u.searchParams.get(n); }
+        const cfg = {
+            gravity: Number(gp('gravity')||0.35),
+            jump: Number(gp('jump')||8),
+            platformGap: Number(gp('gap')||80),
+            platformWidth: Number(gp('pw')||90)
+        };
+
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+        const bestEl = document.getElementById('best');
+        const stateEl = document.getElementById('state');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let best = Number(localStorage.getItem('widkit_firejump_best')||0);
+        bestEl.textContent = best;
+
+        const fireImg = new Image();
+        fireImg.src = '../assets/widkit_fuego_icono.png';
+
+        const player = { x: canvas.width/2-20, y: canvas.height-100, vx: 0, vy: 0, w: 48, h: 48, onGround: false };
+        let platforms = [];
+        let cameraY = 0; // desplazamiento vertical del mundo
+        let running = false;
+        let score = 0;
+
+        function resetAll(){
+            platforms = [];
+            cameraY = 0; score = 0; player.x = canvas.width/2-20; player.y = canvas.height-100; player.vx=0; player.vy=0; player.onGround=false;
+            // plataforma inicial
+            platforms.push({x: canvas.width/2-50, y: canvas.height-40, w: cfg.platformWidth, h: 14});
+            // generar hacia arriba
+            let y = canvas.height-120;
+            while(y>-2000){
+                const x = 20 + Math.random()*(canvas.width - cfg.platformWidth - 40);
+                platforms.push({x, y, w: cfg.platformWidth, h: 14});
+                y -= cfg.platformGap;
+            }
+            stateEl.textContent = 'Listo';
+            draw();
+        }
+
+        function draw(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            // cielo
+            const grd = ctx.createLinearGradient(0,0,0,canvas.height);
+            grd.addColorStop(0,'#7dd3fc'); grd.addColorStop(1,'#e0f2fe');
+            ctx.fillStyle = grd; ctx.fillRect(0,0,canvas.width,canvas.height);
+
+            // dibujar plataformas
+            ctx.fillStyle = 'rgba(255,255,255,0.9)';
+            ctx.strokeStyle = '#cbd5e1';
+            platforms.forEach(p=>{
+                const sy = p.y + cameraY;
+                if(sy> -30 && sy < canvas.height+30){
+                    ctx.beginPath();
+                    ctx.roundRect(p.x, sy, p.w, p.h, 7);
+                    ctx.fill(); ctx.stroke();
+                }
+            });
+
+            // jugador
+            const py = player.y + cameraY;
+            if(fireImg.complete) ctx.drawImage(fireImg, player.x, py, player.w, player.h);
+            else { ctx.fillStyle = '#fb923c'; ctx.fillRect(player.x, py, player.w, player.h); }
+        }
+
+        function step(){
+            if(!running) return;
+            // física
+            player.vy += cfg.gravity;
+            player.x += player.vx;
+            player.y += player.vy;
+
+            // bordes laterales
+            if(player.x < -player.w) player.x = canvas.width;
+            if(player.x > canvas.width) player.x = -player.w;
+
+            // colisiones con plataformas (solo cuando cae)
+            if(player.vy > 0){
+                platforms.forEach(p=>{
+                    const sy = p.y + cameraY;
+                    if(player.x + player.w*0.7 > p.x && player.x + player.w*0.3 < p.x + p.w){
+                        const feet = player.y + player.h;
+                        if(feet <= p.y && feet + player.vy >= p.y){
+                            // aterriza
+                            player.y = p.y - player.h;
+                            player.vy = -cfg.jump; // rebote automático
+                        }
+                    }
+                });
+            }
+
+            // mover cámara hacia arriba si el jugador sube
+            const targetCam = Math.min(0, canvas.height/2 - (player.y + cameraY));
+            cameraY += (targetCam - cameraY) * 0.12;
+
+            // puntaje por altura
+            score = Math.max(score, Math.floor(-(player.y - (canvas.height-100))/10));
+            scoreEl.textContent = score;
+
+            // si cae abajo de la pantalla: game over
+            if(player.y + cameraY > canvas.height){
+                running = false; stateEl.textContent = 'Fin';
+                if(score>best){ best = score; localStorage.setItem('widkit_firejump_best', String(best)); bestEl.textContent = best; }
+            }
+
+            draw();
+            requestAnimationFrame(step);
+        }
+
+        // Controles
+        const keys = {left:false,right:false,up:false};
+        function updateVelocity(){ player.vx = (keys.left?-3:0) + (keys.right?3:0); if(keys.up && player.vy> -1) { player.vy = -cfg.jump; } }
+        document.addEventListener('keydown', (e)=>{ if(e.key==='ArrowLeft'||e.key==='a') keys.left=true; if(e.key==='ArrowRight'||e.key==='d') keys.right=true; if(e.key==='ArrowUp'||e.key===' '){ keys.up=true; } updateVelocity(); });
+        document.addEventListener('keyup', (e)=>{ if(e.key==='ArrowLeft'||e.key==='a') keys.left=false; if(e.key==='ArrowRight'||e.key==='d') keys.right=false; if(e.key==='ArrowUp'||e.key===' '){ keys.up=false; } updateVelocity(); });
+
+        // Controles táctiles simples
+        canvas.addEventListener('touchstart', (e)=>{
+            const t = e.changedTouches[0]; const x = t.clientX - canvas.getBoundingClientRect().left; if(x<canvas.width/2) { keys.left=true; keys.right=false; } else { keys.right=true; keys.left=false; } updateVelocity();
+        }, {passive:true});
+        canvas.addEventListener('touchend', ()=>{ keys.left=false; keys.right=false; updateVelocity(); });
+        canvas.addEventListener('dblclick', ()=>{ player.vy = -cfg.jump; });
+
+        startBtn.addEventListener('click', ()=>{ if(!running){ running=true; stateEl.textContent='Jugando'; step(); } });
+        resetBtn.addEventListener('click', ()=>{ running=false; resetAll(); });
+
+        // init
+        resetAll();
+    </script>
+</body>
+</html>
+
+
