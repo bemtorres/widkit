@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Preguntas Frecuentes | WidKit</title>
+    <meta name="description" content="Preguntas frecuentes sobre WidKit y sus widgets educativos">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .node-children {
+            margin-left: 2rem;
+            border-left: 2px solid #e2e8f0;
+        }
+        .collapse-arrow {
+            transition: transform 0.2s;
+        }
+        .collapse-arrow.open {
+            transform: rotate(90deg);
+        }
+        .search-highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+        details {
+            transition: all 0.2s;
+        }
+        details summary {
+            cursor: pointer;
+        }
+        .level-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .menu-transition {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
+    <!-- Main Container -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-slate-900 mb-4">❓ Preguntas Frecuentes</h2>
+            <p class="text-lg text-slate-600">Encuentra respuestas rápidas sobre WidKit</p>
+        </div>
+
+        <!-- Búsqueda -->
+        <div class="mb-8" hidden>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <label class="block text-sm font-semibold text-slate-700 mb-3">🔍 Buscar</label>
+                <input type="text" id="searchInput" 
+                       class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                       placeholder="Buscar preguntas...">
+            </div>
+        </div>
+
+        <!-- Árbol de FAQ -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <!-- Indicador de Nivel Actual -->
+            <div id="levelIndicator" class="mb-4 p-3 bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-500 rounded-lg hidden">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="level-indicator bg-amber-500 text-white" id="levelNumber">1</span>
+                        <div>
+                            <div class="text-xs text-slate-500 font-semibold uppercase">Nivel Actual</div>
+                            <div class="text-sm text-slate-700 font-medium" id="levelPath">Inicio</div>
+                        </div>
+                    </div>
+                    <button id="backButton" onclick="goBack()" 
+                            class="px-4 py-2 bg-white hover:bg-amber-100 text-amber-700 font-semibold rounded-lg transition border border-amber-300 flex items-center gap-2">
+                        <span>←</span>
+                        <span>Volver</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Breadcrumb / Navegación -->
+            <div id="breadcrumbContainer" class="mb-4 flex items-center gap-2 flex-wrap p-3 bg-slate-50 rounded-lg">
+                <span class="text-xs text-slate-500 font-semibold mr-2">Ruta:</span>
+                <!-- Se genera dinámicamente -->
+            </div>
+            
+            <!-- Contenido del Nodo Actual -->
+            <div id="currentNodeContent" class="mb-6 p-5 bg-gradient-to-br from-amber-50 to-orange-50 border-l-4 border-amber-500 rounded-lg hidden menu-transition">
+                <div class="flex items-start gap-3 mb-3">
+                    <span class="level-indicator bg-amber-500 text-white" id="currentNodeLevel">1</span>
+                    <div class="flex-1">
+                        <h3 id="currentNodeTitle" class="text-2xl font-bold text-slate-900 mb-2"></h3>
+                        <p id="currentNodeDesc" class="text-slate-700 leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Título de Sección -->
+            <div id="sectionTitle" class="mb-4">
+                <h3 class="text-lg font-bold text-slate-800">Selecciona una opción:</h3>
+            </div>
+            
+            <!-- Botones de Navegación -->
+            <div id="treeContainer" class="space-y-3 menu-transition">
+                <!-- Los botones de nodos se renderizan aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // MODELO DE DATOS COMPARTIDO
+        // ============================================
+
+        class FAQSystem {
+            constructor() {
+                this.nodos = [];
+                this.searchTerm = '';
+                this.currentNodeId = null; // Nodo actualmente visible
+                this.navigationHistory = []; // Historial de navegación
+                this.loadFromUrlOrStorage();
+            }
+            
+            // Navega a un nodo específico
+            navigateToNode(nodeId) {
+                const nodo = this.getNodoById(nodeId);
+                if (!nodo) return;
+                
+                // Agregar al historial si hay un nodo actual
+                if (this.currentNodeId !== null) {
+                    this.navigationHistory.push(this.currentNodeId);
+                }
+                
+                this.currentNodeId = nodeId;
+                return nodo;
+            }
+            
+            // Retrocede en el historial
+            goBack() {
+                if (this.navigationHistory.length > 0) {
+                    this.currentNodeId = this.navigationHistory.pop();
+                    return this.getNodoById(this.currentNodeId);
+                } else {
+                    this.currentNodeId = null;
+                    return null;
+                }
+            }
+            
+            // Obtiene el camino completo al nodo actual
+            getPathToNode(nodeId) {
+                const path = [];
+                let currentId = nodeId;
+                
+                while (currentId !== null) {
+                    const nodo = this.getNodoById(currentId);
+                    if (!nodo) break;
+                    path.unshift(nodo);
+                    currentId = nodo.id_nodo_padre;
+                }
+                
+                return path;
+            }
+            
+            // Resetea la navegación al inicio
+            resetNavigation() {
+                this.currentNodeId = null;
+                this.navigationHistory = [];
+            }
+
+            loadFromUrlOrStorage() {
+                // 1) Intentar cargar desde URL param "faq" (base64url JSON)
+                const params = new URLSearchParams(window.location.search);
+                const encoded = params.get('faq');
+                if (encoded) {
+                    try {
+                        const b64 = encoded.replace(/-/g,'+').replace(/_/g,'/');
+                        const json = decodeURIComponent(escape(atob(b64)));
+                        const data = JSON.parse(json);
+                        if (Array.isArray(data)) {
+                            this.nodos = data;
+                            return;
+                        }
+                    } catch (_) {
+                        // si falla, continuar a localStorage
+                    }
+                }
+
+                // 2) Fallback: localStorage
+                const savedNodos = localStorage.getItem('faq_nodos');
+                if (savedNodos) {
+                    this.nodos = JSON.parse(savedNodos);
+                } else {
+                    this.initDefaultData();
+                }
+            }
+
+            initDefaultData() {
+                const nodos = [
+                    { id_nodo: 1, titulo: 'Becas', descripcion: 'Información general sobre becas disponibles', id_nodo_padre: null, orden: 0 },
+                    { id_nodo: 2, titulo: 'Tipo de becas', descripcion: 'Tipos de becas según perfil del estudiante', id_nodo_padre: 1, orden: 0 },
+                    { id_nodo: 3, titulo: 'Gratuidad', descripcion: 'La gratuidad cubre el arancel de la carrera completa.', id_nodo_padre: 2, orden: 0 },
+                    { id_nodo: 4, titulo: 'Postulación', descripcion: 'Puedes postular a las becas a través del portal Mineduc.cl', id_nodo_padre: 1, orden: 1 },
+                    { id_nodo: 5, titulo: 'Cómo pagar la mensualidad', descripcion: 'Puedes pagar en línea o en las cajas del campus.', id_nodo_padre: null, orden: 1 }
+                ];
+                this.nodos = nodos;
+            }
+
+            construirArbol(nodos = null, padreId = null) {
+                if (!nodos) nodos = this.nodos;
+                if (padreId === undefined) padreId = null;
+
+                const hijosDirectos = nodos.filter(n => n.id_nodo_padre === padreId)
+                    .sort((a, b) => a.orden - b.orden);
+
+                const arbol = hijosDirectos.map(nodo => {
+                    const nodoConHijos = { ...nodo };
+                    nodoConHijos.hijos = this.construirArbol(nodos, nodo.id_nodo);
+                    return nodoConHijos;
+                });
+
+                return arbol;
+            }
+
+            buscar(keyword) {
+                if (!keyword || keyword.trim() === '') return this.construirArbol();
+                
+                this.searchTerm = keyword.toLowerCase();
+                const keywordLower = keyword.toLowerCase();
+                
+                const resultados = this.nodos.filter(n => 
+                    n.titulo.toLowerCase().includes(keywordLower) ||
+                    n.descripcion.toLowerCase().includes(keywordLower)
+                );
+
+                // Construir árbol parcial solo con resultados y sus ancestros
+                const nodosIncluir = new Set();
+                resultados.forEach(n => {
+                    nodosIncluir.add(n.id_nodo);
+                    // Incluir ancestros
+                    let parentId = n.id_nodo_padre;
+                    while (parentId !== null) {
+                        nodosIncluir.add(parentId);
+                        const parent = this.getNodoById(parentId);
+                        parentId = parent ? parent.id_nodo_padre : null;
+                    }
+                });
+
+                const nodosFiltrados = this.nodos.filter(n => nodosIncluir.has(n.id_nodo));
+                return this.construirArbol(nodosFiltrados, null);
+            }
+
+            getNodoById(id) {
+                return this.nodos.find(n => n.id_nodo === id);
+            }
+            
+            // Obtiene hijos de un nodo
+            getHijos(id_padre) {
+                return this.nodos.filter(n => n.id_nodo_padre === id_padre);
+            }
+            
+            // Obtiene todos los nodos raíz
+            getRootNodes() {
+                return this.nodos.filter(n => n.id_nodo_padre === null);
+            }
+            
+            // Limpia la búsqueda y navegación
+            clearSearch() {
+                this.searchTerm = '';
+                this.resetNavigation();
+            }
+        }
+
+        const faqSystem = new FAQSystem();
+
+        // ============================================
+        // UI - RENDERIZADO
+        // ============================================
+
+        function renderTree() {
+            const treeContainer = document.getElementById('treeContainer');
+            const breadcrumbContainer = document.getElementById('breadcrumbContainer');
+            const backButton = document.getElementById('backButton');
+            const currentNodeContent = document.getElementById('currentNodeContent');
+            
+            treeContainer.innerHTML = '';
+            breadcrumbContainer.innerHTML = '';
+            
+            // Si hay búsqueda, mostrar resultados de búsqueda
+            if (faqSystem.searchTerm && faqSystem.searchTerm.trim() !== '') {
+                renderSearchResults();
+                return;
+            }
+            
+            // Si estamos en un nodo específico, mostrar sus hijos
+            if (faqSystem.currentNodeId !== null) {
+                renderCurrentNodeView();
+                return;
+            }
+            
+            // Vista inicial: mostrar nodos raíz
+            renderRootNodes();
+        }
+        
+        function renderRootNodes() {
+            const treeContainer = document.getElementById('treeContainer');
+            const levelIndicator = document.getElementById('levelIndicator');
+            const sectionTitle = document.getElementById('sectionTitle');
+            const rootNodes = faqSystem.getRootNodes();
+            
+            if (rootNodes.length === 0) {
+                treeContainer.innerHTML = '<p class="text-slate-500 text-center py-8">No hay nodos disponibles</p>';
+                return;
+            }
+            
+            // Mostrar indicador de nivel inicial
+            levelIndicator.classList.add('hidden');
+            document.getElementById('levelNumber').textContent = '1';
+            document.getElementById('levelPath').textContent = 'Inicio';
+            
+            // Actualizar título de sección
+            sectionTitle.querySelector('h3').textContent = 'Selecciona una categoría:';
+            
+            // Limpiar breadcrumb y mostrar solo "Inicio"
+            const breadcrumbContainer = document.getElementById('breadcrumbContainer');
+            breadcrumbContainer.innerHTML = '<span class="text-xs text-slate-500 font-semibold mr-2">Ruta:</span><span class="text-sm text-amber-600 font-semibold">Inicio</span>';
+            
+            rootNodes.sort((a, b) => a.orden - b.orden).forEach((nodo, index) => {
+                treeContainer.appendChild(createNodeButton(nodo, 1, index));
+            });
+            
+            // Ocultar elementos de navegación
+            document.getElementById('currentNodeContent').classList.add('hidden');
+        }
+        
+        function renderCurrentNodeView() {
+            const nodo = faqSystem.getNodoById(faqSystem.currentNodeId);
+            if (!nodo) {
+                faqSystem.resetNavigation();
+                renderRootNodes();
+                return;
+            }
+            
+            const treeContainer = document.getElementById('treeContainer');
+            const levelIndicator = document.getElementById('levelIndicator');
+            const currentNodeContent = document.getElementById('currentNodeContent');
+            const currentNodeTitle = document.getElementById('currentNodeTitle');
+            const currentNodeDesc = document.getElementById('currentNodeDesc');
+            const currentNodeLevel = document.getElementById('currentNodeLevel');
+            const breadcrumbContainer = document.getElementById('breadcrumbContainer');
+            const sectionTitle = document.getElementById('sectionTitle');
+            
+            // Calcular nivel actual
+            const path = faqSystem.getPathToNode(faqSystem.currentNodeId);
+            const currentLevel = path.length;
+            
+            // Mostrar información del nodo actual
+            currentNodeTitle.textContent = nodo.titulo;
+            currentNodeDesc.textContent = nodo.descripcion || 'No hay descripción disponible.';
+            currentNodeLevel.textContent = currentLevel;
+            currentNodeContent.classList.remove('hidden');
+            
+            // Mostrar indicador de nivel
+            const levelNumber = document.getElementById('levelNumber');
+            const levelPath = document.getElementById('levelPath');
+            levelNumber.textContent = currentLevel + 1;
+            levelPath.textContent = nodo.titulo;
+            levelIndicator.classList.remove('hidden');
+            
+            // Actualizar título de sección
+            const hijos = faqSystem.getHijos(faqSystem.currentNodeId);
+            if (hijos.length > 0) {
+                sectionTitle.querySelector('h3').textContent = `Opciones disponibles (${hijos.length}):`;
+            } else {
+                sectionTitle.querySelector('h3').textContent = 'No hay más opciones disponibles';
+            }
+            
+            // Mostrar breadcrumb mejorado
+            breadcrumbContainer.innerHTML = '<span class="text-xs text-slate-500 font-semibold mr-2">Ruta:</span>';
+            path.forEach((pathNode, index) => {
+                const isLast = index === path.length - 1;
+                const span = document.createElement('span');
+                span.className = 'flex items-center gap-1';
+                
+                if (!isLast) {
+                    const link = document.createElement('button');
+                    link.className = 'text-sm text-amber-600 hover:text-amber-700 font-semibold hover:underline transition';
+                    link.textContent = pathNode.titulo;
+                    link.onclick = () => navigateToPathNode(pathNode.id_nodo);
+                    span.appendChild(link);
+                    
+                    const separator = document.createElement('span');
+                    separator.className = 'text-slate-400 text-sm';
+                    separator.textContent = ' › ';
+                    span.appendChild(separator);
+                } else {
+                    const text = document.createElement('span');
+                    text.className = 'text-sm text-slate-700 font-bold';
+                    text.textContent = pathNode.titulo;
+                    span.appendChild(text);
+                }
+                
+                breadcrumbContainer.appendChild(span);
+            });
+            
+            // Mostrar hijos como botones
+            if (hijos.length === 0) {
+                treeContainer.innerHTML = `
+                    <div class="text-center py-8 bg-slate-50 rounded-lg border-2 border-dashed border-slate-300">
+                        <p class="text-slate-500 mb-2">✅ Has llegado al final de esta rama</p>
+                        <p class="text-sm text-slate-400">No hay más opciones disponibles en este nivel</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            hijos.sort((a, b) => a.orden - b.orden).forEach((hijo, index) => {
+                treeContainer.appendChild(createNodeButton(hijo, currentLevel + 1, index));
+            });
+        }
+        
+        function renderSearchResults() {
+            const treeContainer = document.getElementById('treeContainer');
+            const levelIndicator = document.getElementById('levelIndicator');
+            const sectionTitle = document.getElementById('sectionTitle');
+            const arbol = faqSystem.buscar(faqSystem.searchTerm);
+            
+            treeContainer.innerHTML = '';
+            
+            if (arbol.length === 0) {
+                treeContainer.innerHTML = '<p class="text-slate-500 text-center py-8">No se encontraron resultados</p>';
+                return;
+            }
+            
+            // Ocultar elementos de navegación durante búsqueda
+            levelIndicator.classList.add('hidden');
+            document.getElementById('currentNodeContent').classList.add('hidden');
+            document.getElementById('breadcrumbContainer').innerHTML = '<span class="text-xs text-slate-500 font-semibold mr-2">Buscando:</span><span class="text-sm text-amber-600 font-semibold">"' + faqSystem.searchTerm + '"</span>';
+            sectionTitle.querySelector('h3').textContent = `Resultados de búsqueda (${arbol.length}):`;
+            
+            // Renderizar resultados como botones
+            arbol.forEach((nodo, index) => {
+                // Calcular nivel del nodo en la búsqueda
+                const path = faqSystem.getPathToNode(nodo.id_nodo);
+                const nivel = path.length > 0 ? path.length : 1;
+                treeContainer.appendChild(createNodeButton(nodo, nivel, index));
+            });
+        }
+        
+        function createNodeButton(nodo, level = 1, index = 0) {
+            const button = document.createElement('button');
+            const hasChildren = faqSystem.getHijos(nodo.id_nodo).length > 0;
+            
+            // Colores de nivel para mejor identificación visual
+            const levelColors = {
+                1: { bg: 'bg-slate-50', hover: 'hover:bg-amber-50', border: 'border-slate-200', hoverBorder: 'hover:border-amber-400', badge: 'bg-amber-500' },
+                2: { bg: 'bg-amber-50', hover: 'hover:bg-orange-50', border: 'border-amber-200', hoverBorder: 'hover:border-orange-400', badge: 'bg-orange-500' },
+                3: { bg: 'bg-orange-50', hover: 'hover:bg-red-50', border: 'border-orange-200', hoverBorder: 'hover:border-red-400', badge: 'bg-red-500' },
+            };
+            const colors = levelColors[Math.min(level, 3)] || levelColors[3];
+            
+            button.className = `w-full text-left px-6 py-4 ${colors.bg} ${colors.hover} border-2 ${colors.border} ${colors.hoverBorder} rounded-lg transition-all duration-200 flex items-center gap-4 group shadow-sm hover:shadow-md`;
+            
+            button.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <span class="level-indicator ${colors.badge} text-white">${level}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-bold text-slate-900 mb-1 flex items-center gap-2">
+                        ${highlightSearch(nodo.titulo)}
+                        ${hasChildren ? `<span class="text-xs px-2 py-0.5 bg-amber-200 text-amber-800 rounded-full font-semibold">${faqSystem.getHijos(nodo.id_nodo).length} opciones</span>` : ''}
+                    </div>
+                    ${nodo.descripcion ? `<div class="text-sm text-slate-600 line-clamp-2">${highlightSearch(nodo.descripcion.substring(0, 120))}${nodo.descripcion.length > 120 ? '...' : ''}</div>` : ''}
+                </div>
+                ${hasChildren ? '<span class="text-amber-600 text-2xl group-hover:translate-x-2 transition-transform flex-shrink-0">→</span>' : '<span class="text-slate-400 text-xl flex-shrink-0">•</span>'}
+            `;
+            
+            button.onclick = () => navigateToNode(nodo.id_nodo);
+            
+            // Añadir animación de entrada
+            button.style.animationDelay = `${index * 0.05}s`;
+            button.classList.add('menu-transition');
+            
+            return button;
+        }
+        
+        function navigateToNode(nodeId) {
+            faqSystem.navigateToNode(nodeId);
+            renderTree();
+            // Scroll suave al inicio
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function navigateToPathNode(nodeId) {
+            // Navegar a un nodo del breadcrumb
+            const targetPath = faqSystem.getPathToNode(nodeId);
+            faqSystem.resetNavigation();
+            
+            // Reconstruir historial hasta ese nodo
+            for (let i = 1; i < targetPath.length; i++) {
+                faqSystem.navigationHistory.push(targetPath[i - 1].id_nodo);
+            }
+            
+            if (targetPath.length > 0) {
+                faqSystem.currentNodeId = nodeId;
+            }
+            
+            renderTree();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function goBack() {
+            faqSystem.goBack();
+            renderTree();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function highlightSearch(text) {
+            if (!faqSystem.searchTerm) return text;
+            const regex = new RegExp(`(${faqSystem.searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        // ============================================
+        // BÚSQUEDA
+        // ============================================
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchValue = e.target.value.trim();
+            
+            if (searchValue === '') {
+                // Si se limpia la búsqueda, volver a la vista actual
+                faqSystem.searchTerm = '';
+                renderTree();
+            } else {
+                // Activar búsqueda
+                faqSystem.searchTerm = searchValue;
+                faqSystem.resetNavigation(); // Resetear navegación durante búsqueda
+                renderTree();
+            }
+        });
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTree();
+        });
+    </script>
+</body>
+</html>
+

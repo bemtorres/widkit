@@ -8,7 +8,7 @@
 
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-success?style=flat-square)](https://widkit.lol/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![11 Widgets](https://img.shields.io/badge/Widgets-11-orange?style=flat-square)](https://widkit.lol/)
+[![18 Widgets](https://img.shields.io/badge/Widgets-18-orange?style=flat-square)](https://widkit.lol/)
 
 [🌐 **Ver Demo**](https://widkit.lol/) • [📱 **Instalar App**](https://widkit.lol/) • [💡 **Ver Ejemplos**](https://widkit.lol/example.html)
 
@@ -18,7 +18,7 @@
 
 ## ⚡ ¿Qué es WidKit?
 
-WidKit son **11 widgets educativos** que funcionan en cualquier plataforma (Moodle, Blackboard, Canvas, Google Classroom, etc.). Solo copias un link, lo pegas en tu LMS, y funciona. **Así de simple.**
+WidKit son **18 widgets educativos** que funcionan en cualquier plataforma (Moodle, Blackboard, Canvas, Google Classroom, etc.). Solo copias un link, lo pegas en tu LMS, y funciona. **Así de simple.**
 
 ### ✨ Lo mejor:
 - ✅ **Sin programar** - Copia y pega
@@ -29,7 +29,7 @@ WidKit son **11 widgets educativos** que funcionan en cualquier plataforma (Mood
 
 ---
 
-## 🎯 Los 11 Widgets
+## 🎯 Los 18 Widgets
 
 | Widget | Para qué sirve | Demo |
 |--------|----------------|------|
@@ -44,6 +44,13 @@ WidKit son **11 widgets educativos** que funcionan en cualquier plataforma (Mood
 | ⏲️ **Pomodoro Timer** | Técnica Pomodoro para productividad | [▶️](https://widkit.lol/app/pomodoro.html) |
 | 🏆 **Tabla de Clasificación** | Ranking de estudiantes o equipos | [▶️](https://widkit.lol/app/leaderboard.html) |
 | 🗳️ **Votación en Vivo** | Toma decisiones democráticas en clase | [▶️](https://widkit.lol/app/votacion.html) |
+| 👣 **Contador de Pasos** | Objetivo de pasos con cronómetro y estadísticas | [▶️](https://widkit.lol/app/steps.html) |
+| 📝 **Quiz Interactivo** | Preguntas de selección única, múltiple y V/F | [▶️](https://widkit.lol/app/quiz.html) |
+| 🃏 **Flashcards** | Tarjetas de estudio interactivas | [▶️](https://widkit.lol/app/flashcard.html) |
+| 🧮 **Juego de Matemáticas** | Operaciones básicas con cronómetro | [▶️](https://widkit.lol/app/matematicas.html) |
+| 📝 **Juego de Palabras** | Construir palabras letra por letra | [▶️](https://widkit.lol/app/palabras.html) |
+| ☁️ **Nubes** | Dispara a nubes con operaciones matemáticas | [▶️](https://widkit.lol/app/nubes.html) |
+| 🔥 **Fuego Salta Nubes** | Salta de nube en nube | [▶️](https://widkit.lol/app/fuego-salto.html) |
 
 ---
 
@@ -145,10 +152,19 @@ widkit/
 ├── admin/                  # Configuradores
 │   ├── cronometro.html
 │   ├── equipos.html
+│   ├── games/              # Widgets de juegos
+│   │   ├── quiz.html
+│   │   ├── flashcard.html
+│   │   └── ...
+│   ├── tools/              # Herramientas PWA
+│   │   ├── icon-generator.html
+│   │   └── pwa-imagen.html
+│   ├── faq-admin.html      # Admin FAQ jerárquico
 │   └── ...
 ├── app/                    # Widgets embebibles
 │   ├── cronometro.html
 │   ├── cuentaregresiva.html
+│   ├── faq.html            # Vista pública FAQ
 │   └── ...
 └── assets/
     ├── css/
@@ -192,6 +208,41 @@ WidKit está disponible en:
 - 🇧🇷 **Português**
 
 Cambia el idioma en la esquina superior derecha de [widkit.lol](https://widkit.lol/).
+
+---
+
+## ❓ Sistema de FAQ Jerárquico
+
+WidKit incluye un **sistema completo de gestión de preguntas frecuentes** con estructura jerárquica de nodos.
+
+### Características:
+- 🌳 **Estructura de árbol**: Categorías, subcategorías y respuestas
+- 🔍 **Búsqueda en tiempo real**: Busca por título o contenido
+- 📤 **Export/Import JSON**: Intercambia datos fácilmente
+- ✅ **Validación**: Títulos únicos, no eliminar nodos con hijos
+- 📊 **Estadísticas**: Contador de nodos, profundidad máxima
+
+### Acceso:
+- 📖 **Vista Pública**: [app/faq.html](app/faq.html) - Solo lectura, búsqueda y navegación
+- ⚙️ **Administración**: [admin/faq-admin.html](admin/faq-admin.html) - CRUD completo, export/import
+
+### Modelo de Datos:
+```javascript
+{
+  id_nodo: 1,
+  titulo: "Becas",
+  descripcion: "Información general...",
+  id_nodo_padre: null,  // null = nodo raíz
+  orden: 0,
+  hijos: [...]
+}
+```
+
+### Reglas de Negocio:
+1. ✅ Un nodo raíz tiene `id_nodo_padre = null`
+2. ✅ No se puede eliminar nodos con hijos
+3. ✅ Títulos únicos en el mismo nivel
+4. ✅ Búsqueda recursiva en todo el árbol
 
 ---
 

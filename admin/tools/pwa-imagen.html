@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Imagen Generator - WidKit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Genera iconos cuadrados, circulares, ovalados y splash screens para tus Progressive Web Apps. Sube una imagen y elige el color de fondo.">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="../../manifest.json">
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="../../index.html" class="flex items-center gap-2">
+                    <img src="../../assets/img/icons/widkit_entero.png" alt="WidKit" class="h-8 w-auto object-contain">
+                </a>
+                <div class="flex items-center gap-3">
+                    <a href="../../index.html" class="px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Inicio</a>
+                    <a href="icon-generator.html" class="px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Icon Generator</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">PWA Imagen Generator</h1>
+            <p class="text-slate-600">Genera iconos cuadrados, circulares, ovalados y splash screens para tu PWA</p>
+        </header>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8 space-y-6">
+            <!-- Upload Section -->
+            <section>
+                <label class="block text-sm font-semibold text-slate-900 mb-3">
+                    <span class="flex items-center gap-2">
+                        <span>1.</span>
+                        <span>Sube tu imagen</span>
+                    </span>
+                </label>
+                <div class="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-amber-500 transition cursor-pointer" 
+                     onclick="document.getElementById('imageInput').click()">
+                    <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+                    <div id="uploadArea">
+                        <svg class="mx-auto h-12 w-12 text-slate-400 mb-3" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <p class="text-slate-600">Haz clic o arrastra una imagen aquí</p>
+                        <p class="text-sm text-slate-500 mt-1">PNG, JPG, GIF hasta 10MB</p>
+                    </div>
+                    <div id="previewArea" class="hidden">
+                        <img id="previewImage" class="max-w-full max-h-64 mx-auto rounded-lg shadow-md" alt="Preview">
+                        <button onclick="clearImage()" class="mt-3 text-sm text-red-600 hover:text-red-700 font-semibold">
+                            Cambiar imagen
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Background Color Section -->
+            <section>
+                <label class="block text-sm font-semibold text-slate-900 mb-3">
+                    <span class="flex items-center gap-2">
+                        <span>2.</span>
+                        <span>Elige el color de fondo</span>
+                    </span>
+                </label>
+                <div class="flex flex-wrap gap-3 mb-4">
+                    <button onclick="setColor('#ffffff')" class="color-option w-12 h-12 rounded-lg border-2 border-slate-300 hover:scale-110 transition" style="background-color: #ffffff;"></button>
+                    <button onclick="setColor('#000000')" class="color-option w-12 h-12 rounded-lg border-2 border-slate-300 hover:scale-110 transition" style="background-color: #000000;"></button>
+                    <button onclick="setColor('#f59e0b')" class="color-option w-12 h-12 rounded-lg border-2 border-slate-300 hover:scale-110 transition" style="background-color: #f59e0b;"></button>
+                    <button onclick="setColor('#10b981')" class="color-option w-12 h-12 rounded-lg border-2 border-slate-300 hover:scale-110 transition" style="background-color: #10b981;"></button>
+                    <button onclick="setColor('#3b82f6')" class="color-option w-12 h-12 rounded-lg border-2 border-slate-300 hover:scale-110 transition" style="background-color: #3b82f6;"></button>
+                    <button onclick="setColor('#ef4444')" class="color-option w-12 h-12 rounded-lg border-2 border-slate-300 hover:scale-110 transition" style="background-color: #ef4444;"></button>
+                    <button onclick="setColor('#8b5cf6')" class="color-option w-12 h-12 rounded-lg border-2 border-slate-300 hover:scale-110 transition" style="background-color: #8b5cf6;"></button>
+                    <button onclick="setColor('#ec4899')" class="color-option w-12 h-12 rounded-lg border-2 border-slate-300 hover:scale-110 transition" style="background-color: #ec4899;"></button>
+                </div>
+                <div class="flex gap-3">
+                    <input type="color" id="colorPicker" value="#ffffff" oninput="handleCustomColor(event)" class="w-20 h-12 rounded-lg border-2 border-slate-300 cursor-pointer">
+                    <input type="text" id="hexInput" value="#ffffff" oninput="handleHexInput(event)" placeholder="#ffffff" 
+                           class="flex-1 px-4 py-2 border-2 border-slate-300 rounded-lg focus:outline-none focus:border-amber-500">
+                </div>
+                <p class="text-xs text-slate-500 mt-2">Color seleccionado: <span id="selectedColor" class="font-semibold">#ffffff</span></p>
+            </section>
+
+            <!-- Generate Button -->
+            <section>
+                <button id="generateBtn" onclick="generateImages()" disabled
+                        class="w-full bg-amber-600 text-white font-bold py-4 px-6 rounded-lg hover:bg-amber-700 transition disabled:bg-slate-300 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                    </svg>
+                    <span>Generar Imágenes PWA</span>
+                </button>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="hidden">
+                <div class="border-t border-slate-200 pt-6">
+                    <h2 class="text-lg font-bold text-slate-900 mb-4">Imágenes generadas</h2>
+                    <div id="resultsContainer" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+                    <button onclick="downloadAll()" class="mt-6 w-full bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-emerald-700 transition flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span>Descargar Todas</span>
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Info Section -->
+        <section class="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
+            <h2 class="text-blue-900 font-bold mb-2">📱 Tamaños generados</h2>
+            <div class="grid md:grid-cols-2 gap-4 text-sm text-blue-800">
+                <div>
+                    <p class="font-semibold mb-2">Íconos cuadrados:</p>
+                    <ul class="space-y-1 ml-4">
+                        <li>72x72, 96x96, 128x128</li>
+                        <li>144x144, 152x152, 192x192</li>
+                        <li>384x384, 512x512</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-semibold mb-2">Íconos circulares:</p>
+                    <ul class="space-y-1 ml-4">
+                        <li>192x192, 384x384</li>
+                        <li>512x512</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-semibold mb-2">Íconos ovalados:</p>
+                    <ul class="space-y-1 ml-4">
+                        <li>192x256, 384x512</li>
+                        <li>512x768</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-semibold mb-2">Splash Screens:</p>
+                    <ul class="space-y-1 ml-4">
+                        <li>640x1136, 750x1334, 828x1792</li>
+                        <li>1125x2436, 1242x2208, 1536x2048</li>
+                        <li>1668x2224, 1668x2388, 2048x2732</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="text-center mt-6">
+            <a href="../../index.html" class="inline-flex items-center gap-2 px-5 py-2.5 text-slate-600 hover:text-slate-900 font-semibold rounded-lg hover:bg-slate-100 transition">
+                ← Volver a WidKit
+            </a>
+        </div>
+    </main>
+
+    <footer class="mt-12 border-t border-slate-200 py-6 text-center text-slate-500 text-sm">
+        © 2025 WidKit
+    </footer>
+
+    <script>
+        let uploadedImage = null;
+        let selectedColor = '#ffffff';
+        let generatedImages = [];
+
+        // Size definitions
+        const iconSizes = {
+            'icon-72x72': { width: 72, height: 72 },
+            'icon-96x96': { width: 96, height: 96 },
+            'icon-128x128': { width: 128, height: 128 },
+            'icon-144x144': { width: 144, height: 144 },
+            'icon-152x152': { width: 152, height: 152 },
+            'icon-192x192': { width: 192, height: 192 },
+            'icon-384x384': { width: 384, height: 384 },
+            'icon-512x512': { width: 512, height: 512 }
+        };
+
+        const splashSizes = {
+            'splash-640x1136': { width: 640, height: 1136 },
+            'splash-750x1334': { width: 750, height: 1334 },
+            'splash-828x1792': { width: 828, height: 1792 },
+            'splash-1125x2436': { width: 1125, height: 2436 },
+            'splash-1242x2208': { width: 1242, height: 2208 },
+            'splash-1242x2688': { width: 1242, height: 2688 },
+            'splash-1536x2048': { width: 1536, height: 2048 },
+            'splash-1668x2224': { width: 1668, height: 2224 },
+            'splash-1668x2388': { width: 1668, height: 2388 },
+            'splash-2048x2732': { width: 2048, height: 2732 }
+        };
+
+        const circularSizes = {
+            'circular-192x192': { width: 192, height: 192 },
+            'circular-384x384': { width: 384, height: 384 },
+            'circular-512x512': { width: 512, height: 512 }
+        };
+
+        const ovalSizes = {
+            'oval-192x256': { width: 192, height: 256 },
+            'oval-384x512': { width: 384, height: 512 },
+            'oval-512x768': { width: 512, height: 768 }
+        };
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImage = new Image();
+                    uploadedImage.onload = function() {
+                        document.getElementById('uploadArea').classList.add('hidden');
+                        document.getElementById('previewArea').classList.remove('hidden');
+                        document.getElementById('previewImage').src = e.target.result;
+                        document.getElementById('generateBtn').disabled = false;
+                    };
+                    uploadedImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function clearImage() {
+            uploadedImage = null;
+            document.getElementById('imageInput').value = '';
+            document.getElementById('uploadArea').classList.remove('hidden');
+            document.getElementById('previewArea').classList.add('hidden');
+            document.getElementById('generateBtn').disabled = true;
+            hideResults();
+        }
+
+        function setColor(color) {
+            selectedColor = color;
+            document.getElementById('colorPicker').value = color;
+            document.getElementById('hexInput').value = color;
+            document.getElementById('selectedColor').textContent = color;
+            updateColorOptions();
+        }
+
+        function handleCustomColor(event) {
+            setColor(event.target.value);
+        }
+
+        function handleHexInput(event) {
+            const hex = event.target.value;
+            if (/^#[0-9A-F]{6}$/i.test(hex)) {
+                setColor(hex);
+            }
+        }
+
+        function updateColorOptions() {
+            document.querySelectorAll('.color-option').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-amber-500', 'ring-offset-2');
+            });
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : { r: 255, g: 255, b: 255 };
+        }
+
+        async function generateImages() {
+            if (!uploadedImage) return;
+
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('generateBtn').innerHTML = '<span class="animate-spin">⏳</span> Generando...';
+
+            const rgb = hexToRgb(selectedColor);
+            generatedImages = [];
+
+            // Generate icons
+            for (const [name, size] of Object.entries(iconSizes)) {
+                const canvas = document.createElement('canvas');
+                canvas.width = size.width;
+                canvas.height = size.height;
+                const ctx = canvas.getContext('2d');
+                
+                ctx.drawImage(uploadedImage, 0, 0, size.width, size.height);
+                
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                const url = URL.createObjectURL(blob);
+                generatedImages.push({ name, url });
+            }
+
+            // Generate circular icons
+            for (const [name, size] of Object.entries(circularSizes)) {
+                const canvas = document.createElement('canvas');
+                canvas.width = size.width;
+                canvas.height = size.height;
+                const ctx = canvas.getContext('2d');
+                
+                // Draw filled circle
+                ctx.beginPath();
+                ctx.arc(size.width / 2, size.height / 2, size.width / 2, 0, Math.PI * 2);
+                ctx.clip();
+                
+                ctx.drawImage(uploadedImage, 0, 0, size.width, size.height);
+                
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                const url = URL.createObjectURL(blob);
+                generatedImages.push({ name, url });
+            }
+
+            // Generate oval icons
+            for (const [name, size] of Object.entries(ovalSizes)) {
+                const canvas = document.createElement('canvas');
+                canvas.width = size.width;
+                canvas.height = size.height;
+                const ctx = canvas.getContext('2d');
+                
+                // Draw filled oval (vertical ellipse)
+                ctx.beginPath();
+                ctx.ellipse(size.width / 2, size.height / 2, size.width / 2, size.height / 2, 0, 0, Math.PI * 2);
+                ctx.clip();
+                
+                ctx.drawImage(uploadedImage, 0, 0, size.width, size.height);
+                
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                const url = URL.createObjectURL(blob);
+                generatedImages.push({ name, url });
+            }
+
+            // Generate splash screens
+            for (const [name, size] of Object.entries(splashSizes)) {
+                const canvas = document.createElement('canvas');
+                canvas.width = size.width;
+                canvas.height = size.height;
+                const ctx = canvas.getContext('2d');
+                
+                // Fill background
+                ctx.fillStyle = selectedColor;
+                ctx.fillRect(0, 0, size.width, size.height);
+                
+                // Center and resize icon (50% of canvas)
+                const iconRatio = Math.min(size.width / uploadedImage.width, size.height / uploadedImage.height) * 0.5;
+                const iconWidth = uploadedImage.width * iconRatio;
+                const iconHeight = uploadedImage.height * iconRatio;
+                const x = (size.width - iconWidth) / 2;
+                const y = (size.height - iconHeight) / 2;
+                
+                ctx.drawImage(uploadedImage, x, y, iconWidth, iconHeight);
+                
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                const url = URL.createObjectURL(blob);
+                generatedImages.push({ name, url });
+            }
+
+            displayResults();
+            document.getElementById('generateBtn').disabled = false;
+            document.getElementById('generateBtn').innerHTML = `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                </svg>
+                <span>Generar Imágenes PWA</span>
+            `;
+        }
+
+        function displayResults() {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '';
+
+            generatedImages.forEach(img => {
+                const div = document.createElement('div');
+                div.className = 'text-center';
+                div.innerHTML = `
+                    <img src="${img.url}" alt="${img.name}" class="w-full rounded-lg border border-slate-200 mb-2">
+                    <p class="text-xs text-slate-600 font-mono mb-2">${img.name}</p>
+                    <a href="${img.url}" download="${img.name}.png" 
+                       class="inline-block bg-amber-600 text-white text-xs font-bold py-1.5 px-3 rounded hover:bg-amber-700 transition">
+                        📥 Descargar
+                    </a>
+                `;
+                container.appendChild(div);
+            });
+
+            document.getElementById('resultsSection').classList.remove('hidden');
+        }
+
+        function hideResults() {
+            document.getElementById('resultsSection').classList.add('hidden');
+            generatedImages.forEach(img => URL.revokeObjectURL(img.url));
+            generatedImages = [];
+        }
+
+        async function downloadAll() {
+            for (const img of generatedImages) {
+                const link = document.createElement('a');
+                link.href = img.url;
+                link.download = `${img.name}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+        }
+
+        // Prevent default drag and drop behavior
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            document.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Handle drag and drop
+        const uploadArea = document.querySelector('#uploadArea').parentElement;
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.add('border-amber-500', 'bg-amber-50');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.remove('border-amber-500', 'bg-amber-50');
+            });
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const input = document.getElementById('imageInput');
+                input.files = files;
+                handleImageUpload({ target: input });
+            }
+        });
+    </script>
+</body>
+</html>
+

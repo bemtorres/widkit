@@ -29,7 +29,7 @@ const translations = {
         'hero.anyWeb': 'Cualquier Web',
         
         // Widgets Section
-        'widgets.title': '11 Widgets Listos para Usar',
+        'widgets.title': '18 Widgets Listos para Usar',
         'widgets.subtitle': 'Selecciona, configura y obtén el código embebido en segundos',
         
         // Widget Cards
@@ -131,7 +131,7 @@ const translations = {
         'footer.free': '✓ 100% Gratis',
         'footer.noregister': '✓ Sin Registro',
         'footer.opensource': '✓ Open Source',
-        'footer.widgets': '✓ 11 Widgets',
+        'footer.widgets': '✓ 18 Widgets',
         'footer.time': 'Tiempo',
         'footer.class': 'Clase',
         'footer.tools': 'Herramientas',
@@ -212,7 +212,7 @@ const translations = {
         'hero.anyWeb': 'Any Website',
         
         // Widgets Section
-        'widgets.title': '11 Widgets Ready to Use',
+        'widgets.title': '18 Widgets Ready to Use',
         'widgets.subtitle': 'Select, configure and get the embed code in seconds',
         
         // Widget Cards
@@ -311,7 +311,7 @@ const translations = {
         'footer.free': '✓ 100% Free',
         'footer.noregister': '✓ No Registration',
         'footer.opensource': '✓ Open Source',
-        'footer.widgets': '✓ 11 Widgets',
+        'footer.widgets': '✓ 18 Widgets',
         'footer.time': 'Time',
         'footer.class': 'Classroom',
         'footer.tools': 'Tools',
@@ -364,7 +364,7 @@ const translations = {
         'hero.anyWeb': 'Qualquer Site',
         
         // Widgets Section
-        'widgets.title': '11 Widgets Prontos para Usar',
+        'widgets.title': '18 Widgets Prontos para Usar',
         'widgets.subtitle': 'Selecione, configure e obtenha o código embutido em segundos',
         
         // Widget Cards
@@ -463,7 +463,7 @@ const translations = {
         'footer.free': '✓ 100% Free',
         'footer.noregister': '✓ No Registration',
         'footer.opensource': '✓ Open Source',
-        'footer.widgets': '✓ 11 Widgets',
+        'footer.widgets': '✓ 18 Widgets',
         'footer.time': 'Time',
         'footer.class': 'Classroom',
         'footer.tools': 'Tools',

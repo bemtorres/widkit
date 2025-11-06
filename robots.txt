@@ -7,7 +7,7 @@ Allow: /admin/
 Allow: /app/
 Allow: /assets/
 Allow: /example.html
-Allow: /icon-generator.html
+Allow: /admin/tools/
 
 # Evitar rastreo de archivos internos
 Disallow: /assets/js/*.map
