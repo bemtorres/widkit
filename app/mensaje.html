@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensaje Personalizado - WidKit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@400;500;600;700&family=Lora:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Fuentes personalizadas */
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .font-roboto { font-family: 'Roboto', sans-serif; }
+        .font-open-sans { font-family: 'Open Sans', sans-serif; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        .font-lora { font-family: 'Lora', serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Estilos para markdown renderizado */
+        .markdown-content {
+            line-height: 1.8;
+        }
+        
+        .markdown-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .markdown-content h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+        
+        .markdown-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .markdown-content h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-content ul, .markdown-content ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .markdown-content code {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 0.2rem 0.4rem;
+            font-size: 0.9em;
+        }
+        
+        .markdown-content pre {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .markdown-content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+        .markdown-content blockquote {
+            padding-left: 1rem;
+            margin-left: 0;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .markdown-content a {
+            color: inherit;
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+        
+        .markdown-content a:hover {
+            opacity: 1;
+        }
+        
+        .markdown-content img {
+            max-width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+        
+        .markdown-content hr {
+            border: none;
+            opacity: 0.2;
+            margin: 2rem 0;
+        }
+        
+        /* Animaciones del Modo Flow */
+        .flow-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .flow-fade {
+            animation: fadeIn var(--anim-duration) ease-out forwards;
+        }
+        
+        .flow-slide-up {
+            animation: slideUp var(--anim-duration) ease-out forwards;
+        }
+        
+        .flow-slide-down {
+            animation: slideDown var(--anim-duration) ease-out forwards;
+        }
+        
+        .flow-slide-left {
+            animation: slideLeft var(--anim-duration) ease-out forwards;
+        }
+        
+        .flow-slide-right {
+            animation: slideRight var(--anim-duration) ease-out forwards;
+        }
+        
+        .flow-zoom {
+            animation: zoomIn var(--anim-duration) ease-out forwards;
+        }
+        
+        .flow-rotate {
+            animation: rotateIn var(--anim-duration) ease-out forwards;
+        }
+        
+        .flow-bounce {
+            animation: bounceIn var(--anim-duration) ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideRight {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-10deg) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0deg) scale(1);
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Cursor pointer cuando está en modo flow */
+        .flow-mode {
+            cursor: pointer;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Indicador de click en modo flow */
+        .flow-hint {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            animation: pulse 2s ease-in-out infinite;
+            z-index: 1000;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8" id="mainBody">
+    <div class="w-full max-w-4xl" id="contentContainer">
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-6 sm:p-8 md:p-12" id="contentWrapper">
+            <div id="markdownContent" class="markdown-content"></div>
+        </div>
+    </div>
+    
+    <div id="flowHint" class="flow-hint hidden">👆 Haz click para revelar el contenido</div>
+
+    <script>
+        // Cargar parámetros de URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Decodificar contenido markdown
+            const encodedContent = urlParams.get('content');
+            let content = '';
+            if (encodedContent) {
+                try {
+                    content = decodeURIComponent(escape(atob(encodedContent)));
+                } catch (e) {
+                    content = '# Error\n\nNo se pudo cargar el contenido.';
+                }
+            } else {
+                content = '# Bienvenido\n\nEscribe tu mensaje aquí.';
+            }
+            
+            // Cargar tipografía
+            const font = urlParams.get('font') || 'inter';
+            const fontClasses = {
+                'inter': 'font-inter',
+                'roboto': 'font-roboto',
+                'open-sans': 'font-open-sans',
+                'montserrat': 'font-montserrat',
+                'playfair': 'font-playfair',
+                'poppins': 'font-poppins',
+                'lora': 'font-lora',
+                'mono': 'font-mono'
+            };
+            document.body.classList.add(fontClasses[font] || 'font-inter');
+            
+            // Cargar colores
+            const bgColor = urlParams.get('bg') || '#ffffff';
+            const textColor = urlParams.get('text') || '#1e293b';
+            const bgImage = urlParams.get('bgImage');
+            
+            // Aplicar fondo
+            if (bgImage) {
+                document.getElementById('mainBody').style.backgroundImage = `url(${bgImage})`;
+                document.getElementById('mainBody').style.backgroundSize = 'cover';
+                document.getElementById('mainBody').style.backgroundPosition = 'center';
+                document.getElementById('mainBody').style.backgroundRepeat = 'no-repeat';
+            } else {
+                document.getElementById('mainBody').style.backgroundColor = bgColor;
+            }
+            
+            // Aplicar color de texto
+            document.getElementById('contentWrapper').style.color = textColor;
+            
+            // Renderizar markdown
+            const markdownContent = document.getElementById('markdownContent');
+            if (typeof marked !== 'undefined') {
+                markdownContent.innerHTML = marked.parse(content);
+            } else {
+                markdownContent.innerHTML = `<pre>${content}</pre>`;
+            }
+            
+            // Modo Flow
+            const flowMode = urlParams.get('flow') === '1';
+            const animation = urlParams.get('anim') || 'fade';
+            const speed = urlParams.get('speed') || 'normal';
+            
+            const speedMap = {
+                'slow': '1.5s',
+                'normal': '1s',
+                'fast': '0.5s'
+            };
+            
+            const animDuration = speedMap[speed] || '1s';
+            document.documentElement.style.setProperty('--anim-duration', animDuration);
+            
+            if (flowMode) {
+                // Ocultar contenido inicialmente
+                markdownContent.classList.add('flow-hidden');
+                document.getElementById('mainBody').classList.add('flow-mode');
+                document.getElementById('flowHint').classList.remove('hidden');
+                
+                // Ocultar todos los elementos hijos inicialmente
+                const children = markdownContent.querySelectorAll('h1, h2, h3, h4, p, ul, ol, blockquote, pre, hr, img, table');
+                children.forEach((child) => {
+                    child.classList.add('flow-hidden');
+                });
+                
+                // Agregar event listener para click
+                let hasRevealed = false;
+                const revealContent = function() {
+                    if (!hasRevealed) {
+                        hasRevealed = true;
+                        markdownContent.classList.remove('flow-hidden');
+                        markdownContent.classList.add(`flow-${animation}`);
+                        document.getElementById('flowHint').classList.add('hidden');
+                        
+                        // Animar elementos hijos con delay escalonado
+                        children.forEach((child, index) => {
+                            child.style.animationDelay = `${index * 0.1}s`;
+                            child.classList.remove('flow-hidden');
+                            child.classList.add(`flow-${animation}`);
+                        });
+                    }
+                };
+                
+                document.getElementById('mainBody').addEventListener('click', revealContent);
+                // También permitir revelar con tecla espacio o Enter
+                document.addEventListener('keydown', function(e) {
+                    if ((e.key === ' ' || e.key === 'Enter') && !hasRevealed) {
+                        e.preventDefault();
+                        revealContent();
+                    }
+                });
+            } else {
+                // Mostrar contenido inmediatamente sin animación
+                markdownContent.style.opacity = '1';
+            }
+        });
+    </script>
+</body>
+</html>
+

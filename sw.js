@@ -32,6 +32,7 @@ const STATIC_ASSETS = [
   '/admin/steps.html',
   '/admin/nubes.html',
   '/admin/fuego-salto.html',
+  '/admin/mensaje.html',
   
   // App pages
   '/app/cronometro.html',
@@ -48,6 +49,7 @@ const STATIC_ASSETS = [
   '/app/steps.html',
   '/app/nubes.html',
   '/app/fuego-salto.html',
+  '/app/mensaje.html',
   
   // Assets
   '/assets/img/Moodle-logo.png',

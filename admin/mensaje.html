@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VMVRFD9QGN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VMVRFD9QGN');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Mensajes - WidKit Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center p-2">
+                        <img src="../assets/widkit_fuego_icono.png" alt="WidKit" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900">Editor de Mensajes</h1>
+                        <p class="text-xs text-slate-500">Crea mensajes personalizados - WidKit</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="../index.html" 
+                       class="inline-flex items-center gap-2 px-4 py-2 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-100 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="admin-widgets-nav"></div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Configuración (2/3) -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Editor Markdown -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">📝 Contenido Markdown</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Editor de Markdown</label>
+                            <textarea id="mensaje-content" rows="12"
+                                      class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm font-mono"
+                                      placeholder="# Título&#10;&#10;Escribe tu mensaje en **markdown** aquí...&#10;&#10;- Lista item 1&#10;- Lista item 2&#10;&#10;## Subtítulo&#10;&#10;Puedes usar *cursiva*, **negrita**, y más."
+                                      oninput="generateMensajeURL()"># Bienvenido
+
+Escribe tu mensaje en **markdown** aquí.
+
+## Características
+
+- ✨ Personalizable
+- 🎨 Diferentes estilos
+- 🚀 Modo Flow con animaciones
+
+### Instrucciones
+
+1. Edita el contenido
+2. Personaliza la apariencia
+3. Activa el modo Flow para animaciones</textarea>
+                            <p class="text-xs text-slate-500 mt-1">Soporta: títulos, listas, negrita, cursiva, enlaces, código y más</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personalización Visual -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">🎨 Personalización Visual</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Tipografía</label>
+                            <select id="mensaje-font" 
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                                    onchange="generateMensajeURL()">
+                                <option value="inter">Inter (Moderno)</option>
+                                <option value="roboto">Roboto (Claro)</option>
+                                <option value="open-sans">Open Sans (Legible)</option>
+                                <option value="montserrat">Montserrat (Elegante)</option>
+                                <option value="playfair">Playfair Display (Clásico)</option>
+                                <option value="poppins">Poppins (Geométrico)</option>
+                                <option value="lora">Lora (Serif)</option>
+                                <option value="mono">Monospace (Código)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Color de Fondo</label>
+                            <div class="flex gap-3">
+                                <input type="color" id="mensaje-bg-color" value="#ffffff"
+                                       class="w-16 h-10 rounded-lg cursor-pointer border border-slate-300"
+                                       onchange="generateMensajeURL()">
+                                <input type="text" id="mensaje-bg-color-hex" value="#FFFFFF"
+                                       class="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm font-mono"
+                                       placeholder="#FFFFFF"
+                                       onchange="updateColorFromHex()">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">URL de Imagen de Fondo (opcional)</label>
+                            <input type="url" id="mensaje-bg-image" 
+                                   class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                                   placeholder="https://ejemplo.com/imagen.jpg"
+                                   onchange="generateMensajeURL()">
+                            <p class="text-xs text-slate-500 mt-1">Si se proporciona, se usará en lugar del color de fondo</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Color del Texto</label>
+                            <div class="flex gap-3">
+                                <input type="color" id="mensaje-text-color" value="#1e293b"
+                                       class="w-16 h-10 rounded-lg cursor-pointer border border-slate-300"
+                                       onchange="generateMensajeURL()">
+                                <input type="text" id="mensaje-text-color-hex" value="#1E293B"
+                                       class="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm font-mono"
+                                       placeholder="#1E293B"
+                                       onchange="updateTextColorFromHex()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modo Flow -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">✨ Modo Flow (Animaciones)</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" id="mensaje-flow-mode" 
+                                   class="w-5 h-5 text-purple-600 border-slate-300 rounded focus:ring-purple-500"
+                                   onchange="generateMensajeURL()">
+                            <label for="mensaje-flow-mode" class="text-sm font-medium text-slate-700">
+                                Activar Modo Flow
+                            </label>
+                        </div>
+                        <p class="text-xs text-slate-500">Con el modo Flow activado, el contenido aparecerá con animaciones al hacer click</p>
+
+                        <div id="flow-options" class="hidden space-y-3 pl-8 border-l-2 border-purple-200">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Tipo de Animación</label>
+                                <select id="mensaje-animation" 
+                                        class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                                        onchange="generateMensajeURL()">
+                                    <option value="fade">Desvanecer (Fade In)</option>
+                                    <option value="slide-up">Deslizar desde Abajo</option>
+                                    <option value="slide-down">Deslizar desde Arriba</option>
+                                    <option value="slide-left">Deslizar desde Derecha</option>
+                                    <option value="slide-right">Deslizar desde Izquierda</option>
+                                    <option value="zoom">Zoom In</option>
+                                    <option value="rotate">Rotación</option>
+                                    <option value="bounce">Rebote</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Velocidad de Animación</label>
+                                <select id="mensaje-animation-speed" 
+                                        class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm"
+                                        onchange="generateMensajeURL()">
+                                    <option value="slow">Lenta (1.5s)</option>
+                                    <option value="normal" selected>Normal (1s)</option>
+                                    <option value="fast">Rápida (0.5s)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- URL Generada -->
+                <div class="bg-white rounded-lg border border-slate-200 p-6">
+                    <h3 class="text-base font-semibold text-slate-900 mb-4">Compartir e Integrar</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">🔗 Link Directo</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="mensaje-url" readonly 
+                                       class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-mono text-slate-600">
+                                <button onclick="copyText('mensaje-url')" 
+                                        class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Copiar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">📦 Código Embebido (iframe)</label>
+                            <div class="flex gap-2">
+                                <textarea id="mensaje-embed" readonly rows="3"
+                                          class="flex-1 px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono text-slate-600 resize-none"></textarea>
+                                <button onclick="copyText('mensaje-embed')" 
+                                        class="px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition flex items-center gap-2 self-start">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                    Copiar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="openMensaje()" 
+                                    class="flex-1 px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition">
+                                Abrir en Nueva Pestaña
+                            </button>
+                            <button onclick="showQRModal('mensaje-url')" 
+                                    class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+                                </svg>
+                                QR
+                            </button>
+                            <button onclick="refreshPreview()" 
+                                    class="px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition">
+                                Actualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista Previa (1/3) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg border border-slate-200 p-4 sticky top-24">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-semibold text-slate-900">Vista Previa</h3>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">En vivo</span>
+                    </div>
+                    <div class="bg-slate-100 rounded-lg overflow-hidden" style="height: 700px;">
+                        <iframe id="preview-mensaje" class="w-full h-full" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/qr-modal.js"></script>
+    <script src="js/mensaje.js"></script>
+    <script src="js/admin-nav.js"></script>
+    <script>
+        function copyText(inputId) {
+            const element = document.getElementById(inputId);
+            element.select();
+            document.execCommand('copy');
+            
+            const button = event.target.closest('button');
+            const originalHTML = button.innerHTML;
+            button.innerHTML = '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Copiado';
+            button.classList.add('bg-green-600');
+            button.classList.remove('bg-slate-900');
+            
+            setTimeout(() => {
+                button.innerHTML = originalHTML;
+                button.classList.remove('bg-green-600');
+                button.classList.add('bg-slate-900');
+            }, 2000);
+        }
+
+        function refreshPreview() {
+            document.getElementById('preview-mensaje').src = document.getElementById('mensaje-url').value.replace(window.location.origin + window.location.pathname.replace('admin/mensaje.html', ''), '../');
+        }
+
+        function updateColorFromHex() {
+            const hex = document.getElementById('mensaje-bg-color-hex').value;
+            if (/^#[0-9A-F]{6}$/i.test(hex)) {
+                document.getElementById('mensaje-bg-color').value = hex;
+                generateMensajeURL();
+            }
+        }
+
+        function updateTextColorFromHex() {
+            const hex = document.getElementById('mensaje-text-color-hex').value;
+            if (/^#[0-9A-F]{6}$/i.test(hex)) {
+                document.getElementById('mensaje-text-color').value = hex;
+                generateMensajeURL();
+            }
+        }
+
+        // Mostrar/ocultar opciones de flow
+        document.getElementById('mensaje-flow-mode').addEventListener('change', function() {
+            const flowOptions = document.getElementById('flow-options');
+            if (this.checked) {
+                flowOptions.classList.remove('hidden');
+            } else {
+                flowOptions.classList.add('hidden');
+            }
+            generateMensajeURL();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            generateMensajeURL();
+        });
+    </script>
+</body>
+</html>
+
